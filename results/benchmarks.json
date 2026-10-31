@@ -1,0 +1,96 @@
+{
+  "timestamp": "2026-10-31T09:17:18.276750+00:00",
+  "repository": "sample_ecommerce",
+  "ollama_mode": "deterministic_fallback",
+  "embedding_model": "mxbai-embed-large:latest",
+  "llm_model": "qwen2.5:7b-instruct",
+  "ast_parsing": {
+    "files_parsed": 15,
+    "chunks_extracted": 35,
+    "latency_ms": 14.73,
+    "throughput_files_per_sec": 1018.3
+  },
+  "knowledge_graph": {
+    "nodes_count": 47,
+    "edges_count": 87,
+    "resolved_call_and_route_edges": 35,
+    "build_latency_ms": 4.46
+  },
+  "impact_analysis": {
+    "avg_query_latency_ms": 0.18,
+    "payment_service_risk_level": "High",
+    "payment_service_risk_score": 80.0,
+    "payment_service_recall": 1.0,
+    "user_service_recall": 1.0,
+    "overall_blast_radius_recall": 1.0
+  },
+  "semantic_search": {
+    "chunks_indexed": 35,
+    "indexing_latency_ms": 130.63,
+    "hit_at_3_rate": 1.0,
+    "queries": [
+      {
+        "query": "verify whether a user is allowed to access protected routes",
+        "expected_file": "backend/middleware/authMiddleware.js",
+        "top_3_files": [
+          "backend/middleware/authMiddleware.js",
+          "backend/routes/userRoutes.js",
+          "backend/tests/auth.test.js"
+        ],
+        "hit_at_3": true,
+        "latency_ms": 26.75
+      },
+      {
+        "query": "admin role privilege authorization check",
+        "expected_file": "backend/middleware/authMiddleware.js",
+        "top_3_files": [
+          "backend/middleware/authMiddleware.js",
+          "backend/middleware/authMiddleware.js",
+          "backend/models/User.js"
+        ],
+        "hit_at_3": true,
+        "latency_ms": 30.17
+      },
+      {
+        "query": "validate user login email credentials and issue token",
+        "expected_file": "backend/services/userService.js",
+        "top_3_files": [
+          "backend/services/userService.js",
+          "backend/tests/auth.test.js",
+          "backend/routes/userRoutes.js"
+        ],
+        "hit_at_3": true,
+        "latency_ms": 33.76
+      },
+      {
+        "query": "process customer order credit card charge and update status",
+        "expected_file": "backend/services/paymentService.js",
+        "top_3_files": [
+          "backend/services/paymentService.js",
+          "backend/controllers/orderController.js",
+          "backend/models/Order.js"
+        ],
+        "hit_at_3": true,
+        "latency_ms": 28.77
+      },
+      {
+        "query": "evaluate transaction velocity score for payment fraud detection",
+        "expected_file": "analytics/fraud_detector.py",
+        "top_3_files": [
+          "analytics/fraud_detector.py",
+          "backend/services/paymentService.js",
+          "analytics/scorer.py"
+        ],
+        "hit_at_3": true,
+        "latency_ms": 32.77
+      }
+    ]
+  },
+  "hybrid_graphrag": {
+    "questions_evaluated": 3,
+    "avg_latency_ms": 65.31,
+    "total_citations_checked": 18,
+    "verified_citations": 18,
+    "citation_verification_rate": 1.0
+  }
+}

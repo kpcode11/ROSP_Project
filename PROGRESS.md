@@ -33,8 +33,8 @@
 | P5-02 | 5 | Frontend API client and Dagre graph auto-layout | DONE | d5dcde0 | Implemented typed API client and Dagre LR/TB layout engine |
 | P5-03 | 5 | Navbar, OverviewTab, and CodeExplorerTab | DONE | 7f4ea82 | Implemented Navbar, OverviewTab, and 3-pane CodeExplorerTab |
 | P5-04 | 5 | Interactive KnowledgeGraphTab (`@xyflow/react`) | DONE | 687df05 | Implemented color-coded React Flow graph canvas and side inspector |
-| P5-05 | 5 | AssistantTab and ImpactAnalysisTab UI | DONE | | Implemented AssistantTab, ImpactAnalysisTab, and 5-tab workspace |
-| P5-06 | 5 | Frontend TypeScript and build verification | DONE | | Verified zero errors with `tsc --noEmit` |
-| P6-01 | 6 | Automated benchmark script and results/benchmarks.json | IN_PROGRESS | | |
-| P6-02 | 6 | Optional docker-compose.yml and demo task script | TODO | | |
+| P5-05 | 5 | AssistantTab and ImpactAnalysisTab UI | DONE | 2b60d46 | Implemented AssistantTab, ImpactAnalysisTab, and 5-tab workspace |
+| P5-06 | 5 | Frontend TypeScript and build verification | DONE | 2b60d46 | Verified zero errors with `tsc --noEmit` |
+| P6-01 | 6 | Automated benchmark script and results/benchmarks.json | DONE | | Generated results/benchmarks.json (100% Hit@3 & 100% citation fidelity) |
+| P6-02 | 6 | Optional docker-compose.yml and demo task script | IN_PROGRESS | | |
 | P6-03 | 6 | Final README.md, architecture docs, and release check | TODO | | |
