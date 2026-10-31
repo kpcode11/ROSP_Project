@@ -20,9 +20,9 @@
 | P2-02 | 2 | NetworkX knowledge graph builder and query helpers | DONE | 12d55bc | Implemented NetworkX DiGraph builder, PageRank, and query helpers |
 | P2-03 | 2 | Deterministic Blast-Radius impact analyzer | DONE | 8d2f169 | Implemented ImpactAnalyzer with Section 5.2 heuristic risk formula |
 | P2-04 | 2 | CLI analyzer tool (`python -m app.cli analyze`) | DONE | 67ba0a0 | Implemented standalone CLI analyzer outputting graph/report/deps JSON |
-| P2-05 | 2 | Phase 2 unit tests for graph and impact analysis | DONE | | Verified execution chains and blast-radius reports |
-| P3-01 | 3 | Async Ollama client (`mxbai-embed-large` + `qwen2.5:7b-instruct`) | IN_PROGRESS | | |
-| P3-02 | 3 | Embedded local Qdrant vector store service | TODO | | |
+| P2-05 | 2 | Phase 2 unit tests for graph and impact analysis | DONE | 15e08bf | Verified execution chains and blast-radius reports |
+| P3-01 | 3 | Async Ollama client (`mxbai-embed-large` + `qwen2.5:7b-instruct`) | DONE | | Implemented OllamaClient with deterministic semantic fallback |
+| P3-02 | 3 | Embedded local Qdrant vector store service | IN_PROGRESS | | |
 | P3-03 | 3 | Hybrid GraphRAG retriever and citation verifier | TODO | | |
 | P3-04 | 3 | Phase 3 unit and integration tests for RAG | TODO | | |
 | P4-01 | 4 | SQLite SQLAlchemy repository metadata database | TODO | | |
