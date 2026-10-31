@@ -36,5 +36,5 @@
 | P5-05 | 5 | AssistantTab and ImpactAnalysisTab UI | DONE | 2b60d46 | Implemented AssistantTab, ImpactAnalysisTab, and 5-tab workspace |
 | P5-06 | 5 | Frontend TypeScript and build verification | DONE | 2b60d46 | Verified zero errors with `tsc --noEmit` |
 | P6-01 | 6 | Automated benchmark script and results/benchmarks.json | DONE | 62c84af | Generated results/benchmarks.json (100% Hit@3 & 100% citation fidelity) |
-| P6-02 | 6 | Optional docker-compose.yml and demo task script | DONE | | Added optional docker-compose.yml and demo runner |
-| P6-03 | 6 | Final README.md, architecture docs, and release check | IN_PROGRESS | | |
+| P6-02 | 6 | Optional docker-compose.yml and demo task script | DONE | 422fa4f | Added optional docker-compose.yml and demo runner |
+| P6-03 | 6 | Final README.md, architecture docs, and release check | DONE | | Completed README.md, docs/architecture.md, and full test suite |
