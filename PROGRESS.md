@@ -26,9 +26,9 @@
 | P3-03 | 3 | Hybrid GraphRAG retriever and citation verifier | DONE | 66660e9 | Implemented HybridGraphRAG and deterministic citation sanitizer |
 | P3-04 | 3 | Phase 3 unit and integration tests for RAG | DONE | 04203b3 | Verified semantic search Hit@3 and grounded GraphRAG citations |
 | P4-01 | 4 | SQLite SQLAlchemy repository metadata database | DONE | b3d6383 | Implemented RepositoryRecord model and SQLite session factory |
-| P4-02 | 4 | FastAPI REST endpoints (`/api/repositories/*`) | DONE | | Implemented all 9 REST API endpoints in routes.py |
-| P4-03 | 4 | Startup auto-seeding of sample_ecommerce repo | IN_PROGRESS | | |
-| P4-04 | 4 | FastAPI endpoint integration tests and docs/api.md | TODO | | |
+| P4-02 | 4 | FastAPI REST endpoints (`/api/repositories/*`) | DONE | 2fef80d | Implemented all 9 REST API endpoints in routes.py |
+| P4-03 | 4 | Startup auto-seeding of sample_ecommerce repo | DONE | | Implemented FastAPI lifespan auto-seeding of sample_ecommerce |
+| P4-04 | 4 | FastAPI endpoint integration tests and docs/api.md | IN_PROGRESS | | |
 | P5-01 | 5 | Initialize Next.js frontend with Tailwind and React Flow | TODO | | |
 | P5-02 | 5 | Frontend API client and Dagre graph auto-layout | TODO | | |
 | P5-03 | 5 | Navbar, OverviewTab, and CodeExplorerTab | TODO | | |
