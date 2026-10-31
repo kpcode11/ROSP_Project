@@ -1,19 +1,19 @@
 # Handoff
 
-**Updated:** 2026-10-31  |  **By:** Antigravity  |  **Branch:** main  |  **Last commit:** 8553508
+**Updated:** 2026-10-31  |  **By:** Antigravity  |  **Branch:** main  |  **Last commit:** 816a0fa
 
 ## Current task
-- ID: P0-03 — Implement status.py and tasks.py runner
-- State: ready to start
+- ID: P0-04 - Backend pyproject.toml and venv installation
+- State: IN_PROGRESS
 
 ## Done in this task so far
-- Completed P0-01 and P0-02 (`AGENTS.md`, `PROGRESS.md`, `HANDOFF.md`, `docs/MASTER_PLAN.md`, `docs/plan/*`, `docs/decision_log.md`).
+- Implemented `scripts/status.py` and `scripts/tasks.py`.
 
 ## Exact next step
-- Implement `scripts/status.py` and `scripts/tasks.py` and verify `python scripts/status.py` runs cleanly.
+- Create `backend/pyproject.toml`, create virtual environment `backend/.venv`, install dependencies, and verify imports.
 
 ## Files touched
-- `AGENTS.md`, `PROGRESS.md`, `HANDOFF.md`, `docs/MASTER_PLAN.md`, `docs/plan/*`, `scripts/split_plan.py`
+- `scripts/status.py`, `scripts/tasks.py`
 
 ## Commands to run first
     python scripts/status.py

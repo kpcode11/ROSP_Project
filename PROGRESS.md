@@ -6,9 +6,9 @@
 | ID | Phase | Task (short) | Status | Commit | Notes |
 |----|-------|--------------|--------|--------|-------|
 | P0-01 | 0 | Repo directory tree and ignore files | DONE | 8553508 | Directory tree, .gitignore, .env.example, CI created |
-| P0-02 | 0 | AGENTS/HANDOFF/PROGRESS files and split_plan.py | DONE | | Split MASTER_PLAN.md into docs/plan/ |
-| P0-03 | 0 | Implement status.py and tasks.py runner | TODO | | |
-| P0-04 | 0 | Backend pyproject.toml and venv installation | TODO | | |
+| P0-02 | 0 | AGENTS/HANDOFF/PROGRESS files and split_plan.py | DONE | 816a0fa | Split MASTER_PLAN.md into docs/plan/ |
+| P0-03 | 0 | Implement status.py and tasks.py runner | DONE | | Implemented status.py and tasks.py |
+| P0-04 | 0 | Backend pyproject.toml and venv installation | IN_PROGRESS | | |
 | P0-05 | 0 | Generate sample_ecommerce multi-language test repo | TODO | | |
 | P0-06 | 0 | Verify local Ollama models and log environment | TODO | | |
 | P1-01 | 1 | Config settings and Pydantic schemas | TODO | | |
