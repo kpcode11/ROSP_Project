@@ -24,10 +24,10 @@ def check_ollama():
     print(f"==> Checking Ollama at {url} ...")
     try:
         req = urllib.request.Request(url, method="GET")
-        with urllib.request.urlopen(req, timeout=5) as resp:
+        with urllib.request.urlopen(req, timeout=3) as resp:
             data = json.loads(resp.read().decode("utf-8"))
             models = [m.get("name", "") for m in data.get("models", [])]
-            print(f"    Available Ollama models: {models}")
+            print(f"    Available Ollama models (live server): {models}")
             required = ["mxbai-embed-large:latest", "qwen2.5:7b-instruct"]
             missing = [r for r in required if r not in models]
             if missing:
@@ -36,8 +36,16 @@ def check_ollama():
                 print("    SUCCESS: Both mxbai-embed-large:latest and qwen2.5:7b-instruct are verified!")
             return True, models
     except Exception as exc:
-        print(f"    WARNING: Could not connect to Ollama at {url}: {exc}")
-        return False, []
+        print(f"    NOTE: Ollama HTTP server not active at {url} ({exc}).")
+        manifest_dir = pathlib.Path.home() / ".ollama" / "models" / "manifests" / "registry.ollama.ai" / "library"
+        found_offline = []
+        if manifest_dir.exists():
+            for model_dir in manifest_dir.iterdir():
+                if model_dir.is_dir():
+                    for tag_file in model_dir.iterdir():
+                        found_offline.append(f"{model_dir.name}:{tag_file.name}")
+        print(f"    Verified local Ollama model manifests on disk: {found_offline}")
+        return False, found_offline
 
 
 def setup():

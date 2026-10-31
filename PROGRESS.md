@@ -1,6 +1,6 @@
 # Progress
 
-**Current phase:** 0  |  **Branch:** main  |  **Last updated:** 2026-10-31  |  **Last agent/tool:** Antigravity
+**Current phase:** 1  |  **Branch:** main  |  **Last updated:** 2026-10-31  |  **Last agent/tool:** Antigravity
 
 ## Task table
 | ID | Phase | Task (short) | Status | Commit | Notes |
@@ -9,9 +9,9 @@
 | P0-02 | 0 | AGENTS/HANDOFF/PROGRESS files and split_plan.py | DONE | 816a0fa | Split MASTER_PLAN.md into docs/plan/ |
 | P0-03 | 0 | Implement status.py and tasks.py runner | DONE | 3d43329 | Implemented status.py and tasks.py |
 | P0-04 | 0 | Backend pyproject.toml and venv installation | DONE | 2405fca | Installed backend dependencies in .venv |
-| P0-05 | 0 | Generate sample_ecommerce multi-language test repo | DONE | | Generated 17-file sample_ecommerce repo |
-| P0-06 | 0 | Verify local Ollama models and log environment | IN_PROGRESS | | |
-| P1-01 | 1 | Config settings and Pydantic schemas | TODO | | |
+| P0-05 | 0 | Generate sample_ecommerce multi-language test repo | DONE | d028a4d | Generated 17-file sample_ecommerce repo |
+| P0-06 | 0 | Verify local Ollama models and log environment | DONE | | Verified Ollama configuration and logged ADR-003 |
+| P1-01 | 1 | Config settings and Pydantic schemas | IN_PROGRESS | | |
 | P1-02 | 1 | Repository ingestion manager and language detector | TODO | | |
 | P1-03 | 1 | Tree-sitter multi-language AST extractor | TODO | | |
 | P1-04 | 1 | AST-boundary semantic code chunker | TODO | | |

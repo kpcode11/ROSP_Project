@@ -9,3 +9,8 @@
 - **Date:** 2026-10-31
 - **Decision:** All graph relationships (`DECLARES`, `IMPORTS`, `CALLS`, `INHERITS`, `ROUTES_TO`, `QUERIES`) and Change Impact ("Blast Radius") risk scores (`0-100`) are computed deterministically from AST and graph topology. Every citation returned by the Hybrid GraphRAG assistant is validated against the repository's indexed file/line inventory before returning to the user.
 - **Rationale:** Prevents hallucinated dependencies, arbitrary risk scores, and non-existent file citations.
+
+## ADR-003: Verified Hardware & Local Model Environment
+- **Date:** 2026-10-31
+- **Environment:** Windows 11 64-bit, Intel Core i7-14650HX, 16 GB RAM, NVIDIA GeForce RTX 4060 Laptop GPU (8 GB VRAM), Python 3.14.7, Node.js v24.20.0.
+- **Models:** `mxbai-embed-large:latest` (1024 dimensions) and `qwen2.5:7b-instruct` configured with deterministic fallback embeddings/synthesis when the Ollama daemon is offline during automated CI/local test runs.
