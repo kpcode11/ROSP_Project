@@ -28,3 +28,4 @@ jobs:
         env:
           USE_MOCK_AI: "true"
         run: pytest tests -q
+

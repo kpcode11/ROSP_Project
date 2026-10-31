@@ -14,3 +14,4 @@
    - Ollama models: `mxbai-embed-large:latest` (1024 dims) and `qwen2.5:7b-instruct`.
    - Storage: `NetworkX` JSON (`./data/graphs`), embedded `QdrantClient(path="./data/qdrant")`, SQLite (`./data/codeintel.db`). Zero mandatory Docker containers.
    - Always normalize file paths to forward slashes (`path.as_posix()`) across all graph node IDs and database records.
+

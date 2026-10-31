@@ -30,3 +30,4 @@ for i, sec in enumerate(sections):
 
 (out / "INDEX.md").write_text("# Split Plan Index\n\n" + "\n".join(index) + "\n", encoding="utf-8")
 print(f"Split MASTER_PLAN.md into {len(index)} files under {out}")
+

@@ -65,3 +65,4 @@ def test_file_dependencies_and_react_flow_export(sample_repo_path: pathlib.Path)
     rf = export_react_flow_graph(graph, focus_node_id="POST /login", hops=2)
     assert len(rf.nodes) >= 3
     assert len(rf.edges) >= 2
+

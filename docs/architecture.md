@@ -46,3 +46,4 @@ flowchart TD
 
 3. **Zero-Hallucination Citation Sanitizer:**
    - Every citation emitted by the Hybrid GraphRAG assistant is cross-checked against the repository's indexed file inventory and line bounds before returning to the client.
+

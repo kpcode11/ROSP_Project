@@ -105,3 +105,4 @@ def test_parse_entire_sample_ecommerce_repo(sample_repo_path: pathlib.Path):
     model_names = {m.name for m in all_models}
     assert {"User", "Order"}.issubset(model_names)
     assert len(all_functions) >= 15
+

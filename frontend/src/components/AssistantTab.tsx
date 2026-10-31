@@ -298,3 +298,4 @@ export function AssistantTab({ repoId, onOpenCitation }: AssistantTabProps) {
     </div>
   );
 }
+

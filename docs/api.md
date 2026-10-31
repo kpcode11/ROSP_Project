@@ -16,3 +16,4 @@ Interactive Swagger UI: `http://localhost:8000/docs`
 | `GET` | `/api/repositories/{repo_id}/search` | Hybrid semantic vector (`mxbai-embed-large:latest`) + symbol search across the repository (`?q=<query>&limit=8`). | `list[SearchResultItem]` |
 | `POST` | `/api/repositories/{repo_id}/ask` | Grounded Hybrid GraphRAG Q&A (`{"question": "...", "top_k": 6}`) returning markdown explanation, execution flow steps, and verified `file_path:Lstart-Lend` citations. | `AssistantResponse` |
 | `POST` | `/api/repositories/{repo_id}/impact-analysis` | Computes deterministic Blast-Radius Change Impact Report (`{"target_id": "..."}`) with heuristic risk score (`0-100`), affected API endpoints, related test suites, and subgraph. | `ImpactReport` |
+

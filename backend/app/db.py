@@ -65,3 +65,4 @@ def get_session() -> Session:
     if _SessionLocal is None:
         _SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=get_engine())
     return _SessionLocal()
+

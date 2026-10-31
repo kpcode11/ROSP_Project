@@ -39,3 +39,4 @@ class ImpactReport(BaseModel):
     related_tests: list[str] = Field(default_factory=list)
     subgraph: ImpactSubgraph = Field(default_factory=ImpactSubgraph)
     metadata: dict[str, Any] = Field(default_factory=dict)
+

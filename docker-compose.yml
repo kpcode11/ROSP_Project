@@ -30,3 +30,4 @@ services:
       - backend
     command: >
       sh -c "npm install && npm run dev"
+

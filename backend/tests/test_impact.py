@@ -43,3 +43,4 @@ def test_cli_analyze_outputs_json_artifacts(sample_repo_path: pathlib.Path, tmp_
     assert (tmp_path / "graph.json").exists()
     assert (tmp_path / "analysis_report.json").exists()
     assert (tmp_path / "dependencies.json").exists()
+

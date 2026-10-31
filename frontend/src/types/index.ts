@@ -217,3 +217,4 @@ export interface HealthResponse {
   embedding_dim: number;
   llm_model: string;
 }
+

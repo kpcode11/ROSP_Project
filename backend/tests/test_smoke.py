@@ -12,3 +12,4 @@ def test_smoke_imports():
     assert qdrant_client is not None
     assert sqlalchemy is not None
     assert tree_sitter is not None
+

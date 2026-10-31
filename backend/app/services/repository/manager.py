@@ -162,3 +162,4 @@ class RepositoryManager:
             frameworks=sorted(set(frameworks)),
             skipped_files_count=skipped,
         )
+

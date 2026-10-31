@@ -146,3 +146,4 @@ def detect_frameworks(repo_root: pathlib.Path) -> list[str]:
             frameworks.add("Spring Boot")
 
     return sorted(frameworks)
+

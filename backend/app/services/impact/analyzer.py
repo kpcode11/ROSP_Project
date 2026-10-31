@@ -219,3 +219,4 @@ class ImpactAnalyzer:
             related_tests=sorted(related_tests),
             subgraph=ImpactSubgraph(nodes=rf_nodes, edges=rf_edges),
         )
+

@@ -81,3 +81,4 @@ class FileContentResponse(BaseModel):
     symbols: list[dict[str, Any]] = Field(default_factory=list)
     imports: list[dict[str, Any]] = Field(default_factory=list)
     calls: list[dict[str, Any]] = Field(default_factory=list)
+

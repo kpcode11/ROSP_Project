@@ -45,3 +45,4 @@ class AssistantResponse(BaseModel):
     related_nodes: list[str] = Field(default_factory=list)
     model_used: str = "qwen2.5:7b-instruct"
     retrieval_latency_ms: float = 0.0
+

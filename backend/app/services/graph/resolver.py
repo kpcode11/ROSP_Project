@@ -300,3 +300,4 @@ class CrossFileResolver:
             return candidates[0], 0.7
 
         return None, 0.0
+

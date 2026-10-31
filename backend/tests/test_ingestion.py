@@ -35,3 +35,4 @@ def test_ignored_directories_are_skipped(tmp_path: pathlib.Path):
     inv = mgr.scan_repository(str(tmp_path), name="temp_repo")
     assert len(inv.files) == 1
     assert inv.files[0].path == "src/main.py"
+

@@ -632,3 +632,4 @@ def _extract_java(
             walk(child, current_class=current_class, current_func=current_func)
 
     walk(root)
+

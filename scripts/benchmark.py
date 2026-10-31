@@ -229,3 +229,4 @@ def run_benchmarks() -> dict:
 
 if __name__ == "__main__":
     run_benchmarks()
+

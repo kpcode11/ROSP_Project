@@ -6,3 +6,4 @@ Follow the session initialization protocol:
 2. Read `HANDOFF.md`
 3. Read only the active phase file in `docs/plan/phase_N.md`
 4. Work on one task ID at a time, updating `PROGRESS.md` and `HANDOFF.md`.
+

@@ -18,3 +18,4 @@ def sample_repo_path() -> pathlib.Path:
     if not target.exists() or not (target / "package.json").exists():
         create_sample_repo(target)
     return target
+

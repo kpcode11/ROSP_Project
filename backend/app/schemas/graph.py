@@ -65,3 +65,4 @@ class ReactFlowGraphResponse(BaseModel):
     edges: list[ReactFlowEdge] = Field(default_factory=list)
     total_nodes: int = 0
     total_edges: int = 0
+
