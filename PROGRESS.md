@@ -1,6 +1,6 @@
 # Progress
 
-**Current phase:** 5  |  **Branch:** main  |  **Last updated:** 2026-10-31  |  **Last agent/tool:** Antigravity
+**Current phase:** 6  |  **Branch:** main  |  **Last updated:** 2026-10-31  |  **Last agent/tool:** Antigravity
 
 ## Task table
 | ID | Phase | Task (short) | Status | Commit | Notes |
@@ -32,9 +32,9 @@
 | P5-01 | 5 | Initialize Next.js frontend with Tailwind and React Flow | DONE | bb111ea | Initialized Next.js TypeScript + Tailwind + @xyflow/react shell |
 | P5-02 | 5 | Frontend API client and Dagre graph auto-layout | DONE | d5dcde0 | Implemented typed API client and Dagre LR/TB layout engine |
 | P5-03 | 5 | Navbar, OverviewTab, and CodeExplorerTab | DONE | 7f4ea82 | Implemented Navbar, OverviewTab, and 3-pane CodeExplorerTab |
-| P5-04 | 5 | Interactive KnowledgeGraphTab (`@xyflow/react`) | DONE | | Implemented color-coded React Flow graph canvas and side inspector |
-| P5-05 | 5 | AssistantTab and ImpactAnalysisTab UI | IN_PROGRESS | | |
-| P5-06 | 5 | Frontend TypeScript and build verification | TODO | | |
-| P6-01 | 6 | Automated benchmark script and results/benchmarks.json | TODO | | |
+| P5-04 | 5 | Interactive KnowledgeGraphTab (`@xyflow/react`) | DONE | 687df05 | Implemented color-coded React Flow graph canvas and side inspector |
+| P5-05 | 5 | AssistantTab and ImpactAnalysisTab UI | DONE | | Implemented AssistantTab, ImpactAnalysisTab, and 5-tab workspace |
+| P5-06 | 5 | Frontend TypeScript and build verification | DONE | | Verified zero errors with `tsc --noEmit` |
+| P6-01 | 6 | Automated benchmark script and results/benchmarks.json | IN_PROGRESS | | |
 | P6-02 | 6 | Optional docker-compose.yml and demo task script | TODO | | |
 | P6-03 | 6 | Final README.md, architecture docs, and release check | TODO | | |
