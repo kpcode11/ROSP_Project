@@ -11,9 +11,9 @@
 | P0-04 | 0 | Backend pyproject.toml and venv installation | DONE | 2405fca | Installed backend dependencies in .venv |
 | P0-05 | 0 | Generate sample_ecommerce multi-language test repo | DONE | d028a4d | Generated 17-file sample_ecommerce repo |
 | P0-06 | 0 | Verify local Ollama models and log environment | DONE | 1536f77 | Verified Ollama configuration and logged ADR-003 |
-| P1-01 | 1 | Config settings and Pydantic schemas | DONE | | Implemented Settings, repository and graph schemas |
-| P1-02 | 1 | Repository ingestion manager and language detector | IN_PROGRESS | | |
-| P1-03 | 1 | Tree-sitter multi-language AST extractor | TODO | | |
+| P1-01 | 1 | Config settings and Pydantic schemas | DONE | 5b0bd49 | Implemented Settings, repository and graph schemas |
+| P1-02 | 1 | Repository ingestion manager and language detector | DONE | | Implemented RepositoryManager and language detector |
+| P1-03 | 1 | Tree-sitter multi-language AST extractor | IN_PROGRESS | | |
 | P1-04 | 1 | AST-boundary semantic code chunker | TODO | | |
 | P1-05 | 1 | Phase 1 unit tests for ingestion and AST parsing | TODO | | |
 | P2-01 | 2 | Cross-file symbol table and import/call resolver | TODO | | |
