@@ -1,0 +1,30 @@
+## Table of Contents
+
+- [0. Agent Operating Manual](#0-agent-operating-manual)
+- [1. Project Summary and Fixed Decisions](#1-project-summary-and-fixed-decisions)
+- [2. Complete Repository Architecture](#2-complete-repository-architecture)
+- [3. Development Environment and Tooling (Windows 11)](#3-development-environment-and-tooling-windows-11)
+- [4. Data, Schemas, and Interfaces](#4-data-schemas-and-interfaces)
+- [5. Architecture and Technical Design](#5-architecture-and-technical-design)
+- [6. Phase-Wise Implementation Roadmap](#6-phase-wise-implementation-roadmap)
+  - [Phase 0 — Scaffolding, Handoff System & Environment Verification](#phase-0--scaffolding-handoff-system--environment-verification)
+  - [Phase 1 — Repository Ingestion & Deterministic AST Parser](#phase-1--repository-ingestion--deterministic-ast-parser)
+  - [Phase 2 — Cross-File Knowledge Graph & Blast-Radius Engine](#phase-2--cross-file-knowledge-graph--blast-radius-engine)
+  - [Phase 3 — Local Vector Indexing & Hybrid GraphRAG Assistant](#phase-3--local-vector-indexing--hybrid-graphrag-assistant)
+  - [Phase 4 — FastAPI Backend & REST Contract](#phase-4--fastapi-backend--rest-contract)
+  - [Phase 5 — Next.js Visual Architecture Dashboard (`@xyflow/react`)](#phase-5--nextjs-visual-architecture-dashboard-xyflowreact)
+  - [Phase 6 — Evaluation, Benchmarks, Demo Repo & Final Release](#phase-6--evaluation-benchmarks-demo-repo--final-release)
+- [7. Testing and Quality Assurance](#7-testing-and-quality-assurance)
+- [8. Evaluation and Benchmarking](#8-evaluation-and-benchmarking)
+- [9. Deployment and Integration](#9-deployment-and-integration)
+- [10. Final Documentation and Release](#10-final-documentation-and-release)
+- [Appendices](#appendices)
+  - [Appendix A — AST Extraction & Graph Relationship Specifications](#appendix-a--ast-extraction--graph-relationship-specifications)
+  - [Appendix B — REST API Contract](#appendix-b--rest-api-contract)
+  - [Appendix C — Configuration Files](#appendix-c--configuration-files)
+  - [Appendix D — Grounded GraphRAG Prompt & Citation Protocol](#appendix-d--grounded-graphrag-prompt--citation-protocol)
+  - [Appendix E — Templates (`PROGRESS.md`, `HANDOFF.md`, Resume Prompts)](#appendix-e--templates-progressmd-handoffmd-resume-prompts)
+  - [Appendix F — Agent Orchestration Scripts (`AGENTS.md`, `status.py`, `split_plan.py`, `tasks.py`)](#appendix-f--agent-orchestration-scripts-agentsmd-statuspy-split_planpy-taskspy)
+
+---
+

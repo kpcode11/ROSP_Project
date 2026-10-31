@@ -1,0 +1,7 @@
+---
+description: Canonical operating rules for Codebase Intelligence Platform agents
+globs: *
+alwaysApply: true
+---
+
+Read `AGENTS.md` in the repository root. Run `python scripts/status.py`, read `HANDOFF.md`, and read only the active phase file `docs/plan/phase_N.md`. Never add Co-authored-by trailers to git commits.

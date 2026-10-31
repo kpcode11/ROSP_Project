@@ -1,0 +1,36 @@
+# Split Plan Index
+
+- `header.md`: AI Agent Master Plan — Codebase Intelligence Platform (Graphify-Core)
+- `misc_1.md`: Table of Contents
+- `section_0.md`: 0. Agent Operating Manual
+- `section_1.md`: 1. Project Summary and Fixed Decisions
+- `section_2.md`: 2. Complete Repository Architecture
+- `section_3.md`: 3. Development Environment and Tooling (Windows 11)
+- `section_4.md`: 4. Data, Schemas, and Interfaces
+- `section_5.md`: 5. Architecture and Technical Design
+- `section_6.md`: 6. Phase-Wise Implementation Roadmap
+- `phase_0.md`: Phase 0 — Scaffolding, Handoff System & Environment Verification
+- `phase_1.md`: Phase 1 — Repository Ingestion & Deterministic AST Parser
+- `phase_2.md`: Phase 2 — Cross-File Knowledge Graph & Blast-Radius Engine
+- `phase_3.md`: Phase 3 — Local Vector Indexing & Hybrid GraphRAG Assistant
+- `phase_4.md`: Phase 4 — FastAPI Backend & REST Contract
+- `phase_5.md`: Phase 5 — Next.js Visual Architecture Dashboard (`@xyflow/react`)
+- `phase_6.md`: Phase 6 — Evaluation, Benchmarks, Demo Repo & Final Release
+- `section_7.md`: 7. Testing and Quality Assurance
+- `section_8.md`: 8. Evaluation and Benchmarking
+- `section_9.md`: 9. Deployment and Integration
+- `section_10.md`: 10. Final Documentation and Release
+- `misc_20.md`: Appendices
+- `appendix_a.md`: Appendix A — AST Extraction & Graph Relationship Specifications
+- `appendix_b.md`: Appendix B — REST API Contract
+- `appendix_c.md`: Appendix C — Configuration Files
+- `appendix_d.md`: Appendix D — Grounded GraphRAG Prompt & Citation Protocol
+- `appendix_e.md`: Appendix E — Templates (`PROGRESS.md`, `HANDOFF.md`, Resume Prompts)
+- `misc_26.md`: Task table
+- `misc_27.md`: Current task
+- `misc_28.md`: Done in this task so far
+- `misc_29.md`: Exact next step
+- `misc_30.md`: Files touched
+- `misc_31.md`: Commands to run first
+- `misc_32.md`: Known problems / gotchas
+- `appendix_f.md`: Appendix F — Agent Orchestration Scripts (`AGENTS.md`, `status.py`, `split_plan.py`, `tasks.py`)
