@@ -21,27 +21,34 @@ class Settings(BaseSettings):
     USE_MOCK_AI: bool = False
 
     @property
+    def _resolved_data_dir(self) -> pathlib.Path:
+        if self.DATA_DIR.is_absolute():
+            return self.DATA_DIR
+        return (ROOT_DIR / self.DATA_DIR).resolve()
+
+    @property
     def repos_dir(self) -> pathlib.Path:
-        p = self.DATA_DIR / "repos"
+        p = self._resolved_data_dir / "repos"
         p.mkdir(parents=True, exist_ok=True)
         return p
 
     @property
     def graphs_dir(self) -> pathlib.Path:
-        p = self.DATA_DIR / "graphs"
+        p = self._resolved_data_dir / "graphs"
         p.mkdir(parents=True, exist_ok=True)
         return p
 
     @property
     def qdrant_dir(self) -> pathlib.Path:
-        p = self.DATA_DIR / "qdrant"
+        p = self._resolved_data_dir / "qdrant"
         p.mkdir(parents=True, exist_ok=True)
         return p
 
     @property
     def db_path(self) -> pathlib.Path:
-        self.DATA_DIR.mkdir(parents=True, exist_ok=True)
-        return self.DATA_DIR / "codeintel.db"
+        base = self._resolved_data_dir
+        base.mkdir(parents=True, exist_ok=True)
+        return base / "codeintel.db"
 
 
 settings = Settings()

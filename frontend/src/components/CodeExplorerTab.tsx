@@ -40,21 +40,27 @@ export function CodeExplorerTab({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (initialFilePath) {
+    if (initialFilePath && files.some((f) => f.path === initialFilePath)) {
       setSelectedPath(initialFilePath);
+    } else if (!files.some((f) => f.path === selectedPath) && files.length > 0) {
+      setSelectedPath(files[0].path);
     }
-  }, [initialFilePath]);
+  }, [initialFilePath, files, selectedPath]);
 
   useEffect(() => {
     setActiveRange(highlightRange || null);
   }, [highlightRange]);
 
+  const effectivePath = files.some((f) => f.path === selectedPath)
+    ? selectedPath
+    : files[0]?.path || "";
+
   useEffect(() => {
-    if (!repoId || !selectedPath) return;
+    if (!repoId || !effectivePath) return;
     let cancelled = false;
     setLoading(true);
     api
-      .getFileContent(repoId, selectedPath)
+      .getFileContent(repoId, effectivePath)
       .then((res) => {
         if (!cancelled) setFileData(res);
       })
@@ -65,7 +71,7 @@ export function CodeExplorerTab({
     return () => {
       cancelled = true;
     };
-  }, [repoId, selectedPath]);
+  }, [repoId, effectivePath]);
 
   const filteredFiles = files.filter((f) =>
     f.path.toLowerCase().includes(fileFilter.toLowerCase())

@@ -48,6 +48,22 @@ def _get_or_load_graph(repo_id: str) -> nx.DiGraph:
         _GRAPH_CACHE[repo_id] = graph
         return graph
     except FileNotFoundError as exc:
+        source_to_rebuild: str | None = None
+        repo_name: str | None = None
+        with get_session() as session:
+            rec = session.get(RepositoryRecord, repo_id)
+            if rec and rec.source_path and pathlib.Path(rec.source_path).exists():
+                source_to_rebuild = rec.source_path
+                repo_name = rec.name
+        if not source_to_rebuild and repo_id == "sample_ecommerce":
+            sample_dir = settings._resolved_data_dir / "sample_ecommerce"
+            if sample_dir.exists():
+                source_to_rebuild = str(sample_dir)
+                repo_name = "sample_ecommerce"
+        if source_to_rebuild:
+            ingest_repository_pipeline(source_to_rebuild, name=repo_name)
+            if repo_id in _GRAPH_CACHE:
+                return _GRAPH_CACHE[repo_id]
         raise HTTPException(status_code=404, detail=f"Knowledge graph for '{repo_id}' not found.") from exc
 
 

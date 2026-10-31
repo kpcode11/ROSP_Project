@@ -5,12 +5,29 @@ from app.schemas.graph import ReactFlowEdge, ReactFlowGraphResponse, ReactFlowNo
 
 def resolve_node_identifier(graph: nx.DiGraph, identifier: str) -> str | None:
     """Resolves either an exact node ID (e.g. 'backend/services/userService.js::authenticate')
-    or a short label/suffix (e.g. 'authenticate', 'loginUser', 'User', 'POST /login').
+    or a short label/suffix (e.g. 'authenticate', 'loginUser', 'User', 'POST /login', 'paymentService.js').
     """
-    if identifier in graph:
-        return identifier
+    norm = identifier.strip().replace("\\", "/")
+    if not norm:
+        return None
+    if norm in graph:
+        return norm
     for node_id, data in graph.nodes(data=True):
-        if data.get("label") == identifier or node_id.endswith(f"::{identifier}"):
+        if (
+            data.get("label") == norm
+            or node_id.endswith(f"::{norm}")
+            or node_id.endswith(f"/{norm}")
+        ):
+            return node_id
+    norm_lower = norm.lower()
+    for node_id, data in graph.nodes(data=True):
+        nid_lower = node_id.lower()
+        if (
+            nid_lower == norm_lower
+            or str(data.get("label", "")).lower() == norm_lower
+            or nid_lower.endswith(f"::{norm_lower}")
+            or nid_lower.endswith(f"/{norm_lower}")
+        ):
             return node_id
     return None
 

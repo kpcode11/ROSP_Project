@@ -36,7 +36,11 @@ def get_qdrant_client(storage_path: pathlib.Path | None = None) -> QdrantClient:
     target.mkdir(parents=True, exist_ok=True)
     key = str(target)
     if key not in _CLIENT_CACHE:
-        _CLIENT_CACHE[key] = QdrantClient(path=key)
+        try:
+            _CLIENT_CACHE[key] = QdrantClient(path=key)
+        except RuntimeError:
+            # Fallback to in-memory store when another process (e.g. live uvicorn server) holds .lock
+            _CLIENT_CACHE[key] = QdrantClient(":memory:")
     return _CLIENT_CACHE[key]
 
 

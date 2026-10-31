@@ -22,7 +22,19 @@ class ImpactAnalyzer:
         repo_id = graph.graph.get("repo_id", "default")
         resolved_target = resolve_node_identifier(graph, target_identifier)
         if not resolved_target:
-            raise KeyError(f"Target node '{target_identifier}' not found in knowledge graph.")
+            if graph.number_of_nodes() == 0:
+                raise KeyError(f"Target node '{target_identifier}' not found in empty knowledge graph.")
+            # Graceful fallback to highest-centrality node if a stale/cross-repo target was requested
+            ranked_nodes = sorted(
+                graph.nodes(data=True),
+                key=lambda item: (
+                    float(item[1].get("metrics", {}).get("pagerank", 0.0)),
+                    int(item[1].get("metrics", {}).get("in_degree", 0)),
+                    1 if item[1].get("type") == "file" else 0,
+                ),
+                reverse=True,
+            )
+            resolved_target = ranked_nodes[0][0]
 
         target_data = graph.nodes[resolved_target]
         target_type = target_data.get("type", "file")

@@ -75,6 +75,10 @@ export default function HomePage() {
 
   const handleSelectRepo = async (repoId: string) => {
     setActiveRepoId(repoId);
+    setExplorerFile(undefined);
+    setExplorerHighlight(null);
+    setGraphFocusNode(null);
+    setImpactTargetNode(null);
     setIsLoading(true);
     try {
       const detail = await api.getRepositoryDetail(repoId);
@@ -91,6 +95,10 @@ export default function HomePage() {
     const updatedRepos = await api.listRepositories();
     setRepositories(updatedRepos);
     setActiveRepoId(summary.id);
+    setExplorerFile(undefined);
+    setExplorerHighlight(null);
+    setGraphFocusNode(null);
+    setImpactTargetNode(null);
     const detail = await api.getRepositoryDetail(summary.id);
     setRepoDetail(detail);
   };
@@ -178,6 +186,7 @@ export default function HomePage() {
           <>
             {activeTab === "overview" && (
               <OverviewTab
+                key={repoDetail.id}
                 detail={repoDetail}
                 onInspectFile={(fp, lstart) =>
                   handleOpenCodeCitation(fp, lstart)
@@ -189,6 +198,7 @@ export default function HomePage() {
 
             {activeTab === "explorer" && (
               <CodeExplorerTab
+                key={repoDetail.id}
                 repoId={repoDetail.id}
                 files={repoDetail.files}
                 initialFilePath={explorerFile}
@@ -200,6 +210,7 @@ export default function HomePage() {
 
             {activeTab === "graph" && (
               <KnowledgeGraphTab
+                key={repoDetail.id}
                 repoId={repoDetail.id}
                 initialFocusNodeId={graphFocusNode}
                 onInspectFile={(fp, lstart) =>
@@ -211,6 +222,7 @@ export default function HomePage() {
 
             {activeTab === "assistant" && (
               <AssistantTab
+                key={repoDetail.id}
                 repoId={repoDetail.id}
                 onOpenCitation={handleOpenCodeCitation}
               />
@@ -218,6 +230,7 @@ export default function HomePage() {
 
             {activeTab === "impact" && (
               <ImpactAnalysisTab
+                key={repoDetail.id}
                 repoId={repoDetail.id}
                 files={repoDetail.files}
                 centralModules={repoDetail.central_modules}

@@ -30,19 +30,49 @@ export function ImpactAnalysisTab({
   initialTargetId,
   onInspectFile,
 }: ImpactAnalysisTabProps) {
-  const defaultTarget =
-    initialTargetId ||
-    "backend/services/paymentService.js";
-  const [targetId, setTargetId] = useState<string>(defaultTarget);
+  const isTargetInRepo = useCallback(
+    (candidate: string | null | undefined): boolean => {
+      if (!candidate) return false;
+      return (
+        files.some(
+          (f) => f.path === candidate || candidate.startsWith(`${f.path}::`)
+        ) || centralModules.some((m) => m.id === candidate)
+      );
+    },
+    [files, centralModules]
+  );
+
+  const fallbackTarget = useMemo(() => {
+    if (files.some((f) => f.path === "backend/services/paymentService.js")) {
+      return "backend/services/paymentService.js";
+    }
+    return centralModules[0]?.id || files[0]?.path || "";
+  }, [files, centralModules]);
+
+  const [targetId, setTargetId] = useState<string>(
+    initialTargetId && isTargetInRepo(initialTargetId)
+      ? initialTargetId
+      : fallbackTarget
+  );
   const [report, setReport] = useState<ImpactReport | null>(null);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    if (initialTargetId) {
+    if (initialTargetId && isTargetInRepo(initialTargetId)) {
       setTargetId(initialTargetId);
+    } else if (!isTargetInRepo(targetId) && fallbackTarget) {
+      setTargetId(fallbackTarget);
     }
-  }, [initialTargetId]);
+  }, [initialTargetId, isTargetInRepo, targetId, fallbackTarget]);
+
+  const effectiveTargetId = useMemo(() => {
+    if (isTargetInRepo(targetId)) return targetId;
+    if (initialTargetId && isTargetInRepo(initialTargetId)) {
+      return initialTargetId;
+    }
+    return fallbackTarget;
+  }, [targetId, initialTargetId, isTargetInRepo, fallbackTarget]);
 
   const runAnalysis = useCallback(
     async (idToAnalyze: string) => {
@@ -62,8 +92,10 @@ export function ImpactAnalysisTab({
   );
 
   useEffect(() => {
-    runAnalysis(targetId);
-  }, [runAnalysis, targetId]);
+    if (effectiveTargetId) {
+      runAnalysis(effectiveTargetId);
+    }
+  }, [runAnalysis, effectiveTargetId]);
 
   const { nodes, edges } = useMemo(() => {
     if (!report) return { nodes: [], edges: [] };
@@ -101,10 +133,17 @@ export function ImpactAnalysisTab({
         <div className="flex flex-wrap items-center gap-2">
           <select
             aria-label="Select target component for impact analysis"
-            value={targetId}
+            value={effectiveTargetId}
             onChange={(e) => setTargetId(e.target.value)}
             className="px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-xs font-mono text-slate-100 focus:outline-none focus:border-amber-500"
           >
+            {effectiveTargetId &&
+              !files.some((f) => f.path === effectiveTargetId) &&
+              !centralModules.some((m) => m.id === effectiveTargetId) && (
+                <optgroup label="Selected Symbol">
+                  <option value={effectiveTargetId}>{effectiveTargetId}</option>
+                </optgroup>
+              )}
             <optgroup label="Source Files">
               {files.map((f) => (
                 <option key={f.path} value={f.path}>
@@ -122,7 +161,7 @@ export function ImpactAnalysisTab({
           </select>
 
           <button
-            onClick={() => runAnalysis(targetId)}
+            onClick={() => runAnalysis(effectiveTargetId)}
             disabled={loading}
             className="px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold transition"
           >

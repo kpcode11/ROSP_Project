@@ -44,3 +44,12 @@ def test_cli_analyze_outputs_json_artifacts(sample_repo_path: pathlib.Path, tmp_
     assert (tmp_path / "analysis_report.json").exists()
     assert (tmp_path / "dependencies.json").exists()
 
+
+def test_stale_cross_repo_target_graceful_fallback(sample_repo_path: pathlib.Path):
+    graph, _ = _build_sample_graph(sample_repo_path)
+    analyzer = ImpactAnalyzer()
+    report = analyzer.analyze(graph, "dashboard/src/App.jsx")
+    assert report.target_node_id in graph
+    assert report.risk_score >= 0.0
+
+
