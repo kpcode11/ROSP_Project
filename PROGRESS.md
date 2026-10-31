@@ -8,9 +8,9 @@
 | P0-01 | 0 | Repo directory tree and ignore files | DONE | 8553508 | Directory tree, .gitignore, .env.example, CI created |
 | P0-02 | 0 | AGENTS/HANDOFF/PROGRESS files and split_plan.py | DONE | 816a0fa | Split MASTER_PLAN.md into docs/plan/ |
 | P0-03 | 0 | Implement status.py and tasks.py runner | DONE | 3d43329 | Implemented status.py and tasks.py |
-| P0-04 | 0 | Backend pyproject.toml and venv installation | DONE | | Installed backend dependencies in .venv |
-| P0-05 | 0 | Generate sample_ecommerce multi-language test repo | IN_PROGRESS | | |
-| P0-06 | 0 | Verify local Ollama models and log environment | TODO | | |
+| P0-04 | 0 | Backend pyproject.toml and venv installation | DONE | 2405fca | Installed backend dependencies in .venv |
+| P0-05 | 0 | Generate sample_ecommerce multi-language test repo | DONE | | Generated 17-file sample_ecommerce repo |
+| P0-06 | 0 | Verify local Ollama models and log environment | IN_PROGRESS | | |
 | P1-01 | 1 | Config settings and Pydantic schemas | TODO | | |
 | P1-02 | 1 | Repository ingestion manager and language detector | TODO | | |
 | P1-03 | 1 | Tree-sitter multi-language AST extractor | TODO | | |
