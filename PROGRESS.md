@@ -30,9 +30,9 @@
 | P4-03 | 4 | Startup auto-seeding of sample_ecommerce repo | DONE | f43c006 | Implemented FastAPI lifespan auto-seeding of sample_ecommerce |
 | P4-04 | 4 | FastAPI endpoint integration tests and docs/api.md | DONE | 5eac222 | All 9 REST endpoints verified in test_api.py |
 | P5-01 | 5 | Initialize Next.js frontend with Tailwind and React Flow | DONE | bb111ea | Initialized Next.js TypeScript + Tailwind + @xyflow/react shell |
-| P5-02 | 5 | Frontend API client and Dagre graph auto-layout | DONE | | Implemented typed API client and Dagre LR/TB layout engine |
-| P5-03 | 5 | Navbar, OverviewTab, and CodeExplorerTab | IN_PROGRESS | | |
-| P5-04 | 5 | Interactive KnowledgeGraphTab (`@xyflow/react`) | TODO | | |
+| P5-02 | 5 | Frontend API client and Dagre graph auto-layout | DONE | d5dcde0 | Implemented typed API client and Dagre LR/TB layout engine |
+| P5-03 | 5 | Navbar, OverviewTab, and CodeExplorerTab | DONE | | Implemented Navbar, OverviewTab, and 3-pane CodeExplorerTab |
+| P5-04 | 5 | Interactive KnowledgeGraphTab (`@xyflow/react`) | IN_PROGRESS | | |
 | P5-05 | 5 | AssistantTab and ImpactAnalysisTab UI | TODO | | |
 | P5-06 | 5 | Frontend TypeScript and build verification | TODO | | |
 | P6-01 | 6 | Automated benchmark script and results/benchmarks.json | TODO | | |
