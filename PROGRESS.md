@@ -16,9 +16,9 @@
 | P1-03 | 1 | Tree-sitter multi-language AST extractor | DONE | 63a63a3 | Implemented Tree-sitter Python/JS/TS/Java AST extractors |
 | P1-04 | 1 | AST-boundary semantic code chunker | DONE | 47646d1 | Implemented CodeChunk generator with context headers |
 | P1-05 | 1 | Phase 1 unit tests for ingestion and AST parsing | DONE | 6eb1a5a | Unit tests passing for Python, JS, TS, Java, and sample_ecommerce |
-| P2-01 | 2 | Cross-file symbol table and import/call resolver | DONE | | Implemented SymbolTable and CrossFileResolver |
-| P2-02 | 2 | NetworkX knowledge graph builder and query helpers | IN_PROGRESS | | |
-| P2-03 | 2 | Deterministic Blast-Radius impact analyzer | TODO | | |
+| P2-01 | 2 | Cross-file symbol table and import/call resolver | DONE | e8b7079 | Implemented SymbolTable and CrossFileResolver |
+| P2-02 | 2 | NetworkX knowledge graph builder and query helpers | DONE | | Implemented NetworkX DiGraph builder, PageRank, and query helpers |
+| P2-03 | 2 | Deterministic Blast-Radius impact analyzer | IN_PROGRESS | | |
 | P2-04 | 2 | CLI analyzer tool (`python -m app.cli analyze`) | TODO | | |
 | P2-05 | 2 | Phase 2 unit tests for graph and impact analysis | TODO | | |
 | P3-01 | 3 | Async Ollama client (`mxbai-embed-large` + `qwen2.5:7b-instruct`) | TODO | | |
