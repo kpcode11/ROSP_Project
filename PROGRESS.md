@@ -1,6 +1,6 @@
 # Progress
 
-**Current phase:** 3  |  **Branch:** main  |  **Last updated:** 2026-10-31  |  **Last agent/tool:** Antigravity
+**Current phase:** 5  |  **Branch:** main  |  **Last updated:** 2026-10-31  |  **Last agent/tool:** Antigravity
 
 ## Task table
 | ID | Phase | Task (short) | Status | Commit | Notes |
@@ -27,9 +27,9 @@
 | P3-04 | 3 | Phase 3 unit and integration tests for RAG | DONE | 04203b3 | Verified semantic search Hit@3 and grounded GraphRAG citations |
 | P4-01 | 4 | SQLite SQLAlchemy repository metadata database | DONE | b3d6383 | Implemented RepositoryRecord model and SQLite session factory |
 | P4-02 | 4 | FastAPI REST endpoints (`/api/repositories/*`) | DONE | 2fef80d | Implemented all 9 REST API endpoints in routes.py |
-| P4-03 | 4 | Startup auto-seeding of sample_ecommerce repo | DONE | | Implemented FastAPI lifespan auto-seeding of sample_ecommerce |
-| P4-04 | 4 | FastAPI endpoint integration tests and docs/api.md | IN_PROGRESS | | |
-| P5-01 | 5 | Initialize Next.js frontend with Tailwind and React Flow | TODO | | |
+| P4-03 | 4 | Startup auto-seeding of sample_ecommerce repo | DONE | f43c006 | Implemented FastAPI lifespan auto-seeding of sample_ecommerce |
+| P4-04 | 4 | FastAPI endpoint integration tests and docs/api.md | DONE | | All 9 REST endpoints verified in test_api.py |
+| P5-01 | 5 | Initialize Next.js frontend with Tailwind and React Flow | IN_PROGRESS | | |
 | P5-02 | 5 | Frontend API client and Dagre graph auto-layout | TODO | | |
 | P5-03 | 5 | Navbar, OverviewTab, and CodeExplorerTab | TODO | | |
 | P5-04 | 5 | Interactive KnowledgeGraphTab (`@xyflow/react`) | TODO | | |

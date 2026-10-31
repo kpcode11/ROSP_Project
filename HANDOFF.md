@@ -1,22 +1,22 @@
 # Handoff
 
-**Updated:** 2026-10-31  |  **By:** Antigravity  |  **Branch:** main  |  **Last commit:** 67ba0a0
+**Updated:** 2026-10-31  |  **By:** Antigravity  |  **Branch:** main  |  **Last commit:** f43c006
 
 ## Current task
-- ID: P3-01 - Async Ollama client (`mxbai-embed-large` + `qwen2.5:7b-instruct`)
+- ID: P5-01 - Initialize Next.js frontend with Tailwind and React Flow
 - State: IN_PROGRESS
 
 ## Done in this task so far
-- Completed Phase 0, Phase 1, and Phase 2 (all 13 unit tests and CLI sample analyzer passing).
+- Completed Phases 0, 1, 2, 3, and 4 (17/17 backend tests and Ruff lint passing).
 
 ## Exact next step
-- Implement `backend/app/services/embeddings/ollama_client.py`, `vector_store.py`, `hybrid_rag.py`, and `backend/tests/test_rag.py`.
+- Initialize `frontend/` with Next.js, TypeScript, Tailwind CSS, `@xyflow/react`, `dagre`, and `lucide-react`, and build all 5 tabs.
 
 ## Files touched
-- `backend/tests/test_graph.py`, `backend/tests/test_impact.py`
+- `backend/tests/test_api.py`, `docs/api.md`
 
 ## Commands to run first
     python scripts/status.py
 
 ## Known problems / gotchas
-- Support both live Ollama (`mxbai-embed-large:latest`, `qwen2.5:7b-instruct`) and deterministic semantic fallback when Ollama daemon is offline or `USE_MOCK_AI=true`.
+- Use `@xyflow/react` v12 with `dagre` auto-layout so graph nodes never stack at `(0,0)`.
