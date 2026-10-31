@@ -22,9 +22,9 @@
 | P2-04 | 2 | CLI analyzer tool (`python -m app.cli analyze`) | DONE | 67ba0a0 | Implemented standalone CLI analyzer outputting graph/report/deps JSON |
 | P2-05 | 2 | Phase 2 unit tests for graph and impact analysis | DONE | 15e08bf | Verified execution chains and blast-radius reports |
 | P3-01 | 3 | Async Ollama client (`mxbai-embed-large` + `qwen2.5:7b-instruct`) | DONE | bdb813d | Implemented OllamaClient with deterministic semantic fallback |
-| P3-02 | 3 | Embedded local Qdrant vector store service | DONE | | Implemented LocalVectorStore (1024-dim Cosine) with SHA-256 skip check |
-| P3-03 | 3 | Hybrid GraphRAG retriever and citation verifier | IN_PROGRESS | | |
-| P3-04 | 3 | Phase 3 unit and integration tests for RAG | TODO | | |
+| P3-02 | 3 | Embedded local Qdrant vector store service | DONE | 5503b32 | Implemented LocalVectorStore (1024-dim Cosine) with SHA-256 skip check |
+| P3-03 | 3 | Hybrid GraphRAG retriever and citation verifier | DONE | | Implemented HybridGraphRAG and deterministic citation sanitizer |
+| P3-04 | 3 | Phase 3 unit and integration tests for RAG | IN_PROGRESS | | |
 | P4-01 | 4 | SQLite SQLAlchemy repository metadata database | TODO | | |
 | P4-02 | 4 | FastAPI REST endpoints (`/api/repositories/*`) | TODO | | |
 | P4-03 | 4 | Startup auto-seeding of sample_ecommerce repo | TODO | | |
