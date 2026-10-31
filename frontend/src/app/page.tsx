@@ -140,7 +140,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+    <div className="min-h-[100dvh] flex flex-col bg-bg text-fg">
       <Navbar
         repositories={repositories}
         activeRepoId={activeRepoId}
@@ -150,23 +150,26 @@ export default function HomePage() {
         isLoading={isLoading}
       />
 
-      {/* 5-Tab Navigation Bar */}
-      <div className="border-b border-slate-800 bg-slate-900/50">
-        <div className="max-w-[1600px] mx-auto px-6 flex items-center gap-1 overflow-x-auto">
+      <div className="bg-surface hairline">
+        <div
+          className="max-w-[1600px] mx-auto px-4 xs:px-6 flex items-center gap-1 overflow-x-auto"
+          role="tablist"
+          aria-label="Workspace views"
+        >
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                aria-current={isActive ? "page" : undefined}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-3 text-xs font-semibold border-b-2 transition whitespace-nowrap ${
-                  isActive
-                    ? "border-indigo-500 text-indigo-400 bg-indigo-500/5"
-                    : "border-transparent text-slate-400 hover:text-slate-200"
-                }`}
+                className="tab-btn"
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-4 h-4" aria-hidden="true" />
                 <span>{tab.label}</span>
               </button>
             );
@@ -174,13 +177,17 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Main Workspace Container */}
-      <main className="flex-1 max-w-[1600px] w-full mx-auto px-6 py-6">
+      <main className="flex-1 max-w-[1600px] w-full mx-auto px-4 xs:px-6 py-6 min-w-0">
         {!repoDetail ? (
-          <div className="p-12 rounded-xl bg-slate-900/60 border border-slate-800 text-center text-sm text-slate-400">
-            {isLoading
-              ? "Loading repository intelligence..."
-              : "Select or analyze a repository to begin."}
+          <div className="p-8 rounded-lg bg-surface text-center type-caption text-fg-muted">
+            {isLoading ? (
+              <div className="space-y-3">
+                <div className="skeleton h-4 w-48 mx-auto" />
+                <p>Loading repository intelligence...</p>
+              </div>
+            ) : (
+              "Select or analyze a repository to begin."
+            )}
           </div>
         ) : (
           <>
@@ -246,4 +253,3 @@ export default function HomePage() {
     </div>
   );
 }
-

@@ -5,6 +5,13 @@ import { ReactFlowEdgeItem, ReactFlowNodeData, ReactFlowNodeItem } from "@/types
 const NODE_WIDTH = 240;
 const NODE_HEIGHT = 84;
 
+const RELATION_STROKE: Record<string, string> = {
+  ROUTES_TO: "var(--color-accent)",
+  CALLS: "var(--color-info)",
+  QUERIES: "var(--color-negative)",
+  IMPORTS: "var(--color-text-muted)",
+};
+
 export function layoutReactFlowGraph(
   rawNodes: ReactFlowNodeItem[],
   rawEdges: ReactFlowEdgeItem[],
@@ -55,11 +62,7 @@ export function layoutReactFlowGraph(
 
   const edges: Edge[] = rawEdges.map((e) => {
     const rel = e.data?.relation || e.label || "CALLS";
-    let stroke = "#64748b";
-    if (rel === "ROUTES_TO") stroke = "#10b981";
-    else if (rel === "CALLS") stroke = "#a855f7";
-    else if (rel === "QUERIES") stroke = "#f43f5e";
-    else if (rel === "IMPORTS") stroke = "#3b82f6";
+    const stroke = RELATION_STROKE[rel] || "var(--color-border)";
 
     return {
       id: e.id,
@@ -69,11 +72,8 @@ export function layoutReactFlowGraph(
       type: "smoothstep",
       animated: Boolean(e.animated),
       style: { stroke, strokeWidth: 1.8 },
-      labelStyle: { fill: "#cbd5e1", fontSize: 10, fontWeight: 600 },
-      labelBgStyle: { fill: "#0f172a", fillOpacity: 0.85 },
     };
   });
 
   return { nodes, edges };
 }
-

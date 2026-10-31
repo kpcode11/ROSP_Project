@@ -4,28 +4,631 @@
 
 @import "@xyflow/react/dist/style.css";
 
-body {
-  background-color: #020617;
-  color: #f1f5f9;
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+:root {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --color-bg: #121212;
+  --color-surface: #181818;
+  --color-surface-2: #1f1f1f;
+  --color-surface-3: #252525;
+  --color-surface-4: #272727;
+  --color-light: #eeeeee;
+  --color-on-light: #181818;
+
+  /* Text */
+  --color-text: #ffffff;
+  --color-text-strong: #fdfdfd;
+  --color-text-soft: #cbcbcb;
+  --color-text-muted: #b3b3b3;
+
+  /* Accent (functional only) */
+  --color-accent: #1ed760;
+  --color-accent-border: #1db954;
+  --color-on-accent: #000000;
+
+  /* Semantic (status only) */
+  --color-negative: #f3727f;
+  --color-warning: #ffa42b;
+  --color-info: #539df5;
+
+  /* Lines (borders only, never text) */
+  --color-border: #4d4d4d;
+  --color-border-strong: #7c7c7c;
+  --color-separator: #b3b3b3;
+
+  /* Derived */
+  --color-scrim: rgba(0, 0, 0, 0.7);
+
+  /* Shadows */
+  --shadow-md: rgba(0, 0, 0, 0.3) 0px 8px 8px;
+  --shadow-lg: rgba(0, 0, 0, 0.5) 0px 8px 24px;
+  --shadow-inset-border: rgb(18, 18, 18) 0px 1px 0px, rgb(124, 124, 124) 0px 0px 0px 1px inset;
+
+  /* Radius */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 9999px;
+  --radius-circle: 50%;
+
+  /* Fonts */
+  --font-ui: "Figtree", "Helvetica Neue", helvetica, arial,
+    "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, "MS Gothic", sans-serif;
+  --font-title: var(--font-ui);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
 }
 
-/* Custom dark scrollbar */
+@layer base {
+  html {
+    background-color: var(--color-bg);
+    color-scheme: dark;
+    scroll-padding-top: 80px;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-ui);
+    font-weight: 400;
+    min-height: 100dvh;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-text);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  ::placeholder {
+    color: var(--color-text-muted);
+    opacity: 1;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+    font-family: var(--font-ui);
+    color: var(--color-text);
+    accent-color: var(--color-accent);
+  }
+
+  a {
+    color: var(--color-text);
+  }
+
+  a:hover {
+    color: var(--color-text-strong);
+  }
+
+  /* Autofill must stay dark; inset shadow covers the UA yellow/white wash. */
+  input:-webkit-autofill,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    -webkit-text-fill-color: var(--color-text);
+    caret-color: var(--color-text);
+    /* Override Chrome autofill paint; third-party UA stylesheet cannot be themed otherwise. */
+    transition: background-color 9999s ease-out;
+    box-shadow: var(--shadow-inset-border), inset 0 0 0 1000px var(--color-surface-2);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+}
+
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 3px;
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: var(--color-border-strong);
 }
 
+@layer components {
+  .type-title {
+    font-family: var(--font-title);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: normal;
+  }
+
+  .type-feature {
+    font-family: var(--font-ui);
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: normal;
+  }
+
+  .type-body {
+    font-family: var(--font-ui);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .type-body-bold {
+    font-family: var(--font-ui);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .type-btn-caps {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .type-btn {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.14px;
+    white-space: nowrap;
+  }
+
+  .type-nav-bold {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .type-nav {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .type-caption-bold {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .type-caption {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .type-small-bold {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .type-small {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .type-badge {
+    font-family: var(--font-ui);
+    font-size: 10.5px;
+    font-weight: 600;
+    line-height: 1.33;
+    text-transform: capitalize;
+  }
+
+  .type-micro {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .type-display {
+    font-family: var(--font-title);
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 700;
+    letter-spacing: normal;
+  }
+
+  .prose {
+    line-height: 1.5;
+    font-size: 16px;
+    font-weight: 400;
+    overflow-wrap: anywhere;
+  }
+
+  .font-code {
+    font-family: var(--font-mono);
+  }
+
+  .card {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: none;
+  }
+
+  .card-elevated {
+    background-color: var(--color-surface-3);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .panel {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-xl);
+  }
+
+  .hairline {
+    box-shadow: inset 0 -1px 0 var(--color-border);
+  }
+
+  .divider {
+    height: 1px;
+    background-color: var(--color-border);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: var(--radius-pill);
+    padding-block: 8px;
+    padding-inline: 16px;
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    overflow: hidden;
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+  }
+
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+    box-shadow: inset 0 0 0 1px var(--color-accent-border);
+  }
+
+  .btn-secondary {
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+  }
+
+  .btn-ghost {
+    background-color: transparent;
+    color: var(--color-text-muted);
+    letter-spacing: 0.14px;
+    text-transform: none;
+  }
+
+  .btn-outlined {
+    background-color: transparent;
+    color: var(--color-text);
+    box-shadow: inset 0 0 0 1px var(--color-border-strong);
+  }
+
+  .btn-icon {
+    padding: 12px;
+    border-radius: var(--radius-circle);
+    letter-spacing: 0;
+    text-transform: none;
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: var(--radius-pill);
+    padding-block: 4px;
+    padding-inline: 12px;
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .chip-selected {
+    background-color: var(--color-light);
+    color: var(--color-on-light);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: var(--radius-xs);
+    padding-block: 2px;
+    padding-inline: 8px;
+    background-color: var(--color-surface-2);
+    color: var(--color-text-muted);
+    font-size: 10.5px;
+    font-weight: 600;
+    line-height: 1.33;
+    text-transform: capitalize;
+  }
+
+  .field {
+    width: 100%;
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+    border-radius: var(--radius-sm);
+    padding-block: 12px;
+    padding-inline: 16px;
+    box-shadow: var(--shadow-inset-border);
+    outline: none;
+  }
+
+  .field-search {
+    width: 100%;
+    background-color: var(--color-surface-2);
+    color: var(--color-text);
+    border-radius: var(--radius-pill);
+    padding-block: 12px;
+    padding-inline-start: 48px;
+    padding-inline-end: 16px;
+    box-shadow: var(--shadow-inset-border);
+    outline: none;
+  }
+
+  .field-invalid {
+    box-shadow: inset 0 0 0 1px var(--color-negative);
+  }
+
+  .alert {
+    background-color: var(--color-surface-3);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 16px;
+    color: var(--color-text);
+  }
+
+  .scrim {
+    background-color: var(--color-scrim);
+  }
+
+  .skeleton {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+  }
+
+  .tab-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding-block: 12px;
+    padding-inline: 16px;
+    color: var(--color-text-muted);
+    font-size: 14px;
+    font-weight: 400;
+    white-space: nowrap;
+    background: transparent;
+  }
+
+  .tab-btn[aria-selected="true"] {
+    color: var(--color-text);
+    font-weight: 700;
+    box-shadow: inset 0 -2px 0 var(--color-accent);
+  }
+
+  .table-head {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .table-row:hover,
+  .table-row:focus-within {
+    background-color: var(--color-surface-4);
+  }
+}
+
+@media (pointer: coarse) {
+  .btn,
+  .tab-btn,
+  .chip {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn,
+  .chip,
+  .tab-btn,
+  .card,
+  .table-row {
+    transition: background-color 160ms ease-out, color 160ms ease-out,
+      box-shadow 160ms ease-out, transform 160ms ease-out;
+  }
+
+  .btn-primary:hover:not(:disabled):not([aria-disabled="true"]) {
+    transform: scale(1.04);
+  }
+
+  .btn-primary:active:not(:disabled):not([aria-disabled="true"]) {
+    transform: scale(0.98);
+  }
+
+  .skeleton {
+    animation: skeleton-pulse 1.2s ease-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn-secondary:hover:not(:disabled):not([aria-disabled="true"]),
+  .btn-icon:hover:not(:disabled):not([aria-disabled="true"]) {
+    background-color: var(--color-surface-4);
+  }
+
+  .btn-secondary:active:not(:disabled):not([aria-disabled="true"]) {
+    background-color: var(--color-surface);
+  }
+
+  .btn-outlined:hover:not(:disabled):not([aria-disabled="true"]) {
+    box-shadow: inset 0 0 0 1px var(--color-text);
+  }
+
+  .btn-ghost:hover:not(:disabled):not([aria-disabled="true"]) {
+    color: var(--color-text);
+    background-color: var(--color-surface-2);
+  }
+
+  .tab-btn:hover:not([aria-selected="true"]) {
+    color: var(--color-text);
+    background-color: var(--color-surface-2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-secondary:hover:not(:disabled):not([aria-disabled="true"]),
+  .btn-icon:hover:not(:disabled):not([aria-disabled="true"]) {
+    background-color: var(--color-surface-4);
+  }
+
+  .btn-outlined:hover:not(:disabled):not([aria-disabled="true"]) {
+    box-shadow: inset 0 0 0 1px var(--color-text);
+  }
+
+  .btn-ghost:hover:not(:disabled):not([aria-disabled="true"]) {
+    color: var(--color-text);
+  }
+
+  .tab-btn:hover:not([aria-selected="true"]) {
+    color: var(--color-text);
+  }
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    background-color: var(--color-surface);
+  }
+  50% {
+    background-color: var(--color-surface-3);
+  }
+}
+
+@media (prefers-contrast: more) {
+  .type-caption,
+  .type-small,
+  .type-nav,
+  .tab-btn {
+    color: var(--color-text);
+  }
+}
+
+@media (forced-colors: active) {
+  .btn,
+  .field,
+  .field-search,
+  .card,
+  .chip {
+    border: 1px solid ButtonText;
+  }
+
+  :focus-visible {
+    outline: 2px solid Highlight;
+  }
+}
+
+@media print {
+  :root {
+    color-scheme: light;
+  }
+
+  html,
+  body {
+    background: Canvas;
+    color: CanvasText;
+  }
+}
+
+.overflow-wrap-anywhere {
+  overflow-wrap: anywhere;
+}
+
+[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+/* Third-party React Flow chrome: cannot be themed without !important. */
+.react-flow__controls {
+  background: var(--color-surface) !important; /* xyflow default stylesheet */
+  box-shadow: var(--shadow-md) !important; /* xyflow default stylesheet */
+  border: 0 !important; /* xyflow default stylesheet */
+  border-radius: var(--radius-lg) !important; /* xyflow default stylesheet */
+  overflow: hidden;
+}
+
+.react-flow__controls-button {
+  background: var(--color-surface-2) !important; /* xyflow default stylesheet */
+  border-bottom: 1px solid var(--color-border) !important; /* xyflow default stylesheet */
+  fill: var(--color-text) !important; /* xyflow default stylesheet */
+}
+
+.react-flow__minimap {
+  background: var(--color-surface) !important; /* xyflow default stylesheet */
+  border: 0 !important; /* xyflow default stylesheet */
+  border-radius: var(--radius-lg) !important; /* xyflow default stylesheet */
+  box-shadow: var(--shadow-md) !important; /* xyflow default stylesheet */
+}
+
+.react-flow__edge-text {
+  fill: var(--color-text-soft);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.react-flow__edge-textbg {
+  fill: var(--color-bg);
+  fill-opacity: 0.85;
+}
+
+.react-flow__handle {
+  background: var(--color-text-muted) !important; /* xyflow default stylesheet */
+}

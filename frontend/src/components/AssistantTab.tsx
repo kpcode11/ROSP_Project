@@ -69,27 +69,25 @@ export function AssistantTab({ repoId, onOpenCitation }: AssistantTabProps) {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-      {/* Left 7 Columns: Grounded Hybrid GraphRAG Assistant */}
-      <div className="lg:col-span-7 space-y-4">
-        <div className="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-indigo-400 font-semibold text-sm">
-              <Sparkles className="w-4 h-4" />
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 min-w-0">
+      <div className="lg:col-span-7 space-y-4 min-w-0">
+        <div className="card p-5 space-y-4">
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <div className="flex items-center gap-2 type-caption-bold text-fg">
+              <Sparkles className="w-4 h-4 text-accent" aria-hidden="true" />
               <span>Grounded Hybrid GraphRAG Codebase Assistant</span>
             </div>
-            <span className="text-[11px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-full">
-              100% Citation Verified
-            </span>
+            <span className="badge text-accent">100% Citation Verified</span>
           </div>
 
-          {/* Quick Prompt Chips */}
           <div className="flex flex-wrap gap-2">
             {SAMPLE_PROMPTS.map((prompt) => (
               <button
                 key={prompt}
+                type="button"
                 onClick={() => handleAsk(prompt)}
-                className="text-xs px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800 transition text-left"
+                className="chip text-start max-w-full overflow-hidden text-ellipsis"
+                title={prompt}
               >
                 {prompt}
               </button>
@@ -101,78 +99,74 @@ export function AssistantTab({ repoId, onOpenCitation }: AssistantTabProps) {
               e.preventDefault();
               handleAsk();
             }}
-            className="flex gap-2"
+            className="flex gap-2 min-w-0"
           >
             <input
               type="text"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
               placeholder="Ask an architectural or execution flow question..."
-              className="flex-1 px-3.5 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-sm text-slate-100 focus:outline-none focus:border-indigo-500"
+              className="field type-body flex-1 min-w-0"
             />
             <button
               type="submit"
               disabled={loadingAsk || !question.trim()}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-sm font-medium transition"
+              className="btn btn-primary shrink-0"
             >
               {loadingAsk ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
               ) : (
-                <Send className="w-4 h-4" />
+                <Send className="w-4 h-4" aria-hidden="true" />
               )}
               <span>Ask</span>
             </button>
           </form>
         </div>
 
-        {/* Grounded Answer Output */}
         {response && (
-          <div className="p-6 rounded-xl bg-slate-900/90 border border-slate-800 space-y-6">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div>
-                <h3 className="text-sm font-semibold text-white">
-                  {response.question}
-                </h3>
-                <p className="text-xs text-slate-400 mt-0.5">
-                  Synthesized via{" "}
-                  <span className="font-mono text-indigo-300">
-                    {response.model_used}
-                  </span>{" "}
-                  in {response.retrieval_latency_ms} ms
-                </p>
-              </div>
+          <div className="card p-6 space-y-6 min-w-0">
+            <div className="hairline pb-3">
+              <h3 className="type-caption-bold text-fg overflow-wrap-anywhere">
+                {response.question}
+              </h3>
+              <p className="type-small text-fg-muted mt-1">
+                Synthesized via{" "}
+                <span className="font-code text-fg-soft">
+                  {response.model_used}
+                </span>{" "}
+                in {response.retrieval_latency_ms} ms
+              </p>
             </div>
 
-            <div className="prose prose-invert max-w-none text-sm text-slate-200 whitespace-pre-line leading-relaxed">
+            <div className="prose text-fg-soft whitespace-pre-line">
               {response.answer_markdown}
             </div>
 
-            {/* Step-by-Step Execution Flow Trace */}
             {response.execution_steps.length > 0 && (
               <div className="space-y-3">
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-indigo-400">
+                <h4 className="type-small-bold uppercase tracking-wide text-fg-muted">
                   Traced Execution Flow ({response.execution_steps.length} Steps)
                 </h4>
                 <div className="space-y-2">
                   {response.execution_steps.map((step) => (
                     <div
                       key={step.step}
-                      className="p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-start gap-3"
+                      className="p-3 rounded-md bg-bg flex items-start gap-3 min-w-0"
                     >
-                      <span className="w-6 h-6 rounded-full bg-indigo-600/20 border border-indigo-500/40 text-indigo-300 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                      <span className="w-6 h-6 rounded-circle bg-surface-2 text-fg type-small-bold flex items-center justify-center shrink-0 mt-1">
                         {step.step}
                       </span>
-                      <div className="space-y-1 text-xs">
-                        <div className="flex items-center gap-2">
-                          <span className="font-mono font-bold text-white">
+                      <div className="space-y-1 type-small min-w-0">
+                        <div className="flex items-center gap-2 min-w-0 flex-wrap">
+                          <span className="font-code font-bold text-fg break-all">
                             {step.component}
                           </span>
-                          <ArrowRight className="w-3 h-3 text-slate-500" />
-                          <span className="font-mono text-slate-400">
+                          <ArrowRight className="w-3 h-3 text-fg-muted rtl-flip" aria-hidden="true" />
+                          <span className="font-code text-fg-muted break-all">
                             {step.file_path}
                           </span>
                         </div>
-                        <p className="text-slate-300">{step.description}</p>
+                        <p className="text-fg-soft">{step.description}</p>
                       </div>
                     </div>
                   ))}
@@ -180,18 +174,18 @@ export function AssistantTab({ repoId, onOpenCitation }: AssistantTabProps) {
               </div>
             )}
 
-            {/* Verified Source Citations */}
             <div className="space-y-3">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-400">
-                <BookOpenCheck className="w-4 h-4" />
+              <div className="flex items-center gap-2 type-small-bold uppercase tracking-wide text-fg">
+                <BookOpenCheck className="w-4 h-4 text-accent" aria-hidden="true" />
                 <span>
                   Verified AST Source Citations ({response.citations.length})
                 </span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {response.citations.map((cit, idx) => (
                   <button
                     key={`${cit.file_path}-${cit.line_start}-${idx}`}
+                    type="button"
                     onClick={() =>
                       onOpenCitation(
                         cit.file_path,
@@ -199,21 +193,21 @@ export function AssistantTab({ repoId, onOpenCitation }: AssistantTabProps) {
                         cit.line_end
                       )
                     }
-                    className="p-3 rounded-lg bg-slate-950 hover:bg-slate-800/80 border border-slate-800 hover:border-indigo-500/40 text-left transition group space-y-1"
+                    className="p-3 rounded-md bg-bg hover:bg-surface-4 text-start space-y-1 min-w-0"
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-mono font-semibold text-indigo-300 group-hover:underline truncate">
+                      <span className="type-small-bold font-code text-fg truncate">
                         {cit.symbol}
                       </span>
-                      <span className="inline-flex items-center gap-1 text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-300">
-                        <CheckCircle2 className="w-3 h-3" />L{cit.line_start}–L
-                        {cit.line_end}
+                      <span className="badge shrink-0">
+                        <CheckCircle2 className="w-3 h-3 text-accent" aria-hidden="true" />
+                        L{cit.line_start}–L{cit.line_end}
                       </span>
                     </div>
-                    <div className="text-[11px] font-mono text-slate-400 truncate">
+                    <div className="type-micro font-code text-fg-muted truncate">
                       {cit.file_path}
                     </div>
-                    <div className="text-[11px] font-mono text-slate-500 truncate">
+                    <div className="type-micro font-code text-fg-muted truncate">
                       {cit.snippet}
                     </div>
                   </button>
@@ -224,44 +218,48 @@ export function AssistantTab({ repoId, onOpenCitation }: AssistantTabProps) {
         )}
       </div>
 
-      {/* Right 5 Columns: Semantic Vector Code Search */}
-      <div className="lg:col-span-5 space-y-4">
-        <div className="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+      <div className="lg:col-span-5 space-y-4 min-w-0">
+        <div className="card p-5 space-y-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-emerald-400 font-semibold text-sm">
-              <Search className="w-4 h-4" />
+            <div className="flex items-center gap-2 type-caption-bold text-fg">
+              <Search className="w-4 h-4 text-fg-muted" aria-hidden="true" />
               <span>Semantic Code Search (Qdrant 1024-dim)</span>
             </div>
           </div>
-          <p className="text-xs text-slate-400">
+          <p className="type-small text-fg-muted">
             Search by natural-language intent (e.g.,{" "}
-            <code className="text-slate-200">
+            <code className="text-fg">
               verify whether a user is allowed to access protected routes
             </code>
             ) without needing exact identifier names.
           </p>
 
-          <form onSubmit={handleSemanticSearch} className="flex gap-2">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search code by behavior or intent..."
-              className="flex-1 px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-xs text-slate-100 focus:outline-none focus:border-emerald-500"
-            />
+          <form onSubmit={handleSemanticSearch} className="flex gap-2 min-w-0">
+            <div className="relative flex-1 min-w-0">
+              <Search className="w-4 h-4 text-fg-muted absolute start-4 top-1/2 -translate-y-1/2" aria-hidden="true" />
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search code by behavior or intent..."
+                className="field-search type-body"
+                aria-label="Search code by behavior or intent"
+              />
+            </div>
             <button
               type="submit"
               disabled={searching}
-              className="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium transition"
+              className="btn btn-primary shrink-0"
             >
               {searching ? "Searching..." : "Search"}
             </button>
           </form>
 
-          <div className="space-y-2.5 pt-2">
+          <div className="space-y-3 pt-2">
             {searchResults.map((item) => (
-              <div
+              <button
                 key={item.chunk_id}
+                type="button"
                 onClick={() =>
                   onOpenCitation(
                     item.file_path,
@@ -269,28 +267,28 @@ export function AssistantTab({ repoId, onOpenCitation }: AssistantTabProps) {
                     item.line_end
                   )
                 }
-                className="cursor-pointer p-3 rounded-lg bg-slate-950 hover:bg-slate-800/70 border border-slate-800 transition space-y-1.5"
+                className="w-full p-3 rounded-md bg-bg hover:bg-surface-4 text-start space-y-2 min-w-0"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 truncate">
-                    <FileCode className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                    <span className="text-xs font-mono font-bold text-white truncate">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 truncate min-w-0">
+                    <FileCode className="w-3.5 h-3.5 text-fg-muted shrink-0" aria-hidden="true" />
+                    <span className="type-small-bold font-code text-fg truncate">
                       {item.name}
                     </span>
                   </div>
-                  <span className="text-[11px] font-mono text-emerald-400">
+                  <span className="type-micro font-code text-fg-muted shrink-0">
                     score: {item.score.toFixed(3)}
                   </span>
                 </div>
-                <div className="text-[11px] font-mono text-slate-400">
+                <div className="type-micro font-code text-fg-muted">
                   {item.file_path}:L{item.line_start}–L{item.line_end}
                 </div>
                 {item.docstring && (
-                  <p className="text-xs text-slate-300 line-clamp-2">
+                  <p className="type-small text-fg-soft line-clamp-2">
                     {item.docstring}
                   </p>
                 )}
-              </div>
+              </button>
             ))}
           </div>
         </div>
@@ -298,4 +296,3 @@ export function AssistantTab({ repoId, onOpenCitation }: AssistantTabProps) {
     </div>
   );
 }
-

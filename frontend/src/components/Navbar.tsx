@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useId, useRef, useState } from "react";
 import {
   Cpu,
   FolderGit2,
@@ -33,6 +33,46 @@ export function Navbar({
   const [nameInput, setNameInput] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
+  const errorId = useId();
+
+  useEffect(() => {
+    if (!modalOpen) return;
+    openerRef.current = document.activeElement as HTMLElement | null;
+    const dialog = dialogRef.current;
+    const focusables = () =>
+      dialog?.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      ) ?? [];
+    const first = focusables()[0];
+    first?.focus();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setModalOpen(false);
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const items = Array.from(focusables());
+      if (items.length === 0) return;
+      const firstEl = items[0];
+      const lastEl = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === firstEl) {
+        e.preventDefault();
+        lastEl.focus();
+      } else if (!e.shiftKey && document.activeElement === lastEl) {
+        e.preventDefault();
+        firstEl.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      openerRef.current?.focus();
+    };
+  }, [modalOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,56 +106,55 @@ export function Navbar({
 
   return (
     <>
-      <header className="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-30">
-        <div className="max-w-[1600px] mx-auto px-6 h-16 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400">
+      <header className="sticky top-0 z-30 bg-bg hairline pt-[env(safe-area-inset-top)]">
+        <div className="max-w-[1600px] mx-auto px-4 xs:px-6 h-16 flex items-center justify-between gap-4 min-w-0">
+          <div className="flex items-center gap-3 min-w-0">
+            <div
+              className="w-9 h-9 rounded-circle bg-surface-2 flex items-center justify-center text-accent shrink-0"
+              aria-hidden="true"
+            >
               <Sparkles className="w-5 h-5" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-lg tracking-tight text-white">
-                  CodeIntel
-                </span>
-                <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
-                  GraphRAG + AST
-                </span>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="type-feature text-fg truncate">CodeIntel</span>
+                <span className="badge shrink-0">GraphRAG + AST</span>
               </div>
-              <p className="text-xs text-slate-400 hidden sm:block">
+              <p className="type-small text-fg-muted hidden sm:block overflow-wrap-anywhere">
                 Local-First Codebase Intelligence & Blast-Radius Analyzer
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            {/* Ollama Model Status Badge */}
-            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs">
-              <Cpu className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="text-slate-400">Models:</span>
-              <span className="text-slate-200 font-mono">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-pill bg-surface-2 type-small text-fg-muted min-w-0">
+              <Cpu className="w-3.5 h-3.5 text-accent shrink-0" aria-hidden="true" />
+              <span>Models:</span>
+              <span className="text-fg font-code truncate">
                 {health?.llm_model || "qwen2.5:7b-instruct"}
               </span>
-              <span className="text-slate-600">|</span>
-              <span className="text-indigo-300 font-mono">
+              <span className="text-fg-muted" aria-hidden="true">
+                |
+              </span>
+              <span className="text-fg-soft font-code truncate">
                 {health?.embedding_model || "mxbai-embed-large"}
               </span>
             </div>
 
-            {/* Active Repository Selector */}
-            <div className="flex items-center gap-2 bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5">
-              <FolderGit2 className="w-4 h-4 text-indigo-400" />
+            <div className="flex items-center gap-2 bg-surface-2 rounded-pill px-4 py-2 min-w-0">
+              <FolderGit2 className="w-4 h-4 text-fg-muted shrink-0" aria-hidden="true" />
               <select
                 aria-label="Select active repository"
                 value={activeRepoId}
                 onChange={(e) => onSelectRepo(e.target.value)}
                 disabled={isLoading}
-                className="bg-transparent text-sm text-slate-100 focus:outline-none pr-2"
+                className="bg-transparent type-caption text-fg focus:outline-none min-w-0 max-w-[180px] md:max-w-none"
               >
                 {repositories.map((repo) => (
                   <option
                     key={repo.id}
                     value={repo.id}
-                    className="bg-slate-900 text-slate-100"
+                    className="bg-surface text-fg"
                   >
                     {repo.name} ({repo.stats.files_parsed} files)
                   </option>
@@ -123,12 +162,12 @@ export function Navbar({
               </select>
             </div>
 
-            {/* Analyze New Repository Button */}
             <button
+              type="button"
               onClick={() => setModalOpen(true)}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition"
+              className="btn btn-primary"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-4 h-4" aria-hidden="true" />
               <span>Analyze Repo</span>
             </button>
           </div>
@@ -136,15 +175,23 @@ export function Navbar({
       </header>
 
       {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-xl max-w-lg w-full p-6 shadow-2xl">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-white">
+        <div className="fixed inset-0 z-50 scrim flex items-center justify-center p-4">
+          <div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="analyze-repo-title"
+            className="card-elevated max-w-lg w-full p-6"
+          >
+            <div className="flex items-center justify-between mb-4 gap-3">
+              <h2 id="analyze-repo-title" className="type-feature text-fg">
                 Analyze Repository
               </h2>
               <button
+                type="button"
                 onClick={() => setModalOpen(false)}
-                className="text-slate-400 hover:text-white"
+                className="btn btn-icon"
+                aria-label="Close"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -152,7 +199,7 @@ export function Navbar({
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
+                <label className="block type-small-bold text-fg-soft mb-1">
                   Repository Path or GitHub HTTPS URL
                 </label>
                 <input
@@ -160,12 +207,14 @@ export function Navbar({
                   placeholder="./data/sample_ecommerce or https://github.com/org/repo"
                   value={sourceInput}
                   onChange={(e) => setSourceInput(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-sm text-slate-100 focus:outline-none focus:border-indigo-500"
+                  className={`field type-body ${errorMsg ? "field-invalid" : ""}`}
+                  aria-invalid={Boolean(errorMsg)}
+                  aria-describedby={errorMsg ? errorId : undefined}
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
+                <label className="block type-small-bold text-fg-soft mb-1">
                   Display Name (optional)
                 </label>
                 <input
@@ -173,22 +222,27 @@ export function Navbar({
                   placeholder="my-service"
                   value={nameInput}
                   onChange={(e) => setNameInput(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-sm text-slate-100 focus:outline-none focus:border-indigo-500"
+                  className="field type-body"
                 />
               </div>
 
               {errorMsg && (
-                <div className="p-3 rounded-lg bg-rose-950/60 border border-rose-800 text-xs text-rose-200">
-                  {errorMsg}
+                <div
+                  id={errorId}
+                  className="alert type-small text-negative flex items-start gap-2"
+                  role="alert"
+                >
+                  <span aria-hidden="true">!</span>
+                  <span>{errorMsg}</span>
                 </div>
               )}
 
-              <div className="flex items-center justify-between pt-2">
+              <div className="flex items-center justify-between pt-2 gap-2 flex-wrap">
                 <button
                   type="button"
                   onClick={handleLoadSample}
                   disabled={submitting}
-                  className="text-xs px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-indigo-300 border border-slate-700 transition"
+                  className="btn btn-outlined"
                 >
                   Load Sample E-Commerce Repo
                 </button>
@@ -197,17 +251,17 @@ export function Navbar({
                   <button
                     type="button"
                     onClick={() => setModalOpen(false)}
-                    className="px-4 py-2 rounded-lg text-sm text-slate-400 hover:text-white"
+                    className="btn btn-ghost"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={submitting || !sourceInput.trim()}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-sm font-medium"
+                    className="btn btn-primary"
                   >
                     {submitting && (
-                      <RefreshCw className="w-4 h-4 animate-spin" />
+                      <RefreshCw className="w-4 h-4 animate-spin" aria-hidden="true" />
                     )}
                     <span>Run AST + Graph Indexing</span>
                   </button>
@@ -220,4 +274,3 @@ export function Navbar({
     </>
   );
 }
-

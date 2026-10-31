@@ -23,80 +23,37 @@ import { api } from "@/lib/api";
 import { layoutReactFlowGraph } from "@/lib/layout-graph";
 import { ReactFlowGraphResponse, ReactFlowNodeData } from "@/types";
 
-const TYPE_STYLES: Record<
-  string,
-  { badge: string; border: string; bg: string }
-> = {
-  file: {
-    badge: "bg-blue-500/20 text-blue-300 border-blue-500/40",
-    border: "border-blue-500/50",
-    bg: "bg-slate-900/95",
-  },
-  api_endpoint: {
-    badge: "bg-emerald-500/20 text-emerald-300 border-emerald-500/40",
-    border: "border-emerald-500/60",
-    bg: "bg-slate-900/95",
-  },
-  function: {
-    badge: "bg-purple-500/20 text-purple-300 border-purple-500/40",
-    border: "border-purple-500/50",
-    bg: "bg-slate-900/95",
-  },
-  method: {
-    badge: "bg-purple-500/20 text-purple-300 border-purple-500/40",
-    border: "border-purple-500/50",
-    bg: "bg-slate-900/95",
-  },
-  class: {
-    badge: "bg-amber-500/20 text-amber-300 border-amber-500/40",
-    border: "border-amber-500/50",
-    bg: "bg-slate-900/95",
-  },
-  model: {
-    badge: "bg-rose-500/20 text-rose-300 border-rose-500/40",
-    border: "border-rose-500/60",
-    bg: "bg-slate-900/95",
-  },
+const TYPE_STYLES: Record<string, string> = {
+  file: "text-fg-muted",
+  api_endpoint: "text-accent",
+  function: "text-info",
+  method: "text-info",
+  class: "text-warning",
+  model: "text-negative",
 };
 
 export function CodeEntityNode({ data }: NodeProps<Node<ReactFlowNodeData>>) {
-  const style = TYPE_STYLES[data.type] || TYPE_STYLES.file;
+  const accent = TYPE_STYLES[data.type] || TYPE_STYLES.file;
   return (
     <div
-      className={`w-[230px] rounded-xl border ${style.border} ${
-        style.bg
-      } p-3 shadow-xl transition ${
-        data.is_target ? "ring-2 ring-rose-500" : ""
+      className={`w-[230px] rounded-lg bg-surface p-3 shadow-md min-w-0 ${
+        data.is_target ? "ring-2 ring-negative" : ""
       }`}
     >
-      <Handle
-        type="target"
-        position={Position.Left}
-        className="!bg-slate-400 !w-2 !h-2"
-      />
+      <Handle type="target" position={Position.Left} />
       <div className="flex items-center justify-between gap-2 mb-1">
-        <span
-          className={`text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded border ${style.badge}`}
-        >
-          {data.type}
-        </span>
+        <span className={`badge ${accent}`}>{data.type}</span>
         {data.metrics?.pagerank !== undefined && (
-          <span className="text-[10px] font-mono text-slate-400">
+          <span className="type-micro font-code text-fg-muted">
             PR {Number(data.metrics.pagerank).toFixed(3)}
           </span>
         )}
       </div>
-      <div className="text-xs font-mono font-bold text-white truncate">
-        {data.label}
-      </div>
-      <div className="text-[10px] font-mono text-slate-400 truncate mt-0.5">
+      <div className="type-small-bold font-code text-fg truncate">{data.label}</div>
+      <div className="type-micro font-code text-fg-muted truncate mt-1">
         {data.file_path}
       </div>
-      <Handle
-        type="source"
-        position={Position.Right}
-        className="!bg-slate-400 !w-2 !h-2"
-      />
+      <Handle type="source" position={Position.Right} />
     </div>
   );
 }
@@ -175,14 +132,12 @@ export function KnowledgeGraphTab({
   }, [selectedNode, graphResp]);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-[calc(100vh-145px)] min-h-[620px]">
-      {/* Main Interactive Graph Canvas */}
-      <div className="lg:col-span-9 bg-slate-900/90 border border-slate-800 rounded-xl flex flex-col overflow-hidden">
-        {/* Top Filter Controls Bar */}
-        <div className="p-3 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3 bg-slate-950/60">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-[calc(100dvh-145px)] min-h-[620px] min-w-0">
+      <div className="lg:col-span-9 panel flex flex-col overflow-hidden min-w-0">
+        <div className="p-3 hairline flex flex-wrap items-center justify-between gap-3 bg-bg">
           <div className="flex flex-wrap items-center gap-2">
-            <div className="flex items-center gap-1.5 text-xs text-slate-400">
-              <Filter className="w-3.5 h-3.5 text-indigo-400" />
+            <div className="flex items-center gap-2 type-small text-fg-muted">
+              <Filter className="w-3.5 h-3.5" aria-hidden="true" />
               <span>Entity Type:</span>
             </div>
             {(
@@ -194,55 +149,60 @@ export function KnowledgeGraphTab({
                 "method",
                 "model",
               ] as const
-            ).map((t) => (
-              <button
-                key={t}
-                onClick={() => {
-                  setFocusNodeId("");
-                  setNodeTypeFilter(t);
-                }}
-                className={`px-2.5 py-1 rounded-md text-xs font-medium transition ${
-                  nodeTypeFilter === t && !focusNodeId
-                    ? "bg-indigo-600 text-white"
-                    : "bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800"
-                }`}
-              >
-                {t === "all" ? "All Nodes" : t}
-              </button>
-            ))}
+            ).map((t) => {
+              const selected = nodeTypeFilter === t && !focusNodeId;
+              return (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => {
+                    setFocusNodeId("");
+                    setNodeTypeFilter(t);
+                  }}
+                  aria-pressed={selected}
+                  className={`chip ${selected ? "chip-selected" : ""}`}
+                >
+                  {t === "all" ? "All Nodes" : t}
+                </button>
+              );
+            })}
           </div>
 
-          <div className="flex items-center gap-2">
-            <input
-              type="text"
-              placeholder="Search node label..."
-              value={searchFilter}
-              onChange={(e) => setSearchFilter(e.target.value)}
-              className="px-3 py-1 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-100 focus:outline-none focus:border-indigo-500"
-            />
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="relative min-w-0 w-[220px] max-w-full">
+              <Filter className="w-3.5 h-3.5 text-fg-muted absolute start-4 top-1/2 -translate-y-1/2" aria-hidden="true" />
+              <input
+                type="text"
+                placeholder="Search node label..."
+                value={searchFilter}
+                onChange={(e) => setSearchFilter(e.target.value)}
+                className="field-search type-body"
+                aria-label="Search node label"
+              />
+            </div>
             <select
               aria-label="Graph layout direction"
               value={direction}
               onChange={(e) => setDirection(e.target.value as "LR" | "TB")}
-              className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-200"
+              className="field py-2 type-caption w-auto"
             >
               <option value="LR">Left → Right (LR)</option>
               <option value="TB">Top → Bottom (TB)</option>
             </select>
             {focusNodeId && (
               <button
+                type="button"
                 onClick={() => setFocusNodeId("")}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-amber-300"
+                className="btn btn-outlined"
               >
-                <RotateCcw className="w-3 h-3" />
+                <RotateCcw className="w-3 h-3" aria-hidden="true" />
                 <span>Reset Focus</span>
               </button>
             )}
           </div>
         </div>
 
-        {/* React Flow Canvas */}
-        <div className="flex-1 relative bg-slate-950">
+        <div className="flex-1 relative bg-bg">
           <ReactFlow
             nodes={nodes}
             edges={edges as Edge[]}
@@ -254,87 +214,81 @@ export function KnowledgeGraphTab({
             minZoom={0.2}
             maxZoom={1.6}
           >
-            <Background color="#1e293b" gap={20} />
-            <Controls className="!bg-slate-900 !border-slate-800 !text-slate-200" />
+            <Background color="var(--color-border)" gap={20} />
+            <Controls />
             <MiniMap
-              nodeColor="#6366f1"
-              maskColor="rgba(2, 6, 23, 0.75)"
-              className="!bg-slate-900 !border-slate-800"
+              nodeColor="var(--color-accent)"
+              maskColor="var(--color-scrim)"
             />
           </ReactFlow>
         </div>
       </div>
 
-      {/* Right Side Inspector Panel */}
-      <div className="lg:col-span-3 bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex flex-col overflow-y-auto space-y-4">
-        <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 border-b border-slate-800 pb-2">
+      <div className="lg:col-span-3 panel p-4 flex flex-col overflow-y-auto space-y-4 min-w-0">
+        <div className="type-small-bold uppercase tracking-wide text-fg-muted hairline pb-2">
           Node Inspector
         </div>
 
         {!selectedNode ? (
-          <div className="text-xs text-slate-400 space-y-3 py-6">
+          <div className="type-small text-fg-muted space-y-3 py-6">
             <p>
               Click any node in the Knowledge Graph canvas to inspect its AST
               signature, centrality metrics, incoming callers, and outgoing
               callees.
             </p>
-            <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1.5">
-              <div className="font-semibold text-slate-200">Color Legend</div>
+            <div className="p-3 rounded-md bg-bg space-y-2">
+              <div className="type-small-bold text-fg">Color Legend</div>
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+                <span className="w-2.5 h-2.5 rounded-circle bg-accent" />
                 <span>API Endpoint (ROUTES_TO)</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-purple-400" />
+                <span className="w-2.5 h-2.5 rounded-circle bg-info" />
                 <span>Function / Method (CALLS)</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-rose-400" />
+                <span className="w-2.5 h-2.5 rounded-circle bg-negative" />
                 <span>Database Model (QUERIES)</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-blue-400" />
+                <span className="w-2.5 h-2.5 rounded-circle bg-fg-muted" />
                 <span>Source File (IMPORTS)</span>
               </div>
             </div>
           </div>
         ) : (
-          <div className="space-y-4 text-xs">
+          <div className="space-y-4 type-small min-w-0">
             <div>
-              <span className="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-medium">
-                {selectedNode.type}
-              </span>
-              <h4 className="text-base font-bold font-mono text-white mt-2 break-all">
+              <span className="badge">{selectedNode.type}</span>
+              <h4 className="type-feature font-code text-fg mt-2 break-all">
                 {selectedNode.label}
               </h4>
-              <p className="font-mono text-slate-400 mt-0.5 break-all">
+              <p className="font-code text-fg-muted mt-1 break-all">
                 {selectedNode.file_path}:L{selectedNode.line_start}–L
                 {selectedNode.line_end}
               </p>
             </div>
 
             {selectedNode.signature && (
-              <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800 font-mono text-[11px] text-slate-200 overflow-x-auto">
+              <div className="p-3 rounded-md bg-bg font-code type-micro text-fg-soft overflow-x-auto">
                 {selectedNode.signature}
               </div>
             )}
 
             {selectedNode.docstring && (
-              <p className="text-slate-300 leading-relaxed">
-                {selectedNode.docstring}
-              </p>
+              <p className="prose text-fg-soft">{selectedNode.docstring}</p>
             )}
 
             <div className="grid grid-cols-2 gap-2">
-              <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
-                <div className="text-slate-400 text-[10px]">PageRank</div>
-                <div className="text-sm font-mono font-semibold text-indigo-300">
+              <div className="p-3 rounded-md bg-bg">
+                <div className="text-fg-muted type-micro">PageRank</div>
+                <div className="type-caption-bold font-code text-fg">
                   {Number(selectedNode.metrics?.pagerank || 0).toFixed(4)}
                 </div>
               </div>
-              <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
-                <div className="text-slate-400 text-[10px]">In / Out Edges</div>
-                <div className="text-sm font-mono font-semibold text-emerald-300">
+              <div className="p-3 rounded-md bg-bg">
+                <div className="text-fg-muted type-micro">In / Out Edges</div>
+                <div className="type-caption-bold font-code text-fg">
                   {selectedNode.metrics?.in_degree ?? incomingEdges.length} /{" "}
                   {selectedNode.metrics?.out_degree ?? outgoingEdges.length}
                 </div>
@@ -343,60 +297,64 @@ export function KnowledgeGraphTab({
 
             <div className="space-y-2 pt-1">
               <button
+                type="button"
                 onClick={() => {
                   setFocusNodeId(selectedNode.id);
                   setHops(2);
                 }}
-                className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/40 font-medium transition"
+                className="btn btn-primary w-full"
               >
-                <Focus className="w-3.5 h-3.5" />
+                <Focus className="w-3.5 h-3.5" aria-hidden="true" />
                 <span>Focus 2-Hop Neighborhood</span>
               </button>
 
               <button
+                type="button"
                 onClick={() =>
                   onInspectFile(selectedNode.file_path, selectedNode.line_start)
                 }
-                className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition"
+                className="btn btn-secondary w-full"
               >
-                <Code2 className="w-3.5 h-3.5" />
+                <Code2 className="w-3.5 h-3.5" aria-hidden="true" />
                 <span>Open in Code Explorer</span>
               </button>
 
               <button
+                type="button"
                 onClick={() => onRunImpact(selectedNode.id)}
-                className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-medium transition"
+                className="btn btn-outlined w-full"
               >
-                <ShieldAlert className="w-3.5 h-3.5" />
+                <ShieldAlert className="w-3.5 h-3.5" aria-hidden="true" />
                 <span>Run Impact Analysis on This Node</span>
               </button>
             </div>
 
-            <div className="border-t border-slate-800 pt-3 space-y-2">
-              <div className="font-semibold text-slate-300">
+            <div className="pt-3 space-y-2">
+              <div className="divider" />
+              <div className="type-small-bold text-fg">
                 Incoming Dependents ({incomingEdges.length})
               </div>
               {incomingEdges.map((e) => (
                 <div
                   key={e.id}
-                  className="p-2 rounded bg-slate-950 border border-slate-800 font-mono text-[11px] text-slate-300 truncate"
+                  className="p-2 rounded-sm bg-bg font-code type-micro text-fg-soft truncate"
                 >
-                  {e.source} <span className="text-indigo-400">[{e.label}]</span>
+                  {e.source} <span className="text-info">[{e.label}]</span>
                 </div>
               ))}
             </div>
 
-            <div className="border-t border-slate-800 pt-3 space-y-2">
-              <div className="font-semibold text-slate-300">
+            <div className="pt-3 space-y-2">
+              <div className="divider" />
+              <div className="type-small-bold text-fg">
                 Outgoing Dependencies ({outgoingEdges.length})
               </div>
               {outgoingEdges.map((e) => (
                 <div
                   key={e.id}
-                  className="p-2 rounded bg-slate-950 border border-slate-800 font-mono text-[11px] text-slate-300 truncate"
+                  className="p-2 rounded-sm bg-bg font-code type-micro text-fg-soft truncate"
                 >
-                  <span className="text-purple-400">[{e.label}]</span> →{" "}
-                  {e.target}
+                  <span className="text-fg-muted">[{e.label}]</span> → {e.target}
                 </div>
               ))}
             </div>
@@ -406,4 +364,3 @@ export function KnowledgeGraphTab({
     </div>
   );
 }
-
