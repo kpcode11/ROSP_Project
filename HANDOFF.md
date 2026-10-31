@@ -1,22 +1,22 @@
 # Handoff
 
-**Updated:** 2026-10-31  |  **By:** Antigravity  |  **Branch:** main  |  **Last commit:** 816a0fa
+**Updated:** 2026-10-31  |  **By:** Antigravity  |  **Branch:** main  |  **Last commit:** 47646d1
 
 ## Current task
-- ID: P0-04 - Backend pyproject.toml and venv installation
+- ID: P2-01 - Cross-file symbol table and import/call resolver
 - State: IN_PROGRESS
 
 ## Done in this task so far
-- Implemented `scripts/status.py` and `scripts/tasks.py`.
+- Completed Phase 0 and Phase 1 (`test_ingestion.py` and `test_parser.py` passing 100%).
 
 ## Exact next step
-- Create `backend/pyproject.toml`, create virtual environment `backend/.venv`, install dependencies, and verify imports.
+- Implement `backend/app/services/graph/resolver.py`, `builder.py`, `queries.py`, `impact/analyzer.py`, and `cli.py`.
 
 ## Files touched
-- `scripts/status.py`, `scripts/tasks.py`
+- `backend/tests/test_parser.py`
 
 ## Commands to run first
     python scripts/status.py
 
 ## Known problems / gotchas
-- Use `mxbai-embed-large:latest` (1024 dims) and `qwen2.5:7b-instruct` in Ollama. Do not require Docker.
+- Ensure `POST /login` -> `loginUser` -> `authenticate` -> `User` chain resolves in `sample_ecommerce`.

@@ -1,6 +1,6 @@
 # Progress
 
-**Current phase:** 1  |  **Branch:** main  |  **Last updated:** 2026-10-31  |  **Last agent/tool:** Antigravity
+**Current phase:** 2  |  **Branch:** main  |  **Last updated:** 2026-10-31  |  **Last agent/tool:** Antigravity
 
 ## Task table
 | ID | Phase | Task (short) | Status | Commit | Notes |
@@ -14,9 +14,9 @@
 | P1-01 | 1 | Config settings and Pydantic schemas | DONE | 5b0bd49 | Implemented Settings, repository and graph schemas |
 | P1-02 | 1 | Repository ingestion manager and language detector | DONE | fbe61ff | Implemented RepositoryManager and language detector |
 | P1-03 | 1 | Tree-sitter multi-language AST extractor | DONE | 63a63a3 | Implemented Tree-sitter Python/JS/TS/Java AST extractors |
-| P1-04 | 1 | AST-boundary semantic code chunker | DONE | | Implemented CodeChunk generator with context headers |
-| P1-05 | 1 | Phase 1 unit tests for ingestion and AST parsing | IN_PROGRESS | | |
-| P2-01 | 2 | Cross-file symbol table and import/call resolver | TODO | | |
+| P1-04 | 1 | AST-boundary semantic code chunker | DONE | 47646d1 | Implemented CodeChunk generator with context headers |
+| P1-05 | 1 | Phase 1 unit tests for ingestion and AST parsing | DONE | | Unit tests passing for Python, JS, TS, Java, and sample_ecommerce |
+| P2-01 | 2 | Cross-file symbol table and import/call resolver | IN_PROGRESS | | |
 | P2-02 | 2 | NetworkX knowledge graph builder and query helpers | TODO | | |
 | P2-03 | 2 | Deterministic Blast-Radius impact analyzer | TODO | | |
 | P2-04 | 2 | CLI analyzer tool (`python -m app.cli analyze`) | TODO | | |
