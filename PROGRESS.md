@@ -41,3 +41,4 @@
 | UI-01 | UI | Redesign frontend workspace using DESIGN.md | DONE | | Reworked shell, navigation, surfaces, overview, and data-heavy view styling; backend tests and frontend build pass |
 | UI-02 | UI | Add persistent light and dark theme switching | DONE | | Added persisted accessible toggle and theme-aware surfaces across the workspace |
 | UI-03 | UI | Redesign Overview page and navbar (tokens, contrast, responsive table) | DONE | | Theme-aware tokens, readable emerald CTA, coloured KPI/actions, responsive PageRank table; build passes |
+| UI-04 | UI | Redesign Code Explorer, Knowledge Graph, AI Assistant, Impact Analysis | DONE | | Migrated all workspace tabs and graph nodes/edges to semantic token & tone system |

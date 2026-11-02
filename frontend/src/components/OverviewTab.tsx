@@ -13,6 +13,7 @@ import {
   Trophy,
 } from "lucide-react";
 import { NodeType, RepositoryDetail } from "@/types";
+import { Tone, languageColor, nodeTypeMeta } from "@/lib/node-types";
 
 interface OverviewTabProps {
   detail: RepositoryDetail;
@@ -20,29 +21,6 @@ interface OverviewTabProps {
   onInspectGraphNode: (nodeId: string) => void;
   onRunImpact: (nodeId: string) => void;
 }
-
-type Tone = "emerald" | "violet" | "sky" | "amber" | "tomato";
-
-const NODE_TYPE_META: Record<NodeType, { label: string; tone: Tone }> = {
-  file: { label: "File", tone: "sky" },
-  class: { label: "Class", tone: "amber" },
-  function: { label: "Function", tone: "violet" },
-  method: { label: "Method", tone: "violet" },
-  api_endpoint: { label: "API endpoint", tone: "emerald" },
-  model: { label: "Model", tone: "tomato" },
-};
-
-// Chart accents (DESIGN.md allows accent colours inside data visualisation).
-const LANGUAGE_COLORS: Record<string, string> = {
-  typescript: "#3b8ee8",
-  javascript: "#f2b134",
-  python: "#3ecf8e",
-  java: "#ef6a3c",
-  go: "#22b8cf",
-  rust: "#c4693d",
-  csharp: "#7c65e0",
-};
-const FALLBACK_LANGUAGE_COLORS = ["#7c65e0", "#e0569b", "#22b8cf", "#9a9a9a"];
 
 const fmt = (n: number) => n.toLocaleString("en-US");
 
@@ -57,9 +35,6 @@ export function OverviewTab({
   const languageEntries = Object.entries(languages).sort((a, b) => b[1] - a[1]);
   const totalLangFiles =
     languageEntries.reduce((acc, [, v]) => acc + v, 0) || 1;
-  const languageColor = (lang: string, idx: number) =>
-    LANGUAGE_COLORS[lang.toLowerCase()] ??
-    FALLBACK_LANGUAGE_COLORS[idx % FALLBACK_LANGUAGE_COLORS.length];
 
   const maxPagerank = Math.max(...central_modules.map((m) => m.pagerank), 0) || 1;
   const maxInDegree = Math.max(...central_modules.map((m) => m.in_degree), 0) || 1;
@@ -117,7 +92,7 @@ export function OverviewTab({
     idx === 0 ? "rank rank-1" : idx < 3 ? "rank rank-top" : "rank";
 
   const TypePill = ({ type }: { type: NodeType }) => {
-    const meta = NODE_TYPE_META[type] ?? { label: type, tone: "sky" as Tone };
+    const meta = nodeTypeMeta(type);
     return (
       <span className={`pill-soft tone-${meta.tone}`}>
         <span className="tone-dot !w-1.5 !h-1.5" />

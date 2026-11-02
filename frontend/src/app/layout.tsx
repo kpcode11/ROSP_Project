@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-white text-neutral-900 antialiased min-h-screen flex flex-col">
+      <body className="bg-canvas text-ink antialiased min-h-screen flex flex-col">
         {children}
       </body>
     </html>

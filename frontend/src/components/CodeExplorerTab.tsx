@@ -2,13 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import {
-  Code,
+  ArrowRight,
   FileCode2,
-  GitCommit,
+  GitFork,
+  Loader2,
   Search,
   ShieldAlert,
 } from "lucide-react";
 import { api } from "@/lib/api";
+import { languageColor, nodeTypeMeta, splitPath } from "@/lib/node-types";
 import { FileContentResponse, FileRecord } from "@/types";
 
 interface CodeExplorerTabProps {
@@ -73,195 +75,265 @@ export function CodeExplorerTab({
     };
   }, [repoId, effectivePath]);
 
+  // Scroll the first highlighted line into view when a range is set.
+  useEffect(() => {
+    if (!activeRange || loading) return;
+    const el = document.getElementById(`code-line-${activeRange.start}`);
+    el?.scrollIntoView({ block: "center", behavior: "smooth" });
+  }, [activeRange, loading, fileData]);
+
   const filteredFiles = files.filter((f) =>
     f.path.toLowerCase().includes(fileFilter.toLowerCase())
   );
 
   const codeLines = fileData?.content.split("\n") || [];
+  const currentPath = fileData?.file_path || selectedPath;
+  const { dir: currentDir, name: currentName } = splitPath(currentPath);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-[calc(100vh-145px)] min-h-[620px]">
-      {/* Left Pane: Repository File Tree */}
-      <div className="lg:col-span-3 bg-slate-900/90 border border-slate-800 rounded-xl flex flex-col overflow-hidden">
-        <div className="p-3 border-b border-slate-800">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 lg:h-[calc(100vh-180px)] lg:min-h-[620px]">
+      {/* Files */}
+      <section className="card lg:col-span-3 flex flex-col overflow-hidden max-h-[360px] md:max-h-[460px] lg:max-h-none">
+        <div className="panel-head">
+          <span className="panel-title">Files</span>
+          <span className="count">{filteredFiles.length}</span>
+        </div>
+        <div className="p-3 border-b border-hairline-cool">
           <div className="relative">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
+            <Search className="w-4 h-4 text-ink-mute absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
+              aria-label="Filter files"
               placeholder="Filter files..."
               value={fileFilter}
               onChange={(e) => setFileFilter(e.target.value)}
-              className="w-full pl-8 pr-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-slate-100 focus:outline-none focus:border-indigo-500"
+              className="field !min-h-[34px] !py-1.5 !pl-9 !text-[13px]"
             />
           </div>
         </div>
-        <div className="flex-1 overflow-y-auto p-2 space-y-1">
+        <div className="flex-1 overflow-y-auto p-2 space-y-0.5">
+          {filteredFiles.length === 0 && (
+            <p className="px-3 py-6 text-center text-[13px] text-ink-mute">No files match.</p>
+          )}
           {filteredFiles.map((file) => {
-            const isSelected = file.path === selectedPath;
+            const isSelected = file.path === effectivePath;
+            const { dir, name } = splitPath(file.path);
             return (
               <button
                 key={file.path}
+                type="button"
+                aria-current={isSelected}
+                title={file.path}
                 onClick={() => {
                   setSelectedPath(file.path);
                   setActiveRange(null);
                 }}
-                className={`w-full text-left px-3 py-2 rounded-lg text-xs flex items-center justify-between transition ${
-                  isSelected
-                    ? "bg-indigo-600/20 text-indigo-300 border border-indigo-500/40"
-                    : "text-slate-300 hover:bg-slate-800/70"
-                }`}
+                className="row-btn"
               >
-                <div className="flex items-center gap-2 truncate">
-                  <FileCode2 className="w-3.5 h-3.5 shrink-0 text-slate-400" />
-                  <span className="truncate font-mono">{file.path}</span>
-                </div>
-                <span className="text-[10px] text-slate-500 ml-2 shrink-0">
-                  {file.line_count}L
+                <span
+                  className="w-2 h-2 rounded-[2px] shrink-0"
+                  style={{ background: languageColor(file.language) }}
+                />
+                <span className="min-w-0 flex-1">
+                  <span className="block font-mono text-[12.5px] truncate">{name}</span>
+                  {dir && (
+                    <span className="block font-mono text-[11px] text-ink-mute-2 truncate">
+                      {dir}
+                    </span>
+                  )}
+                </span>
+                <span className="text-[11px] text-ink-mute-2 tabular-nums shrink-0">
+                  {file.line_count}
                 </span>
               </button>
             );
           })}
         </div>
-      </div>
+      </section>
 
-      {/* Middle Pane: Extracted AST Symbols & Calls */}
-      <div className="lg:col-span-3 bg-slate-900/90 border border-slate-800 rounded-xl flex flex-col overflow-hidden">
-        <div className="p-3 border-b border-slate-800 flex items-center justify-between">
-          <span className="text-xs font-semibold text-slate-200">
-            AST Symbols ({fileData?.symbols.length || 0})
-          </span>
-          {selectedPath && (
+      {/* Symbols & calls */}
+      <section className="card lg:col-span-3 flex flex-col overflow-hidden max-h-[460px] lg:max-h-none">
+        <div className="panel-head">
+          <div className="flex items-center gap-2">
+            <span className="panel-title">Symbols</span>
+            <span className="count">{fileData?.symbols.length || 0}</span>
+          </div>
+          {effectivePath && (
             <button
-              onClick={() => onRunImpact(selectedPath)}
-              className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30 hover:bg-amber-500/25"
+              type="button"
+              onClick={() => onRunImpact(effectivePath)}
+              className="btn-tone tone-tomato"
+              title="Run impact analysis for this file"
             >
-              <ShieldAlert className="w-3 h-3" />
-              <span>File Impact</span>
+              <ShieldAlert className="w-3.5 h-3.5" />
+              File impact
             </button>
           )}
         </div>
+
         <div className="flex-1 overflow-y-auto p-3 space-y-2">
-          {fileData?.symbols.map((sym) => (
-            <div
-              key={`${sym.id}-${sym.line_start}`}
-              className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800/90 hover:border-slate-700 transition space-y-1.5"
-            >
-              <div className="flex items-center justify-between gap-2">
-                <button
-                  onClick={() =>
-                    setActiveRange({
-                      start: sym.line_start,
-                      end: sym.line_end,
-                    })
-                  }
-                  className="text-xs font-mono font-semibold text-indigo-300 hover:underline truncate text-left"
-                >
-                  {sym.name}
-                </button>
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">
-                  {sym.type}
-                </span>
+          {fileData && fileData.symbols.length === 0 && (
+            <p className="px-2 py-6 text-center text-[13px] text-ink-mute">
+              No symbols extracted from this file.
+            </p>
+          )}
+          {fileData?.symbols.map((sym) => {
+            const meta = nodeTypeMeta(sym.type);
+            const isActive =
+              activeRange?.start === sym.line_start && activeRange?.end === sym.line_end;
+            return (
+              <div
+                key={`${sym.id}-${sym.line_start}`}
+                className={`tone-${meta.tone} rounded-[8px] border p-3 space-y-2 transition ${
+                  isActive
+                    ? "border-[var(--tbd)] bg-[var(--tbg)]"
+                    : "border-hairline bg-canvas hover:border-hairline-strong"
+                }`}
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setActiveRange({ start: sym.line_start, end: sym.line_end })
+                    }
+                    className="flex items-center gap-2 min-w-0 text-left group"
+                    title="Highlight in source"
+                  >
+                    <span className="tone-dot" />
+                    <span className="font-mono text-[13px] font-medium text-ink truncate group-hover:underline underline-offset-2">
+                      {sym.name}
+                    </span>
+                  </button>
+                  <span className="text-[11px] font-medium text-[var(--tfg)] shrink-0">
+                    {meta.label}
+                  </span>
+                </div>
+                <div className="font-mono text-[11.5px] text-ink-mute truncate" title={sym.signature}>
+                  <span className="text-ink-secondary">
+                    L{sym.line_start}–{sym.line_end}
+                  </span>
+                  {sym.signature && <> · {sym.signature}</>}
+                </div>
+                {sym.docstring && (
+                  <p className="text-[12px] text-ink-mute leading-relaxed line-clamp-2">
+                    {sym.docstring}
+                  </p>
+                )}
+                <div className="flex items-center gap-1.5 pt-0.5">
+                  <button
+                    type="button"
+                    onClick={() => onInspectGraphNode(sym.id)}
+                    className="btn-tone tone-violet !min-h-[26px] !px-2 !text-[11px]"
+                  >
+                    <GitFork className="w-3 h-3" />
+                    Graph
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onRunImpact(sym.id)}
+                    className="btn-tone tone-tomato !min-h-[26px] !px-2 !text-[11px]"
+                  >
+                    <ShieldAlert className="w-3 h-3" />
+                    Impact
+                  </button>
+                </div>
               </div>
-              <div className="text-[11px] font-mono text-slate-400 truncate">
-                L{sym.line_start}–L{sym.line_end} • {sym.signature}
-              </div>
-              {sym.docstring && (
-                <p className="text-[11px] text-slate-400 line-clamp-2">
-                  {sym.docstring}
-                </p>
-              )}
-              <div className="flex items-center gap-2 pt-1">
-                <button
-                  onClick={() => onInspectGraphNode(sym.id)}
-                  className="text-[10px] px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300"
-                >
-                  Focus in Graph
-                </button>
-                <button
-                  onClick={() => onRunImpact(sym.id)}
-                  className="text-[10px] px-2 py-0.5 rounded bg-amber-500/10 hover:bg-amber-500/20 text-amber-300"
-                >
-                  Blast Radius
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
 
           {fileData && fileData.calls.length > 0 && (
-            <div className="pt-3 border-t border-slate-800">
-              <div className="text-xs font-semibold text-slate-300 mb-2 flex items-center gap-1.5">
-                <GitCommit className="w-3.5 h-3.5 text-purple-400" />
-                <span>Outgoing Calls ({fileData.calls.length})</span>
+            <div className="pt-4 mt-2 border-t border-hairline-cool">
+              <div className="flex items-center gap-2 mb-2 px-1">
+                <span className="section-label">Outgoing calls</span>
+                <span className="count">{fileData.calls.length}</span>
               </div>
-              <div className="space-y-1">
+              <div className="space-y-0.5 tone-violet">
                 {fileData.calls.slice(0, 20).map((c, idx) => (
-                  <div
+                  <button
+                    type="button"
                     key={`${c.caller}-${c.callee}-${idx}`}
-                    onClick={() =>
-                      setActiveRange({ start: c.line, end: c.line })
-                    }
-                    className="cursor-pointer text-[11px] font-mono px-2 py-1 rounded bg-slate-950/60 hover:bg-slate-800 text-slate-300 flex items-center justify-between"
+                    onClick={() => setActiveRange({ start: c.line, end: c.line })}
+                    className="row-btn !py-1.5 font-mono !text-[12px]"
                   >
-                    <span className="truncate">
-                      {c.caller} →{" "}
-                      <span className="text-purple-300">{c.callee}()</span>
+                    <span className="truncate flex-1 flex items-center gap-1.5">
+                      <span className="truncate text-ink-mute">{c.caller}</span>
+                      <ArrowRight className="w-3 h-3 text-ink-mute-2 shrink-0" />
+                      <span className="truncate text-[var(--tfg)] font-medium">{c.callee}()</span>
                     </span>
-                    <span className="text-slate-500 ml-2">L{c.line}</span>
-                  </div>
+                    <span className="text-ink-mute-2 shrink-0 tabular-nums">L{c.line}</span>
+                  </button>
                 ))}
               </div>
             </div>
           )}
         </div>
-      </div>
+      </section>
 
-      {/* Right Pane: Source Code Viewer with Line Highlighting */}
-      <div className="lg:col-span-6 bg-slate-900/90 border border-slate-800 rounded-xl flex flex-col overflow-hidden">
-        <div className="p-3 border-b border-slate-800 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Code className="w-4 h-4 text-indigo-400" />
-            <span className="text-xs font-mono text-white font-medium">
-              {fileData?.file_path || selectedPath}
+      {/* Source viewer */}
+      <section className="card md:col-span-2 lg:col-span-6 flex flex-col overflow-hidden min-h-[480px]">
+        <div className="panel-head">
+          <div className="flex items-center gap-2 min-w-0">
+            <FileCode2 className="w-4 h-4 text-ink-mute shrink-0" />
+            <span className="font-mono text-[13px] truncate" title={currentPath}>
+              <span className="text-ink-mute">{currentDir}</span>
+              <span className="text-ink font-medium">{currentName}</span>
             </span>
           </div>
-          {activeRange && (
-            <span className="text-xs px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-mono">
-              Highlighted L{activeRange.start}–L{activeRange.end}
-            </span>
-          )}
+          <div className="flex items-center gap-2 shrink-0">
+            {activeRange && (
+              <button
+                type="button"
+                onClick={() => setActiveRange(null)}
+                className="btn-tone tone-emerald !min-h-[26px] !px-2 !text-[11px] font-mono"
+                title="Clear highlight"
+              >
+                L{activeRange.start}
+                {activeRange.end !== activeRange.start && `–${activeRange.end}`} ×
+              </button>
+            )}
+            {fileData && (
+              <span className="pill-soft hidden sm:inline-flex">
+                <span
+                  className="w-1.5 h-1.5 rounded-full"
+                  style={{ background: languageColor(fileData.language) }}
+                />
+                <span className="capitalize">{fileData.language}</span>
+                <span className="text-ink-mute-2">· {fileData.line_count} lines</span>
+              </span>
+            )}
+          </div>
         </div>
 
-        <div className="flex-1 overflow-auto p-3 font-mono text-xs leading-relaxed bg-[#1c1c1c]">
+        <div className="code-surface flex-1 overflow-auto py-3 font-mono text-[12.5px] leading-[1.7]">
           {loading ? (
-            <div className="text-slate-400 p-4">Loading source file...</div>
+            <div className="flex items-center gap-2 px-5 py-4 text-[#9a9a9a]">
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Loading source file...
+            </div>
           ) : (
-            codeLines.map((line, index) => {
-              const lineNum = index + 1;
-              const isHighlighted =
-                activeRange &&
-                lineNum >= activeRange.start &&
-                lineNum <= activeRange.end;
-              return (
-                <div
-                  key={lineNum}
-                  className={`flex px-2 py-0.5 rounded ${
-                    isHighlighted
-                      ? "bg-indigo-500/20 border-l-2 border-indigo-400"
-                      : "hover:bg-slate-900/80"
-                  }`}
-                >
-                  <span className="w-10 shrink-0 select-none text-slate-600 text-right pr-4">
-                    {lineNum}
-                  </span>
-                  <pre className="text-neutral-100 whitespace-pre overflow-x-auto">
-                    {line || " "}
-                  </pre>
-                </div>
-              );
-            })
+            <div className="min-w-max">
+              {codeLines.map((line, index) => {
+                const lineNum = index + 1;
+                const isHighlighted =
+                  !!activeRange &&
+                  lineNum >= activeRange.start &&
+                  lineNum <= activeRange.end;
+                return (
+                  <div
+                    key={lineNum}
+                    id={`code-line-${lineNum}`}
+                    className="code-line"
+                    data-hl={isHighlighted}
+                  >
+                    <span className="ln tabular-nums">{lineNum}</span>
+                    <pre className="whitespace-pre">{line || " "}</pre>
+                  </div>
+                );
+              })}
+            </div>
           )}
         </div>
-      </div>
+      </section>
     </div>
   );
 }
