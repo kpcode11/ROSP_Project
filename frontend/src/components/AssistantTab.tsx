@@ -88,7 +88,7 @@ export function AssistantTab({ repoId, onOpenCitation }: AssistantTabProps) {
                 </p>
               </div>
             </div>
-            <span className="pill-soft tone-emerald !text-[var(--tfg)] !bg-[var(--tbg)] !border-[var(--tbd)] self-start shrink-0">
+            <span className="pill-soft tone-emerald self-start shrink-0">
               <CheckCircle2 className="w-3.5 h-3.5" />
               Citation verified
             </span>
@@ -151,11 +151,14 @@ export function AssistantTab({ repoId, onOpenCitation }: AssistantTabProps) {
         )}
 
         {!response && !loadingAsk && (
-          <section className="rounded-[12px] border border-dashed border-hairline-strong p-8 text-center">
-            <p className="text-[14px] font-medium text-ink">No question asked yet</p>
-            <p className="text-[13px] text-ink-mute mt-1">
-              Pick a suggestion above or type your own. Answers include a traced execution
-              flow and clickable source citations.
+          <section className="card p-8 text-center">
+            <span className="tone-icon tone-emerald w-10 h-10 mx-auto mb-3">
+              <BookOpenCheck className="w-5 h-5" />
+            </span>
+            <p className="text-[14px] font-semibold text-ink">Ready to trace your codebase</p>
+            <p className="text-[13px] text-ink-mute mt-1 max-w-md mx-auto">
+              Pick a suggestion above or type your own question. Answers include a traced
+              execution flow and clickable AST-verified source citations.
             </p>
           </section>
         )}

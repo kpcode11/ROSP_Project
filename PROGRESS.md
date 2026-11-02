@@ -42,3 +42,4 @@
 | UI-02 | UI | Add persistent light and dark theme switching | DONE | | Added persisted accessible toggle and theme-aware surfaces across the workspace |
 | UI-03 | UI | Redesign Overview page and navbar (tokens, contrast, responsive table) | DONE | | Theme-aware tokens, readable emerald CTA, coloured KPI/actions, responsive PageRank table; build passes |
 | UI-04 | UI | Redesign Code Explorer, Knowledge Graph, AI Assistant, Impact Analysis | DONE | | Migrated all workspace tabs and graph nodes/edges to semantic token & tone system |
+| UI-05 | UI | Light-theme visual hierarchy, surface contrast, and code/card refinement across all pages | DONE | | Calibrated light-mode canvas/card/code surfaces, toned pills, and KPI accents |

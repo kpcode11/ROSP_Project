@@ -198,11 +198,11 @@ export function ImpactAnalysisTab({
           {/* Risk summary & dependent breakdown */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
             {/* Left 4 columns: Risk card */}
-            <section className={`card lg:col-span-4 p-5 sm:p-6 flex flex-col justify-between gap-5 tone-${riskTone}`}>
+            <section className={`card-kpi lg:col-span-4 p-5 sm:p-6 flex flex-col justify-between gap-5 tone-${riskTone}`}>
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-2">
                   <span className="section-label">Target component</span>
-                  <span className="pill-soft !text-[var(--tfg)] !bg-[var(--tbg)] !border-[var(--tbd)] font-semibold">
+                  <span className={`pill-soft tone-${riskTone}`}>
                     <span className="tone-dot !w-1.5 !h-1.5" />
                     {report.risk_level} risk · {report.risk_score}/100
                   </span>

@@ -8,9 +8,8 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      // Theme-aware tokens backed by CSS variables in globals.css
-      // (light values on :root, dark values on .dark-theme).
       colors: {
+        "canvas-page": "var(--canvas-page)",
         canvas: "var(--canvas)",
         "canvas-soft": "var(--canvas-soft)",
         "canvas-night": "var(--canvas-night)",
@@ -33,9 +32,9 @@ const config: Config = {
         lg: "12px",
       },
       boxShadow: {
-        subtle: "0 1px 3px rgba(0, 0, 0, 0.06)",
-        float: "0 8px 24px rgba(0, 0, 0, 0.08)",
-        modal: "0 16px 48px rgba(0, 0, 0, 0.12)",
+        subtle: "0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04)",
+        float: "0 8px 24px rgba(15, 23, 42, 0.08)",
+        modal: "0 16px 48px rgba(15, 23, 42, 0.16)",
       },
       fontFamily: {
         sans: ["Inter", "Helvetica Neue", "Helvetica", "Arial", "sans-serif"],

@@ -3,27 +3,26 @@
 **Updated:** 2026-11-02  |  **By:** Antigravity  |  **Branch:** supabase-frontend-redesign  |  **Last commit:** see `git log -1`
 
 ## Current task
-- ID: UI-04 - Redesign Code Explorer, Knowledge Graph, AI Assistant, and Impact Analysis tabs
+- ID: UI-05 - Light-theme visual hierarchy, surface contrast, and code/card refinement across all pages
 - State: DONE
 
 ## Completed in this task
-- Created shared entity/relation tone and language color helpers in `frontend/src/lib/node-types.ts` and updated `frontend/src/lib/layout-graph.ts` so edge colors and labels adapt across light and dark themes.
-- Extended `frontend/src/app/globals.css` with semantic panel, list, segmented filter, code-viewer, and React Flow node/chrome styles (`panel-head`, `row-btn`, `card-link`, `seg`, `prompt-chip`, `code-surface`, `flow-node`).
-- **Code Explorer (`CodeExplorerTab.tsx`):** 3-pane layout with language-colored file indicators, directory/basename split, tone-coded AST symbol cards with **Graph** (violet) and **Impact** (tomato) buttons, outgoing call rows, and a dedicated dark `code-surface` viewer with emerald line-range highlighting and smooth scroll-into-view.
-- **Knowledge Graph (`KnowledgeGraphTab.tsx`):** Segmented entity-type filters with colored dots, horizontal/vertical layout switcher, floating relation legend, custom `CodeEntityNode` with left tone accent bar and PageRank badge, and a redesigned right-hand Node Inspector with **Focus 2-hop** (violet), **Open in Code Explorer** (sky), and **Run impact analysis** (tomato) actions.
-- **AI Assistant (`AssistantTab.tsx`):** Grounded GraphRAG prompt card with emerald `Ask` CTA, pill prompt chips, vertical violet timeline for traced execution flow steps, clickable verified citation cards with inline code snippets, and a sticky Semantic Code Search panel with similarity score meters.
-- **Impact Analysis (`ImpactAnalysisTab.tsx`):** Target selector bar with emerald `Recompute` CTA, dynamic risk-toned (`tomato` / `amber` / `emerald`) summary card and gauge meter, 3-column dependent/API route/test-suite breakdown panels, and interactive blast-radius subgraph with tomato target ring.
-- Verified `npm run typecheck --prefix frontend`, `npm run build --prefix frontend`, and `python scripts/tasks.py test-fast`.
+- Introduced `--canvas-page` (`#f6f8fa` light / `#0d0e10` dark) so pure white `.card` surfaces (`#ffffff`) and `.panel-head` headers (`#f1f3f6`) stand out with clear separation and subtle elevation in Light Mode.
+- Strengthened light-mode borders (`--hairline: #dce0e6`, `--hairline-strong: #bfc6d0`) and saturated light-mode tone tokens (`emerald`, `violet`, `sky`, `amber`, `tomato`) with dedicated `--tbg-hover` states.
+- Added `.card-kpi` with a 3px colored top accent bar (`var(--tsolid)`) for the Overview KPI cards and Impact Analysis risk summary card.
+- Made `.card-night` (Overview Architectural Summary) and `.code-surface` (Code Explorer source viewer, Knowledge Graph signature block, Assistant citation snippets) theme-adaptive so Light Mode renders with a crisp light developer editor surface (`#f8fafc`) and an emerald-tinted editorial featured card instead of dark slabs.
+- Styled `.pill-soft.tone-*` automatically with tinted foreground, background, and border so entity-type pills across Overview, Graph, Assistant, and Impact Analysis are colorful and scannable in both themes.
+- Removed obsolete legacy `.bg-slate-*` / `.text-slate-*` `!important` overrides from `frontend/src/app/globals.css`.
 
 ## Exact next step
 - Run `python scripts/status.py` before beginning any new task.
 
 ## Files touched
-- `frontend/src/lib/node-types.ts`, `frontend/src/lib/layout-graph.ts`, `frontend/src/app/globals.css`, `frontend/src/app/layout.tsx`, `frontend/src/components/OverviewTab.tsx`, `frontend/src/components/CodeExplorerTab.tsx`, `frontend/src/components/KnowledgeGraphTab.tsx`, `frontend/src/components/AssistantTab.tsx`, `frontend/src/components/ImpactAnalysisTab.tsx`, `PROGRESS.md`, `HANDOFF.md`
+- `frontend/tailwind.config.ts`, `frontend/src/app/globals.css`, `frontend/src/app/layout.tsx`, `frontend/src/app/page.tsx`, `frontend/src/components/OverviewTab.tsx`, `frontend/src/components/KnowledgeGraphTab.tsx`, `frontend/src/components/AssistantTab.tsx`, `frontend/src/components/ImpactAnalysisTab.tsx`, `PROGRESS.md`, `HANDOFF.md`
 
 ## Commands to run first
     python scripts/status.py
     python scripts/tasks.py demo
 
 ## Known problems / gotchas
-- None. All tasks through `UI-04` are marked `DONE`.
+- None. All tasks through `UI-05` are marked `DONE`.

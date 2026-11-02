@@ -155,7 +155,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className={`min-h-screen flex flex-col bg-canvas text-ink ${isDarkTheme ? "dark-theme" : ""}`}>
+    <div className={`min-h-screen flex flex-col bg-canvas-page text-ink ${isDarkTheme ? "dark-theme" : ""}`}>
       <Navbar
         repositories={repositories}
         activeRepoId={activeRepoId}
@@ -168,7 +168,7 @@ export default function HomePage() {
       />
 
       {/* Workspace navigation */}
-      <nav className="border-b border-hairline bg-canvas" aria-label="Workspace">
+      <nav className="border-b border-hairline bg-canvas shadow-[0_1px_2px_rgba(15,23,42,0.03)]" aria-label="Workspace">
         <div
           role="tablist"
           className="max-w-[1600px] mx-auto px-4 sm:px-8 flex items-center gap-1 overflow-x-auto"
@@ -195,7 +195,7 @@ export default function HomePage() {
       {/* Main Workspace Container */}
       <main className="flex-1 max-w-[1600px] w-full mx-auto px-4 sm:px-8 py-6 sm:py-8">
         {!repoDetail ? (
-          <div className="min-h-[420px] rounded-[12px] bg-canvas-soft border border-hairline flex items-center justify-center">
+          <div className="min-h-[420px] card flex items-center justify-center">
             <div className="text-center max-w-sm px-6">
               <div className="mx-auto mb-4 w-10 h-10 rounded-md bg-[#1c1c1c] text-[#3ecf8e] flex items-center justify-center">
                 <Code2 className="w-5 h-5" />

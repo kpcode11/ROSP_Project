@@ -325,7 +325,7 @@ export function KnowledgeGraphTab({
           ) : (
             <div className="space-y-5">
               <div className={`tone-${selectedMeta.tone}`}>
-                <span className="pill-soft !text-[var(--tfg)] !bg-[var(--tbg)] !border-[var(--tbd)] font-medium">
+                <span className={`pill-soft tone-${selectedMeta.tone}`}>
                   <span className="tone-dot !w-1.5 !h-1.5" />
                   {selectedMeta.label}
                 </span>

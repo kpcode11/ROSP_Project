@@ -165,7 +165,7 @@ export function OverviewTab({
           return (
             <div
               key={card.label}
-              className={`card p-4 sm:p-5 flex flex-col gap-4 tone-${card.tone} ${
+              className={`card-kpi p-4 sm:p-5 flex flex-col gap-4 tone-${card.tone} ${
                 idx === metricCards.length - 1 ? "col-span-2 lg:col-span-1" : ""
               }`}
             >
@@ -173,12 +173,12 @@ export function OverviewTab({
                 <span className="tone-icon w-8 h-8 shrink-0">
                   <Icon className="w-4 h-4" />
                 </span>
-                <span className="text-[13px] font-medium text-ink-secondary leading-tight">
+                <span className="text-[13px] font-semibold text-ink-secondary leading-tight">
                   {card.label}
                 </span>
               </div>
               <div>
-                <div className="text-[26px] sm:text-[28px] leading-none tracking-[-0.42px] font-medium text-ink tabular-nums">
+                <div className="text-[26px] sm:text-[28px] leading-none tracking-[-0.42px] font-semibold text-ink tabular-nums">
                   {card.value}
                 </div>
                 <div className="text-[12px] text-ink-mute mt-2">{card.sub}</div>
@@ -193,14 +193,14 @@ export function OverviewTab({
         <div className="card-night lg:col-span-2 p-6 sm:p-8 flex flex-col gap-5">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <span className="w-8 h-8 rounded-md flex items-center justify-center bg-[rgba(62,207,142,0.14)] text-[#3ecf8e]">
+              <span className="tone-icon tone-emerald w-8 h-8">
                 <Layers className="w-4 h-4" />
               </span>
-              <h2 className="text-[18px] font-medium tracking-[-0.2px]">
+              <h2 className="text-[18px] font-semibold tracking-[-0.2px]">
                 Architectural summary
               </h2>
             </div>
-            <span className="night-mute font-mono text-[11px] uppercase tracking-[0.12em] hidden sm:inline">
+            <span className="pill-soft tone-emerald font-mono !text-[11px] uppercase tracking-[0.08em] hidden sm:inline-flex">
               deterministic
             </span>
           </div>
@@ -208,12 +208,14 @@ export function OverviewTab({
             {detail.architectural_summary}
           </p>
           {frameworks.length > 0 && (
-            <div className="mt-auto pt-4 border-t border-[rgba(255,255,255,0.1)]">
-              <p className="night-mute text-[12px] mb-2.5">Detected frameworks & stack</p>
+            <div className="mt-auto pt-4 border-t border-hairline">
+              <p className="night-mute text-[12px] font-medium mb-2.5">
+                Detected frameworks &amp; stack
+              </p>
               <div className="flex flex-wrap gap-2">
                 {frameworks.map((fw) => (
                   <span key={fw} className="night-chip">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#3ecf8e]" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#24b47e]" />
                     {fw}
                   </span>
                 ))}
