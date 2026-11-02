@@ -72,162 +72,162 @@ export function Navbar({
 
   return (
     <>
-      <header className="border-b border-neutral-200 bg-white sticky top-0 z-30">
-        <div className="max-w-[1600px] mx-auto px-5 sm:px-8 h-[72px] flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-md bg-[#1c1c1c] flex items-center justify-center text-[#3ecf8e]">
-              <Sparkles className="w-[18px] h-[18px]" />
+      <header className="sticky top-0 z-30 border-b border-hairline bg-canvas">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-8 h-16 flex items-center justify-between gap-3">
+          {/* Wordmark */}
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-8 h-8 rounded-md bg-[#1c1c1c] flex items-center justify-center text-[#3ecf8e] shrink-0">
+              <Sparkles className="w-4 h-4" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-medium text-[19px] tracking-[-0.4px] text-neutral-900">
-                  CodeIntel
-                </span>
-                <span className="hidden sm:inline-flex text-[10px] uppercase tracking-[0.08em] font-medium px-2 py-1 rounded-full bg-[#f3fbf7] text-[#247b58] border border-[#b9ead2]">
-                  Local workspace
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-400 hidden sm:block mt-0.5">
-                Codebase intelligence, grounded in your repository
-              </p>
-            </div>
+            <span className="font-medium text-[18px] tracking-[-0.36px] text-ink">
+              Code<span className="text-[#24b47e]">Intel</span>
+            </span>
           </div>
 
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={onToggleTheme}
-              aria-label={`Switch to ${isDarkTheme ? "light" : "dark"} theme`}
-              title={`Switch to ${isDarkTheme ? "light" : "dark"} theme`}
-              className="w-9 h-9 rounded-md border border-neutral-300 bg-white hover:bg-neutral-50 text-neutral-700 flex items-center justify-center transition"
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            {/* Local model status */}
+            <div
+              className="hidden xl:flex items-center gap-2 h-9 px-3 rounded-md border border-hairline bg-canvas-soft text-[12px]"
+              title={health?.ollama.reachable ? "Ollama reachable" : "Ollama not reachable"}
             >
-              {isDarkTheme ? (
-                <Sun className="w-4 h-4" />
-              ) : (
-                <Moon className="w-4 h-4" />
-              )}
-            </button>
-
-            {/* Ollama Model Status Badge */}
-            <div className="hidden xl:flex items-center gap-2 px-3 py-2 rounded-md bg-neutral-50 border border-neutral-200 text-[11px]">
-              <span className={`w-1.5 h-1.5 rounded-full ${health?.ollama.reachable ? "bg-[#24b47e]" : "bg-[#a56a00]"}`} />
-              <Cpu className="w-3.5 h-3.5 text-neutral-600" />
-              <span className="text-neutral-500">Local models</span>
-              <span className="text-neutral-900 font-mono">
+              <span
+                className={`tone-dot ${health?.ollama.reachable ? "tone-emerald" : "tone-amber"}`}
+              />
+              <Cpu className="w-3.5 h-3.5 text-ink-mute" />
+              <span className="font-mono text-ink-secondary">
                 {health?.llm_model || "qwen2.5:7b-instruct"}
               </span>
             </div>
 
-            {/* Active Repository Selector */}
-            <div className="flex items-center gap-2 bg-white border border-neutral-300 rounded-md px-3 py-2">
-              <FolderGit2 className="w-4 h-4 text-neutral-700" />
+            {/* Active repository selector */}
+            <div className="relative min-w-0">
+              <FolderGit2 className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-mute z-[1]" />
               <select
                 aria-label="Select active repository"
                 value={activeRepoId}
                 onChange={(e) => onSelectRepo(e.target.value)}
                 disabled={isLoading}
-                className="bg-transparent text-sm text-neutral-900 focus:outline-none pr-2"
+                className="field !min-h-[36px] !py-1.5 pl-9 pr-8 max-w-[150px] sm:max-w-[260px] truncate cursor-pointer"
               >
                 {repositories.map((repo) => (
-                  <option
-                    key={repo.id}
-                    value={repo.id}
-                    className="bg-white text-neutral-900"
-                  >
+                  <option key={repo.id} value={repo.id}>
                     {repo.name} ({repo.stats.files_parsed} files)
                   </option>
                 ))}
               </select>
             </div>
 
-            {/* Analyze New Repository Button */}
             <button
-              onClick={() => setModalOpen(true)}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-md bg-emerald-400 hover:bg-emerald-500 text-neutral-900 text-sm font-medium transition"
+              type="button"
+              onClick={onToggleTheme}
+              aria-label={`Switch to ${isDarkTheme ? "light" : "dark"} theme`}
+              title={`Switch to ${isDarkTheme ? "light" : "dark"} theme`}
+              className="btn-icon shrink-0"
             >
-              <Plus className="w-4 h-4" />
-              <span>Analyze Repo</span>
+              {isDarkTheme ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setModalOpen(true)}
+              aria-label="Analyze repository"
+              className="btn-primary shrink-0 !px-2.5 sm:!px-4"
+            >
+              <Plus className="w-4 h-4" strokeWidth={2.5} />
+              <span className="hidden sm:inline">Analyze Repo</span>
             </button>
           </div>
         </div>
       </header>
 
       {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-[#171717]/45 backdrop-blur-[2px] flex items-center justify-center p-4">
-          <div className="bg-white border border-neutral-200 rounded-xl max-w-lg w-full p-7 shadow-2xl">
-            <div className="flex items-center justify-between mb-4">
+        <div
+          className="fixed inset-0 z-50 bg-[rgba(23,23,23,0.5)] backdrop-blur-[2px] flex items-end sm:items-center justify-center p-0 sm:p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="analyze-title"
+        >
+          <div className="bg-canvas border border-hairline rounded-t-[16px] sm:rounded-[16px] max-w-lg w-full p-6 sm:p-7 shadow-modal">
+            <div className="flex items-start justify-between mb-5">
               <div>
-                <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[#707070]">New analysis</p>
-                <h2 className="text-[22px] tracking-[-0.42px] font-medium text-neutral-900 mt-1">Analyze a repository</h2>
+                <p className="eyebrow">New analysis</p>
+                <h2
+                  id="analyze-title"
+                  className="text-[22px] tracking-[-0.42px] font-medium text-ink mt-1"
+                >
+                  Analyze a repository
+                </h2>
               </div>
               <button
+                type="button"
                 onClick={() => setModalOpen(false)}
-                className="text-neutral-500 hover:text-neutral-900"
+                aria-label="Close"
+                className="btn-icon !w-8 !h-8 !border-transparent"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-medium text-neutral-700 mb-1">
-                  Repository Path or GitHub HTTPS URL
+                <label htmlFor="repo-source" className="block text-[13px] font-medium text-ink-secondary mb-1.5">
+                  Repository path or GitHub HTTPS URL
                 </label>
                 <input
+                  id="repo-source"
                   type="text"
                   placeholder="./data/sample_ecommerce or https://github.com/org/repo"
                   value={sourceInput}
                   onChange={(e) => setSourceInput(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-white border border-neutral-300 text-sm text-neutral-900 focus:outline-none focus:border-emerald-500"
+                  className="field font-mono !text-[13px]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-neutral-700 mb-1">
-                  Display Name (optional)
+                <label htmlFor="repo-name" className="block text-[13px] font-medium text-ink-secondary mb-1.5">
+                  Display name <span className="text-ink-mute-2 font-normal">(optional)</span>
                 </label>
                 <input
+                  id="repo-name"
                   type="text"
                   placeholder="my-service"
                   value={nameInput}
                   onChange={(e) => setNameInput(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-white border border-neutral-300 text-sm text-neutral-900 focus:outline-none focus:border-emerald-500"
+                  className="field"
                 />
               </div>
 
               {errorMsg && (
-                <div className="p-3 rounded-lg bg-rose-950/60 border border-rose-800 text-xs text-rose-200">
+                <div className="tone-tomato p-3 rounded-md text-[13px] border bg-[var(--tbg)] border-[var(--tbd)] text-[var(--tfg)]">
                   {errorMsg}
                 </div>
               )}
 
-              <div className="flex items-center justify-between pt-2">
+              <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
                 <button
                   type="button"
                   onClick={handleLoadSample}
                   disabled={submitting}
-                  className="text-xs px-3 py-2 rounded-lg bg-neutral-50 hover:bg-neutral-100 text-neutral-900 border border-neutral-300 transition"
+                  className="btn-outline !text-[13px]"
                 >
-                  Load Sample E-Commerce Repo
+                  Load sample e-commerce repo
                 </button>
 
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
                     onClick={() => setModalOpen(false)}
-                    className="px-4 py-2 rounded-lg text-sm text-neutral-500 hover:text-neutral-900"
+                    className="btn-outline !border-transparent flex-1 sm:flex-none"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={submitting || !sourceInput.trim()}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-400 hover:bg-emerald-500 disabled:opacity-50 text-neutral-900 text-sm font-medium"
+                    className="btn-primary flex-1 sm:flex-none"
                   >
-                    {submitting && (
-                      <RefreshCw className="w-4 h-4 animate-spin" />
-                    )}
-                    <span>Run AST + Graph Indexing</span>
+                    {submitting && <RefreshCw className="w-4 h-4 animate-spin" />}
+                    <span>Run indexing</span>
                   </button>
                 </div>
               </div>

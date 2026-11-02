@@ -155,7 +155,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className={`min-h-screen flex flex-col bg-white text-neutral-900 ${isDarkTheme ? "dark-theme" : ""}`}>
+    <div className={`min-h-screen flex flex-col bg-canvas text-ink ${isDarkTheme ? "dark-theme" : ""}`}>
       <Navbar
         repositories={repositories}
         activeRepoId={activeRepoId}
@@ -168,41 +168,42 @@ export default function HomePage() {
       />
 
       {/* Workspace navigation */}
-      <div className="border-b border-neutral-200 bg-[#fafafa]">
-        <div className="max-w-[1600px] mx-auto px-5 sm:px-8 flex items-center gap-1 overflow-x-auto">
+      <nav className="border-b border-hairline bg-canvas" aria-label="Workspace">
+        <div
+          role="tablist"
+          className="max-w-[1600px] mx-auto px-4 sm:px-8 flex items-center gap-1 overflow-x-auto"
+        >
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
+                role="tab"
+                aria-selected={isActive}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-3.5 py-3.5 text-xs font-medium border-b-2 transition whitespace-nowrap ${
-                  isActive
-                    ? "border-[#24b47e] text-neutral-900 bg-white"
-                    : "border-transparent text-neutral-500 hover:text-neutral-900 hover:bg-white/70"
-                }`}
+                className="ws-tab"
               >
-                <Icon className="w-4 h-4" />
+                <Icon className={`w-4 h-4 ${isActive ? "text-[#24b47e]" : ""}`} />
                 <span>{tab.label}</span>
               </button>
             );
           })}
         </div>
-      </div>
+      </nav>
 
       {/* Main Workspace Container */}
-      <main className="flex-1 max-w-[1600px] w-full mx-auto px-5 sm:px-8 py-8">
+      <main className="flex-1 max-w-[1600px] w-full mx-auto px-4 sm:px-8 py-6 sm:py-8">
         {!repoDetail ? (
-          <div className="min-h-[420px] rounded-xl bg-[#fafafa] border border-neutral-200 flex items-center justify-center">
+          <div className="min-h-[420px] rounded-[12px] bg-canvas-soft border border-hairline flex items-center justify-center">
             <div className="text-center max-w-sm px-6">
               <div className="mx-auto mb-4 w-10 h-10 rounded-md bg-[#1c1c1c] text-[#3ecf8e] flex items-center justify-center">
                 <Code2 className="w-5 h-5" />
               </div>
-              <h1 className="text-[28px] tracking-[-0.72px] font-medium text-neutral-900">
+              <h1 className="text-[28px] tracking-[-0.72px] font-medium text-ink">
                 {isLoading ? "Loading your workspace" : "Start with a repository"}
               </h1>
-              <p className="mt-2 text-sm leading-6 text-neutral-500">
+              <p className="mt-2 text-sm leading-6 text-ink-mute">
                 {isLoading
                   ? "Building a grounded view of your codebase..."
                   : "Analyze a local path or GitHub URL to explore its architecture."}
