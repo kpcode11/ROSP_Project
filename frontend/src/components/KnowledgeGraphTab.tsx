@@ -12,6 +12,8 @@ import {
   NodeProps,
   Position,
   ReactFlow,
+  useEdgesState,
+  useNodesState,
 } from "@xyflow/react";
 import {
   ArrowRight,
@@ -129,10 +131,20 @@ export function KnowledgeGraphTab({
     loadGraph();
   }, [loadGraph]);
 
-  const { nodes, edges } = useMemo(() => {
+  const layouted = useMemo(() => {
     if (!graphResp) return { nodes: [], edges: [] };
     return layoutReactFlowGraph(graphResp.nodes, graphResp.edges, direction);
   }, [graphResp, direction]);
+
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node<ReactFlowNodeData>>(
+    layouted.nodes
+  );
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>(layouted.edges);
+
+  useEffect(() => {
+    setNodes(layouted.nodes);
+    setEdges(layouted.edges);
+  }, [layouted, setNodes, setEdges]);
 
   const nodeTypes = useMemo(() => ({ codeNode: CodeEntityNode }), []);
 
@@ -248,8 +260,10 @@ export function KnowledgeGraphTab({
         <div className="flex-1 relative">
           <ReactFlow
             nodes={nodes}
-            edges={edges as Edge[]}
+            edges={edges}
             nodeTypes={nodeTypes}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
             onNodeClick={(_, node) =>
               setSelectedNode(node.data as ReactFlowNodeData)
             }
@@ -263,10 +277,21 @@ export function KnowledgeGraphTab({
               pannable
               zoomable
               nodeColor={(n) =>
-                TONE_SOLID[nodeTypeMeta((n.data as ReactFlowNodeData).type).tone]
+                TONE_SOLID[
+                  nodeTypeMeta((n.data as ReactFlowNodeData)?.type || "file")
+                    .tone
+                ]
               }
-              nodeStrokeWidth={0}
-              className="hidden sm:block"
+              nodeStrokeColor={(n) =>
+                TONE_SOLID[
+                  nodeTypeMeta((n.data as ReactFlowNodeData)?.type || "file")
+                    .tone
+                ]
+              }
+              nodeStrokeWidth={2}
+              nodeBorderRadius={4}
+              maskStrokeColor="#24b47e"
+              maskStrokeWidth={2}
             />
           </ReactFlow>
 

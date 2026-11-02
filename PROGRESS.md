@@ -43,3 +43,4 @@
 | UI-03 | UI | Redesign Overview page and navbar (tokens, contrast, responsive table) | DONE | | Theme-aware tokens, readable emerald CTA, coloured KPI/actions, responsive PageRank table; build passes |
 | UI-04 | UI | Redesign Code Explorer, Knowledge Graph, AI Assistant, Impact Analysis | DONE | | Migrated all workspace tabs and graph nodes/edges to semantic token & tone system |
 | UI-05 | UI | Light-theme visual hierarchy, surface contrast, and code/card refinement across all pages | DONE | | Calibrated light-mode canvas/card/code surfaces, toned pills, and KPI accents |
+| UI-06 | UI | Fix Knowledge Graph MiniMap rendering and node dimension tracking | DONE | | Populated width/height/measured in layout-graph.ts and wired useNodesState/useEdgesState |

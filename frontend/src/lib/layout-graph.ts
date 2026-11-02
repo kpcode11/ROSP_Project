@@ -50,6 +50,11 @@ export function layoutReactFlowGraph(
       targetPosition: isHorizontal ? Position.Left : Position.Top,
       sourcePosition: isHorizontal ? Position.Right : Position.Bottom,
       position: { x, y },
+      width: NODE_WIDTH,
+      height: NODE_HEIGHT,
+      initialWidth: NODE_WIDTH,
+      initialHeight: NODE_HEIGHT,
+      measured: { width: NODE_WIDTH, height: NODE_HEIGHT },
       data: n.data,
     };
   });

@@ -720,11 +720,18 @@ textarea:focus-visible {
 }
 .react-flow__controls,
 .react-flow__minimap {
-  border: 1px solid var(--hairline);
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
+  border: 1px solid var(--hairline-strong);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
   border-radius: 8px;
   overflow: hidden;
-  background: var(--canvas);
+  background: var(--canvas) !important;
+}
+.react-flow__minimap svg {
+  display: block;
+  background: var(--canvas-soft);
+}
+.react-flow__minimap-node {
+  opacity: 0.9;
 }
 .react-flow__controls-button {
   background: var(--canvas) !important;
@@ -733,8 +740,8 @@ textarea:focus-visible {
 }
 .react-flow__controls-button svg { fill: currentColor; }
 .react-flow__controls-button:hover { background: var(--canvas-soft) !important; color: var(--ink) !important; }
-.react-flow__minimap-mask { fill: rgba(15, 23, 42, 0.06); }
-.dark-theme .react-flow__minimap-mask { fill: rgba(0, 0, 0, 0.45); }
+.react-flow__minimap-mask { fill: rgba(15, 23, 42, 0.08); }
+.dark-theme .react-flow__minimap-mask { fill: rgba(0, 0, 0, 0.5); }
 .react-flow__attribution { background: transparent !important; }
 .react-flow__attribution a { color: var(--ink-mute-2) !important; }
 .react-flow__background pattern circle { fill: var(--hairline-strong); }

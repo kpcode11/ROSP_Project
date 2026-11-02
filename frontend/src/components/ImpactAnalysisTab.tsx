@@ -6,7 +6,11 @@ import {
   BackgroundVariant,
   Controls,
   Edge,
+  MiniMap,
+  Node,
   ReactFlow,
+  useEdgesState,
+  useNodesState,
 } from "@xyflow/react";
 import {
   AlertTriangle,
@@ -20,8 +24,13 @@ import {
 } from "lucide-react";
 import { api } from "@/lib/api";
 import { layoutReactFlowGraph } from "@/lib/layout-graph";
-import { Tone, nodeTypeMeta, relationColor } from "@/lib/node-types";
-import { CentralModuleItem, FileRecord, ImpactReport } from "@/types";
+import { TONE_SOLID, Tone, nodeTypeMeta, relationColor } from "@/lib/node-types";
+import {
+  CentralModuleItem,
+  FileRecord,
+  ImpactReport,
+  ReactFlowNodeData,
+} from "@/types";
 import { CodeEntityNode } from "./KnowledgeGraphTab";
 
 interface ImpactAnalysisTabProps {
@@ -112,7 +121,7 @@ export function ImpactAnalysisTab({
     }
   }, [runAnalysis, effectiveTargetId]);
 
-  const { nodes, edges } = useMemo(() => {
+  const layouted = useMemo(() => {
     if (!report) return { nodes: [], edges: [] };
     return layoutReactFlowGraph(
       report.subgraph.nodes,
@@ -120,6 +129,16 @@ export function ImpactAnalysisTab({
       "LR"
     );
   }, [report]);
+
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node<ReactFlowNodeData>>(
+    layouted.nodes
+  );
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>(layouted.edges);
+
+  useEffect(() => {
+    setNodes(layouted.nodes);
+    setEdges(layouted.edges);
+  }, [layouted, setNodes, setEdges]);
 
   const nodeTypes = useMemo(() => ({ codeNode: CodeEntityNode }), []);
 
@@ -429,8 +448,10 @@ export function ImpactAnalysisTab({
             <div className="h-[380px] relative">
               <ReactFlow
                 nodes={nodes}
-                edges={edges as Edge[]}
+                edges={edges}
                 nodeTypes={nodeTypes}
+                onNodesChange={onNodesChange}
+                onEdgesChange={onEdgesChange}
                 fitView
               >
                 <Background
@@ -439,6 +460,23 @@ export function ImpactAnalysisTab({
                   size={1}
                 />
                 <Controls showInteractive={false} />
+                <MiniMap
+                  pannable
+                  zoomable
+                  nodeColor={(n) =>
+                    (n.data as ReactFlowNodeData)?.is_target
+                      ? TONE_SOLID.tomato
+                      : TONE_SOLID[
+                          nodeTypeMeta(
+                            (n.data as ReactFlowNodeData)?.type || "file"
+                          ).tone
+                        ]
+                  }
+                  nodeStrokeWidth={2}
+                  nodeBorderRadius={4}
+                  maskStrokeColor="#24b47e"
+                  maskStrokeWidth={2}
+                />
               </ReactFlow>
             </div>
           </section>
