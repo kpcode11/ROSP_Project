@@ -231,7 +231,7 @@ export function CodeExplorerTab({
           )}
         </div>
 
-        <div className="flex-1 overflow-auto p-3 font-mono text-xs leading-relaxed bg-slate-950">
+        <div className="flex-1 overflow-auto p-3 font-mono text-xs leading-relaxed bg-[#1c1c1c]">
           {loading ? (
             <div className="text-slate-400 p-4">Loading source file...</div>
           ) : (
@@ -253,7 +253,7 @@ export function CodeExplorerTab({
                   <span className="w-10 shrink-0 select-none text-slate-600 text-right pr-4">
                     {lineNum}
                   </span>
-                  <pre className="text-slate-200 whitespace-pre overflow-x-auto">
+                  <pre className="text-neutral-100 whitespace-pre overflow-x-auto">
                     {line || " "}
                   </pre>
                 </div>
@@ -265,4 +265,3 @@ export function CodeExplorerTab({
     </div>
   );
 }
-

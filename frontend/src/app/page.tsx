@@ -140,7 +140,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+    <div className="min-h-screen flex flex-col bg-white text-neutral-900">
       <Navbar
         repositories={repositories}
         activeRepoId={activeRepoId}
@@ -151,7 +151,7 @@ export default function HomePage() {
       />
 
       {/* 5-Tab Navigation Bar */}
-      <div className="border-b border-slate-800 bg-slate-900/50">
+      <div className="border-b border-neutral-200 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 flex items-center gap-1 overflow-x-auto">
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -162,8 +162,8 @@ export default function HomePage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 px-4 py-3 text-xs font-semibold border-b-2 transition whitespace-nowrap ${
                   isActive
-                    ? "border-indigo-500 text-indigo-400 bg-indigo-500/5"
-                    : "border-transparent text-slate-400 hover:text-slate-200"
+                    ? "border-emerald-500 text-neutral-900 bg-neutral-50"
+                    : "border-transparent text-neutral-500 hover:text-neutral-900"
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -177,7 +177,7 @@ export default function HomePage() {
       {/* Main Workspace Container */}
       <main className="flex-1 max-w-[1600px] w-full mx-auto px-6 py-6">
         {!repoDetail ? (
-          <div className="p-12 rounded-xl bg-slate-900/60 border border-slate-800 text-center text-sm text-slate-400">
+          <div className="p-12 rounded-xl bg-neutral-50 border border-neutral-200 text-center text-sm text-neutral-500">
             {isLoading
               ? "Loading repository intelligence..."
               : "Select or analyze a repository to begin."}
@@ -246,4 +246,3 @@ export default function HomePage() {
     </div>
   );
 }
-

@@ -355,14 +355,14 @@ export function ImpactAnalysisTab({
                 Target component highlighted with rose ring
               </span>
             </div>
-            <div className="h-[380px] rounded-lg overflow-hidden bg-slate-950 border border-slate-800">
+            <div className="h-[380px] rounded-lg overflow-hidden bg-neutral-50 border border-slate-800">
               <ReactFlow
                 nodes={nodes}
                 edges={edges as Edge[]}
                 nodeTypes={nodeTypes}
                 fitView
               >
-                <Background color="#1e293b" gap={20} />
+                <Background color="#d4d4d4" gap={20} />
                 <Controls className="!bg-slate-900 !border-slate-800" />
               </ReactFlow>
             </div>
@@ -372,4 +372,3 @@ export function ImpactAnalysisTab({
     </div>
   );
 }
-

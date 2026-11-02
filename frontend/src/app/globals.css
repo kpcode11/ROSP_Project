@@ -1,31 +1,217 @@
+@import "@xyflow/react/dist/style.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import "@xyflow/react/dist/style.css";
-
-body {
-  background-color: #020617;
-  color: #f1f5f9;
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+:root {
+  --canvas: #ffffff;
+  --canvas-soft: #fafafa;
+  --canvas-night: #1c1c1c;
+  --canvas-night-soft: #202020;
+  --ink: #171717;
+  --ink-secondary: #212121;
+  --ink-mute: #707070;
+  --ink-mute-2: #9a9a9a;
+  --ink-faint: #b2b2b2;
+  --primary: #3ecf8e;
+  --primary-deep: #24b47e;
+  --hairline: #dfdfdf;
+  --hairline-strong: #c7c7c7;
+  --hairline-cool: #ededed;
 }
 
-/* Custom dark scrollbar */
+* {
+  border-color: var(--hairline);
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Preserve the existing component markup while applying the light design system. */
+.bg-slate-950,
+.bg-slate-950\/60,
+.bg-slate-950\/80,
+.bg-slate-950\/90 {
+  background-color: var(--canvas) !important;
+}
+
+.bg-slate-900,
+.bg-slate-900\/50,
+.bg-slate-900\/60,
+.bg-slate-900\/90,
+.bg-slate-900\/95 {
+  background-color: var(--canvas-soft) !important;
+}
+
+.bg-slate-800,
+.bg-slate-800\/40,
+.bg-slate-800\/60,
+.bg-slate-800\/70 {
+  background-color: #f3f3f3 !important;
+}
+
+.text-white,
+.text-slate-100,
+.text-slate-200,
+.text-slate-300 {
+  color: var(--ink) !important;
+}
+
+.text-slate-400 {
+  color: var(--ink-mute) !important;
+}
+
+.text-slate-500,
+.text-slate-600 {
+  color: var(--ink-mute-2) !important;
+}
+
+.border-slate-800,
+.border-slate-800\/60,
+.border-slate-800\/90 {
+  border-color: var(--hairline) !important;
+}
+
+.border-slate-700 {
+  border-color: var(--hairline-strong) !important;
+}
+
+.hover\:bg-slate-800:hover,
+.hover\:bg-slate-800\/40:hover,
+.hover\:bg-slate-800\/70:hover {
+  background-color: #f0f0f0 !important;
+}
+
+.hover\:bg-slate-700:hover {
+  background-color: #e8e8e8 !important;
+}
+
+.text-indigo-300,
+.text-indigo-400,
+.text-purple-300,
+.text-purple-400,
+.text-blue-300,
+.text-blue-400,
+.text-amber-300,
+.text-amber-400,
+.text-emerald-300,
+.text-emerald-400,
+.text-emerald-500,
+.text-rose-300,
+.text-rose-400 {
+  color: var(--ink-secondary) !important;
+}
+
+.bg-indigo-600,
+.bg-indigo-500,
+.bg-amber-600,
+.bg-emerald-600 {
+  background-color: var(--primary) !important;
+  color: var(--ink) !important;
+}
+
+.hover\:bg-indigo-500:hover,
+.hover\:bg-amber-500:hover,
+.hover\:bg-emerald-500:hover {
+  background-color: var(--primary-deep) !important;
+}
+
+.bg-indigo-500\/5,
+.bg-indigo-500\/10,
+.bg-indigo-500\/15,
+.bg-indigo-600\/20,
+.bg-purple-500\/10,
+.bg-purple-500\/20,
+.bg-blue-500\/10,
+.bg-amber-500\/10,
+.bg-amber-500\/15,
+.bg-emerald-500\/10,
+.bg-emerald-500\/20,
+.bg-rose-500\/10,
+.bg-rose-500\/20 {
+  background-color: #f3f3f3 !important;
+}
+
+.rounded-lg {
+  border-radius: 6px;
+}
+
+.rounded-xl {
+  border-radius: 12px;
+}
+
+.shadow-xl {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Dark product/code surfaces remain intentionally inverted. */
+.prose-invert {
+  color: var(--ink) !important;
+}
+
+.react-flow {
+  background: var(--canvas-soft);
+}
+
+.react-flow__controls,
+.react-flow__minimap {
+  border: 1px solid var(--hairline);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.react-flow__controls button,
+.react-flow__minimap {
+  background: var(--canvas);
+  color: var(--ink);
+}
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: var(--canvas-soft);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #c7c7c7;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #9a9a9a;
 }
 
+@media (max-width: 767px) {
+  .text-2xl {
+    font-size: 1.75rem;
+    letter-spacing: -0.42px;
+  }
+}

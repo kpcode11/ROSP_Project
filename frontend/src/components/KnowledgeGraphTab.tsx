@@ -242,7 +242,7 @@ export function KnowledgeGraphTab({
         </div>
 
         {/* React Flow Canvas */}
-        <div className="flex-1 relative bg-slate-950">
+        <div className="flex-1 relative bg-neutral-50">
           <ReactFlow
             nodes={nodes}
             edges={edges as Edge[]}
@@ -254,7 +254,7 @@ export function KnowledgeGraphTab({
             minZoom={0.2}
             maxZoom={1.6}
           >
-            <Background color="#1e293b" gap={20} />
+            <Background color="#d4d4d4" gap={20} />
             <Controls className="!bg-slate-900 !border-slate-800 !text-slate-200" />
             <MiniMap
               nodeColor="#6366f1"
@@ -406,4 +406,3 @@ export function KnowledgeGraphTab({
     </div>
   );
 }
-
