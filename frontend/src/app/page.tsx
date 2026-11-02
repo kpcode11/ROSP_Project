@@ -29,6 +29,7 @@ type ActiveTab =
   | "impact";
 
 export default function HomePage() {
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [activeTab, setActiveTab] = useState<ActiveTab>("overview");
   const [health, setHealth] = useState<HealthResponse | null>(null);
   const [repositories, setRepositories] = useState<RepositorySummary[]>([]);
@@ -46,6 +47,20 @@ export default function HomePage() {
   } | null>(null);
   const [graphFocusNode, setGraphFocusNode] = useState<string | null>(null);
   const [impactTargetNode, setImpactTargetNode] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedTheme = window.localStorage.getItem("codeintel-theme");
+    setIsDarkTheme(
+      storedTheme === "dark" ||
+        (storedTheme === null &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+    );
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = isDarkTheme ? "dark" : "light";
+    window.localStorage.setItem("codeintel-theme", isDarkTheme ? "dark" : "light");
+  }, [isDarkTheme]);
 
   const loadInitialData = useCallback(async () => {
     setIsLoading(true);
@@ -140,7 +155,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-neutral-900">
+    <div className={`min-h-screen flex flex-col bg-white text-neutral-900 ${isDarkTheme ? "dark-theme" : ""}`}>
       <Navbar
         repositories={repositories}
         activeRepoId={activeRepoId}
@@ -148,6 +163,8 @@ export default function HomePage() {
         onAnalyzeRepo={handleAnalyzeRepo}
         health={health}
         isLoading={isLoading}
+        isDarkTheme={isDarkTheme}
+        onToggleTheme={() => setIsDarkTheme((current) => !current)}
       />
 
       {/* Workspace navigation */}

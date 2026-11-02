@@ -19,3 +19,8 @@
 - **Date:** 2026-11-02
 - **Decision:** Use the DESIGN.md white-canvas system for the dashboard shell: near-black ink, a calibrated grey border ladder, sparse emerald actions, square-ish controls, and dark product surfaces only where they improve hierarchy (such as architectural summaries and code).
 - **Rationale:** The intelligence product is dense by nature, so a restrained visual system keeps tables, graphs, and code readable without competing accent colors or decorative gradients. Emerald is reserved for primary actions and health/ready states so important actions remain easy to scan.
+
+## ADR-005: Persisted Frontend Theme Preference
+- **Date:** 2026-11-02
+- **Decision:** Provide an explicit light/dark toggle in the workspace header, persist the choice in `localStorage`, and use the operating-system preference only when no choice has been saved.
+- **Rationale:** A code intelligence workspace is used for long sessions and across different lighting conditions. Keeping the preference local avoids introducing account state while making the entire shell and data views consistent when the user switches themes.

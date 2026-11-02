@@ -39,3 +39,4 @@
 | P6-02 | 6 | Optional docker-compose.yml and demo task script | DONE | 422fa4f | Added optional docker-compose.yml and demo runner |
 | P6-03 | 6 | Final README.md, architecture docs, and release check | DONE | | Completed README.md, docs/architecture.md, and full test suite |
 | UI-01 | UI | Redesign frontend workspace using DESIGN.md | DONE | | Reworked shell, navigation, surfaces, overview, and data-heavy view styling; backend tests and frontend build pass |
+| UI-02 | UI | Add persistent light and dark theme switching | DONE | | Added persisted accessible toggle and theme-aware surfaces across the workspace |

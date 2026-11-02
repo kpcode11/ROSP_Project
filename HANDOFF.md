@@ -3,7 +3,7 @@
 **Updated:** 2026-11-02  |  **By:** Copilot  |  **Branch:** supabase-frontend-redesign  |  **Last commit:** 1fa1875
 
 ## Current task
-- ID: UI-01 - Redesign frontend workspace using DESIGN.md
+- ID: UI-02 - Add persistent light and dark theme switching
 - State: DONE
 
 ## Done in this task so far
@@ -18,6 +18,7 @@
 - Refined repository navigation, local model status, analyze modal, workspace tabs, empty state, overview hierarchy, KPI cards, and architectural summary presentation.
 - Added ADR-004 documenting the frontend visual-system decision.
 - Verified `python scripts/tasks.py test-fast`, `npm run typecheck --prefix frontend`, and `npm run build --prefix frontend`.
+- Added a persisted light/dark theme toggle with system preference fallback and theme-aware workspace surfaces.
 
 ## Files touched
 - `README.md`, `docs/architecture.md`, `PROGRESS.md`, `HANDOFF.md`

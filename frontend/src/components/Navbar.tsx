@@ -7,6 +7,8 @@ import {
   Plus,
   RefreshCw,
   Sparkles,
+  Moon,
+  Sun,
   X,
 } from "lucide-react";
 import { HealthResponse, RepositorySummary } from "@/types";
@@ -18,6 +20,8 @@ interface NavbarProps {
   onAnalyzeRepo: (source: string, name?: string) => Promise<void>;
   health: HealthResponse | null;
   isLoading: boolean;
+  isDarkTheme: boolean;
+  onToggleTheme: () => void;
 }
 
 export function Navbar({
@@ -27,6 +31,8 @@ export function Navbar({
   onAnalyzeRepo,
   health,
   isLoading,
+  isDarkTheme,
+  onToggleTheme,
 }: NavbarProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [sourceInput, setSourceInput] = useState("");
@@ -88,6 +94,20 @@ export function Navbar({
           </div>
 
           <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={onToggleTheme}
+              aria-label={`Switch to ${isDarkTheme ? "light" : "dark"} theme`}
+              title={`Switch to ${isDarkTheme ? "light" : "dark"} theme`}
+              className="w-9 h-9 rounded-md border border-neutral-300 bg-white hover:bg-neutral-50 text-neutral-700 flex items-center justify-center transition"
+            >
+              {isDarkTheme ? (
+                <Sun className="w-4 h-4" />
+              ) : (
+                <Moon className="w-4 h-4" />
+              )}
+            </button>
+
             {/* Ollama Model Status Badge */}
             <div className="hidden xl:flex items-center gap-2 px-3 py-2 rounded-md bg-neutral-50 border border-neutral-200 text-[11px]">
               <span className={`w-1.5 h-1.5 rounded-full ${health?.ollama.reachable ? "bg-[#24b47e]" : "bg-[#a56a00]"}`} />
