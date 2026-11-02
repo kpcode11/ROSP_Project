@@ -1,9 +1,9 @@
 # Handoff
 
-**Updated:** 2026-10-31  |  **By:** Antigravity  |  **Branch:** main  |  **Last commit:** 422fa4f
+**Updated:** 2026-11-02  |  **By:** Copilot  |  **Branch:** supabase-frontend-redesign  |  **Last commit:** 1fa1875
 
 ## Current task
-- ID: ALL_DONE - Phases 0 through 6 completed
+- ID: UI-01 - Redesign frontend workspace using DESIGN.md
 - State: DONE
 
 ## Done in this task so far
@@ -11,7 +11,13 @@
 - Verified backend unit/integration tests (`17 passed`), Ruff lint, CLI analyzer (`python scripts/tasks.py analyze-sample`), benchmarks (`results/benchmarks.json`), and Next.js TypeScript compilation (`npm run typecheck --prefix frontend`).
 
 ## Exact next step
-- Run `python scripts/tasks.py demo` to launch the FastAPI backend (`:8000`) and Next.js dashboard (`:3000`).
+- Run `python scripts/status.py` before beginning the next task.
+
+## Completed in this task
+- Reworked the frontend shell around the DESIGN.md white-canvas system with near-black ink, calibrated borders, restrained emerald actions, and intentional dark product surfaces.
+- Refined repository navigation, local model status, analyze modal, workspace tabs, empty state, overview hierarchy, KPI cards, and architectural summary presentation.
+- Added ADR-004 documenting the frontend visual-system decision.
+- Verified `python scripts/tasks.py test-fast`, `npm run typecheck --prefix frontend`, and `npm run build --prefix frontend`.
 
 ## Files touched
 - `README.md`, `docs/architecture.md`, `PROGRESS.md`, `HANDOFF.md`

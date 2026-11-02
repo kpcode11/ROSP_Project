@@ -8,17 +8,18 @@
   --canvas: #ffffff;
   --canvas-soft: #fafafa;
   --canvas-night: #1c1c1c;
-  --canvas-night-soft: #202020;
+  --canvas-night-soft: #242424;
   --ink: #171717;
-  --ink-secondary: #212121;
+  --ink-secondary: #303030;
   --ink-mute: #707070;
-  --ink-mute-2: #9a9a9a;
-  --ink-faint: #b2b2b2;
+  --ink-mute-2: #929292;
+  --ink-faint: #b6b6b6;
   --primary: #3ecf8e;
   --primary-deep: #24b47e;
   --hairline: #dfdfdf;
-  --hairline-strong: #c7c7c7;
   --hairline-cool: #ededed;
+  --danger: #c43d4b;
+  --warning: #a56a00;
 }
 
 * {
@@ -45,20 +46,34 @@ textarea {
   font: inherit;
 }
 
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
 button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid var(--primary);
+  outline: 2px solid var(--primary-deep);
   outline-offset: 2px;
 }
 
-/* Preserve the existing component markup while applying the light design system. */
+::selection {
+  background: #b9f4d7;
+  color: var(--ink);
+}
+
+/* The existing feature views share these utility names. Keep the visual
+   language coherent while the views remain independently usable. */
 .bg-slate-950,
 .bg-slate-950\/60,
 .bg-slate-950\/80,
 .bg-slate-950\/90 {
-  background-color: var(--canvas) !important;
+  background-color: var(--canvas-night) !important;
 }
 
 .bg-slate-900,
@@ -66,21 +81,34 @@ textarea:focus-visible {
 .bg-slate-900\/60,
 .bg-slate-900\/90,
 .bg-slate-900\/95 {
-  background-color: var(--canvas-soft) !important;
+  background-color: var(--canvas) !important;
 }
 
 .bg-slate-800,
 .bg-slate-800\/40,
 .bg-slate-800\/60,
 .bg-slate-800\/70 {
-  background-color: #f3f3f3 !important;
+  background-color: var(--canvas-soft) !important;
 }
 
-.text-white,
-.text-slate-100,
-.text-slate-200,
-.text-slate-300 {
+.text-white {
   color: var(--ink) !important;
+}
+
+.bg-slate-950 .text-white,
+.bg-slate-950\/60 .text-white,
+.bg-slate-950\/80 .text-white,
+.bg-slate-950\/90 .text-white {
+  color: #ffffff !important;
+}
+
+.text-slate-100,
+.text-slate-200 {
+  color: var(--ink-secondary) !important;
+}
+
+.text-slate-300 {
+  color: #4b4b4b !important;
 }
 
 .text-slate-400 {
@@ -95,11 +123,11 @@ textarea:focus-visible {
 .border-slate-800,
 .border-slate-800\/60,
 .border-slate-800\/90 {
-  border-color: var(--hairline) !important;
+  border-color: var(--hairline-cool) !important;
 }
 
 .border-slate-700 {
-  border-color: var(--hairline-strong) !important;
+  border-color: #c7c7c7 !important;
 }
 
 .hover\:bg-slate-800:hover,
@@ -122,10 +150,13 @@ textarea:focus-visible {
 .text-amber-400,
 .text-emerald-300,
 .text-emerald-400,
-.text-emerald-500,
+.text-emerald-500 {
+  color: var(--ink-secondary) !important;
+}
+
 .text-rose-300,
 .text-rose-400 {
-  color: var(--ink-secondary) !important;
+  color: var(--danger) !important;
 }
 
 .bg-indigo-600,
@@ -155,7 +186,7 @@ textarea:focus-visible {
 .bg-emerald-500\/20,
 .bg-rose-500\/10,
 .bg-rose-500\/20 {
-  background-color: #f3f3f3 !important;
+  background-color: #f4f4f4 !important;
 }
 
 .rounded-lg {
@@ -168,11 +199,6 @@ textarea:focus-visible {
 
 .shadow-xl {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-}
-
-/* Dark product/code surfaces remain intentionally inverted. */
-.prose-invert {
-  color: var(--ink) !important;
 }
 
 .react-flow {
@@ -192,8 +218,8 @@ textarea:focus-visible {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
@@ -202,7 +228,7 @@ textarea:focus-visible {
 
 ::-webkit-scrollbar-thumb {
   background: #c7c7c7;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {

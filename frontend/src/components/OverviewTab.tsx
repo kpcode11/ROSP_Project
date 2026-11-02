@@ -72,6 +72,26 @@ export function OverviewTab({
 
   return (
     <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+        <div>
+          <p className="text-[11px] uppercase tracking-[0.14em] text-neutral-500 font-medium">
+            Repository overview
+          </p>
+          <h1 className="mt-1 text-[36px] leading-tight tracking-[-0.72px] font-medium text-neutral-900">
+            {detail.name}
+          </h1>
+          <p className="mt-1 text-sm text-neutral-500">
+            A deterministic map of the code, relationships, and change surface.
+          </p>
+        </div>
+        <div className="text-right text-xs text-neutral-500">
+          <span className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-[#f3fbf7] border border-[#b9ead2] text-[#247b58]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#24b47e]" />
+            Analysis ready
+          </span>
+        </div>
+      </div>
+
       {/* Top KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {metricCards.map((card) => {
@@ -79,7 +99,7 @@ export function OverviewTab({
           return (
             <div
               key={card.label}
-              className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col justify-between"
+              className="p-5 rounded-xl bg-white border border-neutral-200 flex flex-col justify-between shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
             >
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs font-medium text-slate-400">
@@ -90,7 +110,7 @@ export function OverviewTab({
                 </div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">
+                <div className="text-[28px] tracking-[-0.42px] font-medium text-neutral-900">
                   {card.value}
                 </div>
                 <div className="text-xs text-slate-400 mt-1">{card.sub}</div>
@@ -102,12 +122,12 @@ export function OverviewTab({
 
       {/* Architectural Summary & Language Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 p-6 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
-          <div className="flex items-center gap-2 text-indigo-400 font-semibold text-sm">
+        <div className="lg:col-span-2 p-6 rounded-xl bg-[#1c1c1c] border border-[#1c1c1c] space-y-4 shadow-[0_8px_24px_rgba(0,0,0,0.08)]">
+          <div className="flex items-center gap-2 text-[#3ecf8e] font-medium text-sm">
             <Layers className="w-4 h-4" />
-            <span>Deterministic Architectural Summary</span>
+            <span className="text-white">Deterministic architectural summary</span>
           </div>
-          <p className="text-sm text-slate-300 leading-relaxed">
+          <p className="text-sm text-white/75 leading-relaxed">
             {detail.architectural_summary}
           </p>
           <div className="pt-2 flex flex-wrap items-center gap-2">
@@ -117,7 +137,7 @@ export function OverviewTab({
             {frameworks.map((fw) => (
               <span
                 key={fw}
-                className="px-2.5 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-200 border border-slate-700"
+                className="px-2.5 py-1 rounded-full text-xs font-medium bg-white/10 text-white border border-white/15"
               >
                 {fw}
               </span>
@@ -125,7 +145,7 @@ export function OverviewTab({
           </div>
         </div>
 
-        <div className="p-6 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
+        <div className="p-6 rounded-xl bg-white border border-neutral-200 space-y-4">
           <div className="flex items-center gap-2 text-emerald-400 font-semibold text-sm">
             <Box className="w-4 h-4" />
             <span>Language Distribution</span>
@@ -177,7 +197,7 @@ export function OverviewTab({
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <Activity className="w-4 h-4 text-purple-400" />
-            <h3 className="text-sm font-semibold text-white">
+            <h3 className="text-sm font-medium text-neutral-900">
               Top Central Components (Ranked by Dependency Graph PageRank)
             </h3>
           </div>
@@ -255,4 +275,3 @@ export function OverviewTab({
     </div>
   );
 }
-

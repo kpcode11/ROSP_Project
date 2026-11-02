@@ -66,43 +66,40 @@ export function Navbar({
 
   return (
     <>
-      <header className="border-b border-neutral-200 bg-white/95 backdrop-blur sticky top-0 z-30">
-        <div className="max-w-[1600px] mx-auto px-6 h-16 flex items-center justify-between gap-4">
+      <header className="border-b border-neutral-200 bg-white sticky top-0 z-30">
+        <div className="max-w-[1600px] mx-auto px-5 sm:px-8 h-[72px] flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400">
-              <Sparkles className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-md bg-[#1c1c1c] flex items-center justify-center text-[#3ecf8e]">
+              <Sparkles className="w-[18px] h-[18px]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-medium text-lg tracking-tight text-neutral-900">
+                <span className="font-medium text-[19px] tracking-[-0.4px] text-neutral-900">
                   CodeIntel
                 </span>
-                <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-100 text-neutral-900 border border-emerald-300">
-                  GraphRAG + AST
+                <span className="hidden sm:inline-flex text-[10px] uppercase tracking-[0.08em] font-medium px-2 py-1 rounded-full bg-[#f3fbf7] text-[#247b58] border border-[#b9ead2]">
+                  Local workspace
                 </span>
               </div>
-              <p className="text-xs text-slate-400 hidden sm:block">
-                Local-First Codebase Intelligence & Blast-Radius Analyzer
+              <p className="text-[11px] text-slate-400 hidden sm:block mt-0.5">
+                Codebase intelligence, grounded in your repository
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
             {/* Ollama Model Status Badge */}
-            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-50 border border-neutral-200 text-xs">
-              <Cpu className="w-3.5 h-3.5 text-neutral-900" />
-              <span className="text-neutral-500">Models:</span>
+            <div className="hidden xl:flex items-center gap-2 px-3 py-2 rounded-md bg-neutral-50 border border-neutral-200 text-[11px]">
+              <span className={`w-1.5 h-1.5 rounded-full ${health?.ollama.reachable ? "bg-[#24b47e]" : "bg-[#a56a00]"}`} />
+              <Cpu className="w-3.5 h-3.5 text-neutral-600" />
+              <span className="text-neutral-500">Local models</span>
               <span className="text-neutral-900 font-mono">
                 {health?.llm_model || "qwen2.5:7b-instruct"}
-              </span>
-              <span className="text-slate-600">|</span>
-              <span className="text-neutral-700 font-mono">
-                {health?.embedding_model || "mxbai-embed-large"}
               </span>
             </div>
 
             {/* Active Repository Selector */}
-            <div className="flex items-center gap-2 bg-white border border-neutral-300 rounded-lg px-3 py-1.5">
+            <div className="flex items-center gap-2 bg-white border border-neutral-300 rounded-md px-3 py-2">
               <FolderGit2 className="w-4 h-4 text-neutral-700" />
               <select
                 aria-label="Select active repository"
@@ -126,7 +123,7 @@ export function Navbar({
             {/* Analyze New Repository Button */}
             <button
               onClick={() => setModalOpen(true)}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-emerald-400 hover:bg-emerald-500 text-neutral-900 text-sm font-medium transition"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-md bg-emerald-400 hover:bg-emerald-500 text-neutral-900 text-sm font-medium transition"
             >
               <Plus className="w-4 h-4" />
               <span>Analyze Repo</span>
@@ -136,12 +133,13 @@ export function Navbar({
       </header>
 
       {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white border border-neutral-200 rounded-xl max-w-lg w-full p-6 shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-[#171717]/45 backdrop-blur-[2px] flex items-center justify-center p-4">
+          <div className="bg-white border border-neutral-200 rounded-xl max-w-lg w-full p-7 shadow-2xl">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-medium text-neutral-900">
-                Analyze Repository
-              </h2>
+              <div>
+                <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[#707070]">New analysis</p>
+                <h2 className="text-[22px] tracking-[-0.42px] font-medium text-neutral-900 mt-1">Analyze a repository</h2>
+              </div>
               <button
                 onClick={() => setModalOpen(false)}
                 className="text-neutral-500 hover:text-neutral-900"

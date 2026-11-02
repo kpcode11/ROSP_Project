@@ -14,3 +14,8 @@
 - **Date:** 2026-10-31
 - **Environment:** Windows 11 64-bit, Intel Core i7-14650HX, 16 GB RAM, NVIDIA GeForce RTX 4060 Laptop GPU (8 GB VRAM), Python 3.14.7, Node.js v24.20.0.
 - **Models:** `mxbai-embed-large:latest` (1024 dimensions) and `qwen2.5:7b-instruct` configured with deterministic fallback embeddings/synthesis when the Ollama daemon is offline during automated CI/local test runs.
+
+## ADR-004: Supabase-Inspired Frontend Workspace
+- **Date:** 2026-11-02
+- **Decision:** Use the DESIGN.md white-canvas system for the dashboard shell: near-black ink, a calibrated grey border ladder, sparse emerald actions, square-ish controls, and dark product surfaces only where they improve hierarchy (such as architectural summaries and code).
+- **Rationale:** The intelligence product is dense by nature, so a restrained visual system keeps tables, graphs, and code readable without competing accent colors or decorative gradients. Emerald is reserved for primary actions and health/ready states so important actions remain easy to scan.
