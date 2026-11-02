@@ -29,6 +29,7 @@ type ActiveTab =
   | "impact";
 
 export default function HomePage() {
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [activeTab, setActiveTab] = useState<ActiveTab>("overview");
   const [health, setHealth] = useState<HealthResponse | null>(null);
   const [repositories, setRepositories] = useState<RepositorySummary[]>([]);
@@ -46,6 +47,20 @@ export default function HomePage() {
   } | null>(null);
   const [graphFocusNode, setGraphFocusNode] = useState<string | null>(null);
   const [impactTargetNode, setImpactTargetNode] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedTheme = window.localStorage.getItem("codeintel-theme");
+    setIsDarkTheme(
+      storedTheme === "dark" ||
+        (storedTheme === null &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+    );
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = isDarkTheme ? "dark" : "light";
+    window.localStorage.setItem("codeintel-theme", isDarkTheme ? "dark" : "light");
+  }, [isDarkTheme]);
 
   const loadInitialData = useCallback(async () => {
     setIsLoading(true);
@@ -140,7 +155,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+    <div className={`min-h-screen flex flex-col bg-canvas-page text-ink ${isDarkTheme ? "dark-theme" : ""}`}>
       <Navbar
         repositories={repositories}
         activeRepoId={activeRepoId}
@@ -148,39 +163,52 @@ export default function HomePage() {
         onAnalyzeRepo={handleAnalyzeRepo}
         health={health}
         isLoading={isLoading}
+        isDarkTheme={isDarkTheme}
+        onToggleTheme={() => setIsDarkTheme((current) => !current)}
       />
 
-      {/* 5-Tab Navigation Bar */}
-      <div className="border-b border-slate-800 bg-slate-900/50">
-        <div className="max-w-[1600px] mx-auto px-6 flex items-center gap-1 overflow-x-auto">
+      {/* Workspace navigation */}
+      <nav className="border-b border-hairline bg-canvas shadow-[0_1px_2px_rgba(15,23,42,0.03)]" aria-label="Workspace">
+        <div
+          role="tablist"
+          className="max-w-[1600px] mx-auto px-4 sm:px-8 flex items-center gap-1 overflow-x-auto"
+        >
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
+                role="tab"
+                aria-selected={isActive}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-3 text-xs font-semibold border-b-2 transition whitespace-nowrap ${
-                  isActive
-                    ? "border-indigo-500 text-indigo-400 bg-indigo-500/5"
-                    : "border-transparent text-slate-400 hover:text-slate-200"
-                }`}
+                className="ws-tab"
               >
-                <Icon className="w-4 h-4" />
+                <Icon className={`w-4 h-4 ${isActive ? "text-[#24b47e]" : ""}`} />
                 <span>{tab.label}</span>
               </button>
             );
           })}
         </div>
-      </div>
+      </nav>
 
       {/* Main Workspace Container */}
-      <main className="flex-1 max-w-[1600px] w-full mx-auto px-6 py-6">
+      <main className="flex-1 max-w-[1600px] w-full mx-auto px-4 sm:px-8 py-6 sm:py-8">
         {!repoDetail ? (
-          <div className="p-12 rounded-xl bg-slate-900/60 border border-slate-800 text-center text-sm text-slate-400">
-            {isLoading
-              ? "Loading repository intelligence..."
-              : "Select or analyze a repository to begin."}
+          <div className="min-h-[420px] card flex items-center justify-center">
+            <div className="text-center max-w-sm px-6">
+              <div className="mx-auto mb-4 w-10 h-10 rounded-md bg-[#1c1c1c] text-[#3ecf8e] flex items-center justify-center">
+                <Code2 className="w-5 h-5" />
+              </div>
+              <h1 className="text-[28px] tracking-[-0.72px] font-medium text-ink">
+                {isLoading ? "Loading your workspace" : "Start with a repository"}
+              </h1>
+              <p className="mt-2 text-sm leading-6 text-ink-mute">
+                {isLoading
+                  ? "Building a grounded view of your codebase..."
+                  : "Analyze a local path or GitHub URL to explore its architecture."}
+              </p>
+            </div>
           </div>
         ) : (
           <>
@@ -246,4 +274,3 @@ export default function HomePage() {
     </div>
   );
 }
-

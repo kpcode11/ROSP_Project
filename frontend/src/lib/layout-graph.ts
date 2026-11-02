@@ -1,6 +1,7 @@
 import dagre from "dagre";
 import { Edge, Node, Position } from "@xyflow/react";
 import { ReactFlowEdgeItem, ReactFlowNodeData, ReactFlowNodeItem } from "@/types";
+import { relationColor } from "@/lib/node-types";
 
 const NODE_WIDTH = 240;
 const NODE_HEIGHT = 84;
@@ -49,17 +50,18 @@ export function layoutReactFlowGraph(
       targetPosition: isHorizontal ? Position.Left : Position.Top,
       sourcePosition: isHorizontal ? Position.Right : Position.Bottom,
       position: { x, y },
+      width: NODE_WIDTH,
+      height: NODE_HEIGHT,
+      initialWidth: NODE_WIDTH,
+      initialHeight: NODE_HEIGHT,
+      measured: { width: NODE_WIDTH, height: NODE_HEIGHT },
       data: n.data,
     };
   });
 
   const edges: Edge[] = rawEdges.map((e) => {
     const rel = e.data?.relation || e.label || "CALLS";
-    let stroke = "#64748b";
-    if (rel === "ROUTES_TO") stroke = "#10b981";
-    else if (rel === "CALLS") stroke = "#a855f7";
-    else if (rel === "QUERIES") stroke = "#f43f5e";
-    else if (rel === "IMPORTS") stroke = "#3b82f6";
+    const stroke = relationColor(rel);
 
     return {
       id: e.id,
@@ -68,9 +70,12 @@ export function layoutReactFlowGraph(
       label: e.label,
       type: "smoothstep",
       animated: Boolean(e.animated),
-      style: { stroke, strokeWidth: 1.8 },
-      labelStyle: { fill: "#cbd5e1", fontSize: 10, fontWeight: 600 },
-      labelBgStyle: { fill: "#0f172a", fillOpacity: 0.85 },
+      style: { stroke, strokeWidth: 1.6 },
+      // CSS variables keep edge labels readable in both themes.
+      labelStyle: { fill: "var(--ink-secondary)", fontSize: 10, fontWeight: 500 },
+      labelBgStyle: { fill: "var(--canvas)", fillOpacity: 0.92 },
+      labelBgPadding: [4, 2] as [number, number],
+      labelBgBorderRadius: 4,
     };
   });
 

@@ -12,6 +12,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { api } from "@/lib/api";
+import { nodeTypeMeta } from "@/lib/node-types";
 import { AssistantResponse, SearchResultItem } from "@/types";
 
 interface AssistantTabProps {
@@ -69,31 +70,28 @@ export function AssistantTab({ repoId, onOpenCitation }: AssistantTabProps) {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-      {/* Left 7 Columns: Grounded Hybrid GraphRAG Assistant */}
-      <div className="lg:col-span-7 space-y-4">
-        <div className="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-indigo-400 font-semibold text-sm">
-              <Sparkles className="w-4 h-4" />
-              <span>Grounded Hybrid GraphRAG Codebase Assistant</span>
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start">
+      {/* Grounded GraphRAG assistant */}
+      <div className="lg:col-span-7 space-y-4 sm:space-y-6 min-w-0">
+        <section className="card p-5 sm:p-6 space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+            <div className="flex items-start gap-3">
+              <span className="tone-icon tone-emerald w-9 h-9 shrink-0">
+                <Sparkles className="w-4 h-4" />
+              </span>
+              <div>
+                <h2 className="text-[18px] font-medium tracking-[-0.2px] text-ink">
+                  Ask about this codebase
+                </h2>
+                <p className="text-[13px] text-ink-mute mt-0.5">
+                  Hybrid GraphRAG answers, grounded in AST-verified source citations.
+                </p>
+              </div>
             </div>
-            <span className="text-[11px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-full">
-              100% Citation Verified
+            <span className="pill-soft tone-emerald self-start shrink-0">
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              Citation verified
             </span>
-          </div>
-
-          {/* Quick Prompt Chips */}
-          <div className="flex flex-wrap gap-2">
-            {SAMPLE_PROMPTS.map((prompt) => (
-              <button
-                key={prompt}
-                onClick={() => handleAsk(prompt)}
-                className="text-xs px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800 transition text-left"
-              >
-                {prompt}
-              </button>
-            ))}
           </div>
 
           <form
@@ -101,19 +99,20 @@ export function AssistantTab({ repoId, onOpenCitation }: AssistantTabProps) {
               e.preventDefault();
               handleAsk();
             }}
-            className="flex gap-2"
+            className="flex flex-col sm:flex-row gap-2"
           >
             <input
               type="text"
+              aria-label="Question"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
-              placeholder="Ask an architectural or execution flow question..."
-              className="flex-1 px-3.5 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-sm text-slate-100 focus:outline-none focus:border-indigo-500"
+              placeholder="Ask an architectural or execution-flow question..."
+              className="field flex-1 !min-h-[42px] !text-[14px]"
             />
             <button
               type="submit"
               disabled={loadingAsk || !question.trim()}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-sm font-medium transition"
+              className="btn-primary !min-h-[42px] !px-5"
             >
               {loadingAsk ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -123,179 +122,251 @@ export function AssistantTab({ repoId, onOpenCitation }: AssistantTabProps) {
               <span>Ask</span>
             </button>
           </form>
-        </div>
 
-        {/* Grounded Answer Output */}
+          <div className="space-y-2">
+            <p className="section-label">Try asking</p>
+            <div className="flex flex-wrap gap-2">
+              {SAMPLE_PROMPTS.map((prompt) => (
+                <button
+                  key={prompt}
+                  type="button"
+                  onClick={() => handleAsk(prompt)}
+                  disabled={loadingAsk}
+                  className="prompt-chip"
+                >
+                  {prompt}
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {loadingAsk && !response && (
+          <section className="card p-6 space-y-3 animate-pulse" aria-busy="true">
+            <div className="h-4 w-2/3 rounded bg-[var(--hairline-cool)]" />
+            <div className="h-3 w-full rounded bg-[var(--hairline-cool)]" />
+            <div className="h-3 w-5/6 rounded bg-[var(--hairline-cool)]" />
+            <div className="h-3 w-4/6 rounded bg-[var(--hairline-cool)]" />
+          </section>
+        )}
+
+        {!response && !loadingAsk && (
+          <section className="card p-8 text-center">
+            <span className="tone-icon tone-emerald w-10 h-10 mx-auto mb-3">
+              <BookOpenCheck className="w-5 h-5" />
+            </span>
+            <p className="text-[14px] font-semibold text-ink">Ready to trace your codebase</p>
+            <p className="text-[13px] text-ink-mute mt-1 max-w-md mx-auto">
+              Pick a suggestion above or type your own question. Answers include a traced
+              execution flow and clickable AST-verified source citations.
+            </p>
+          </section>
+        )}
+
+        {/* Grounded answer */}
         {response && (
-          <div className="p-6 rounded-xl bg-slate-900/90 border border-slate-800 space-y-6">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div>
-                <h3 className="text-sm font-semibold text-white">
-                  {response.question}
-                </h3>
-                <p className="text-xs text-slate-400 mt-0.5">
-                  Synthesized via{" "}
-                  <span className="font-mono text-indigo-300">
-                    {response.model_used}
-                  </span>{" "}
-                  in {response.retrieval_latency_ms} ms
-                </p>
+          <section className={`card overflow-hidden transition-opacity ${loadingAsk ? "opacity-60" : ""}`}>
+            <div className="px-5 sm:px-6 py-4 border-b border-hairline">
+              <h3 className="text-[17px] font-medium tracking-[-0.2px] text-ink leading-snug">
+                {response.question}
+              </h3>
+              <div className="flex flex-wrap items-center gap-2 mt-2">
+                <span className="pill-soft font-mono">{response.model_used}</span>
+                <span className="pill-soft tabular-nums">
+                  {response.retrieval_latency_ms} ms retrieval
+                </span>
               </div>
             </div>
 
-            <div className="prose prose-invert max-w-none text-sm text-slate-200 whitespace-pre-line leading-relaxed">
-              {response.answer_markdown}
-            </div>
+            <div className="p-5 sm:p-6 space-y-7">
+              <div className="text-[15px] text-ink-secondary whitespace-pre-line leading-[1.7]">
+                {response.answer_markdown}
+              </div>
 
-            {/* Step-by-Step Execution Flow Trace */}
-            {response.execution_steps.length > 0 && (
-              <div className="space-y-3">
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-indigo-400">
-                  Traced Execution Flow ({response.execution_steps.length} Steps)
-                </h4>
-                <div className="space-y-2">
-                  {response.execution_steps.map((step) => (
-                    <div
-                      key={step.step}
-                      className="p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-start gap-3"
-                    >
-                      <span className="w-6 h-6 rounded-full bg-indigo-600/20 border border-indigo-500/40 text-indigo-300 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
-                        {step.step}
-                      </span>
-                      <div className="space-y-1 text-xs">
-                        <div className="flex items-center gap-2">
-                          <span className="font-mono font-bold text-white">
-                            {step.component}
-                          </span>
-                          <ArrowRight className="w-3 h-3 text-slate-500" />
-                          <span className="font-mono text-slate-400">
-                            {step.file_path}
-                          </span>
+              {/* Execution flow */}
+              {response.execution_steps.length > 0 && (
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <span className="section-label">Traced execution flow</span>
+                    <span className="count">{response.execution_steps.length}</span>
+                  </div>
+                  <ol className="relative tone-violet">
+                    {response.execution_steps.map((step, i) => (
+                      <li key={step.step} className="relative flex gap-3 pb-4 last:pb-0">
+                        {i < response.execution_steps.length - 1 && (
+                          <span
+                            className="absolute left-[13px] top-7 bottom-0 w-px bg-[var(--tbd)]"
+                            aria-hidden
+                          />
+                        )}
+                        <span className="tone-icon w-7 h-7 !rounded-full text-[12px] font-semibold shrink-0 tabular-nums">
+                          {step.step}
+                        </span>
+                        <div className="min-w-0 flex-1 pt-0.5">
+                          <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+                            <span className="font-mono text-[13px] font-medium text-ink">
+                              {step.component}
+                            </span>
+                            <ArrowRight className="w-3 h-3 text-ink-mute-2" />
+                            <span className="font-mono text-[12px] text-ink-mute break-all">
+                              {step.file_path}
+                            </span>
+                          </div>
+                          <p className="text-[13px] text-ink-secondary mt-1 leading-relaxed">
+                            {step.description}
+                          </p>
                         </div>
-                        <p className="text-slate-300">{step.description}</p>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+
+              {/* Citations */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <BookOpenCheck className="w-4 h-4 text-[#24b47e]" />
+                  <span className="section-label">Verified source citations</span>
+                  <span className="count">{response.citations.length}</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  {response.citations.map((cit, idx) => (
+                    <button
+                      type="button"
+                      key={`${cit.file_path}-${cit.line_start}-${idx}`}
+                      onClick={() =>
+                        onOpenCitation(cit.file_path, cit.line_start, cit.line_end)
+                      }
+                      className="card-link group space-y-1.5"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-mono text-[13px] font-medium text-ink truncate group-hover:underline underline-offset-2">
+                          {cit.symbol}
+                        </span>
+                        <span className="tone-emerald inline-flex items-center gap-1 text-[11px] font-mono px-1.5 py-0.5 rounded-[4px] bg-[var(--tbg)] text-[var(--tfg)] border border-[var(--tbd)] shrink-0">
+                          <CheckCircle2 className="w-3 h-3" />
+                          L{cit.line_start}–{cit.line_end}
+                        </span>
                       </div>
-                    </div>
+                      <div className="font-mono text-[11.5px] text-ink-mute truncate">
+                        {cit.file_path}
+                      </div>
+                      {cit.snippet && (
+                        <div className="code-surface rounded-[4px] px-2 py-1 font-mono text-[11px] truncate">
+                          {cit.snippet}
+                        </div>
+                      )}
+                    </button>
                   ))}
                 </div>
               </div>
-            )}
-
-            {/* Verified Source Citations */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-400">
-                <BookOpenCheck className="w-4 h-4" />
-                <span>
-                  Verified AST Source Citations ({response.citations.length})
-                </span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {response.citations.map((cit, idx) => (
-                  <button
-                    key={`${cit.file_path}-${cit.line_start}-${idx}`}
-                    onClick={() =>
-                      onOpenCitation(
-                        cit.file_path,
-                        cit.line_start,
-                        cit.line_end
-                      )
-                    }
-                    className="p-3 rounded-lg bg-slate-950 hover:bg-slate-800/80 border border-slate-800 hover:border-indigo-500/40 text-left transition group space-y-1"
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-mono font-semibold text-indigo-300 group-hover:underline truncate">
-                        {cit.symbol}
-                      </span>
-                      <span className="inline-flex items-center gap-1 text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-300">
-                        <CheckCircle2 className="w-3 h-3" />L{cit.line_start}–L
-                        {cit.line_end}
-                      </span>
-                    </div>
-                    <div className="text-[11px] font-mono text-slate-400 truncate">
-                      {cit.file_path}
-                    </div>
-                    <div className="text-[11px] font-mono text-slate-500 truncate">
-                      {cit.snippet}
-                    </div>
-                  </button>
-                ))}
-              </div>
             </div>
-          </div>
+          </section>
         )}
       </div>
 
-      {/* Right 5 Columns: Semantic Vector Code Search */}
-      <div className="lg:col-span-5 space-y-4">
-        <div className="p-5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-emerald-400 font-semibold text-sm">
-              <Search className="w-4 h-4" />
-              <span>Semantic Code Search (Qdrant 1024-dim)</span>
+      {/* Semantic code search */}
+      <aside className="lg:col-span-5 lg:sticky lg:top-[88px] min-w-0">
+        <section className="card p-5 sm:p-6 space-y-4">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex items-start gap-3">
+              <span className="tone-icon tone-sky w-9 h-9 shrink-0">
+                <Search className="w-4 h-4" />
+              </span>
+              <div>
+                <h2 className="text-[18px] font-medium tracking-[-0.2px] text-ink">
+                  Semantic code search
+                </h2>
+                <p className="text-[13px] text-ink-mute mt-0.5">
+                  Find code by intent, not identifier names.
+                </p>
+              </div>
             </div>
+            <span className="pill-soft font-mono shrink-0 hidden sm:inline-flex">1024-dim</span>
           </div>
-          <p className="text-xs text-slate-400">
-            Search by natural-language intent (e.g.,{" "}
-            <code className="text-slate-200">
-              verify whether a user is allowed to access protected routes
-            </code>
-            ) without needing exact identifier names.
-          </p>
 
           <form onSubmit={handleSemanticSearch} className="flex gap-2">
             <input
               type="text"
+              aria-label="Semantic search query"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search code by behavior or intent..."
-              className="flex-1 px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-xs text-slate-100 focus:outline-none focus:border-emerald-500"
+              placeholder="e.g. verify a user can access protected routes"
+              className="field flex-1 !text-[13px]"
             />
             <button
               type="submit"
-              disabled={searching}
-              className="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium transition"
+              disabled={searching || !searchQuery.trim()}
+              className="btn-outline shrink-0 disabled:opacity-50"
             >
-              {searching ? "Searching..." : "Search"}
+              {searching ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
+              <span className="hidden sm:inline">Search</span>
             </button>
           </form>
 
-          <div className="space-y-2.5 pt-2">
-            {searchResults.map((item) => (
-              <div
-                key={item.chunk_id}
-                onClick={() =>
-                  onOpenCitation(
-                    item.file_path,
-                    item.line_start,
-                    item.line_end
-                  )
-                }
-                className="cursor-pointer p-3 rounded-lg bg-slate-950 hover:bg-slate-800/70 border border-slate-800 transition space-y-1.5"
+          {searchResults.length === 0 ? (
+            <p className="text-[12.5px] text-ink-mute leading-relaxed">
+              Try{" "}
+              <button
+                type="button"
+                onClick={() => setSearchQuery("verify whether a user is allowed to access protected routes")}
+                className="code-inline hover:border-hairline-strong"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 truncate">
-                    <FileCode className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                    <span className="text-xs font-mono font-bold text-white truncate">
-                      {item.name}
-                    </span>
-                  </div>
-                  <span className="text-[11px] font-mono text-emerald-400">
-                    score: {item.score.toFixed(3)}
-                  </span>
-                </div>
-                <div className="text-[11px] font-mono text-slate-400">
-                  {item.file_path}:L{item.line_start}–L{item.line_end}
-                </div>
-                {item.docstring && (
-                  <p className="text-xs text-slate-300 line-clamp-2">
-                    {item.docstring}
-                  </p>
-                )}
+                verify whether a user is allowed to access protected routes
+              </button>
+            </p>
+          ) : (
+            <div className="space-y-2 pt-1">
+              <div className="flex items-center gap-2">
+                <span className="section-label">Results</span>
+                <span className="count">{searchResults.length}</span>
               </div>
-            ))}
-          </div>
-        </div>
-      </div>
+              {searchResults.map((item) => {
+                const meta = nodeTypeMeta(item.node_type);
+                const pct = Math.max(0, Math.min(1, item.score)) * 100;
+                return (
+                  <button
+                    type="button"
+                    key={item.chunk_id}
+                    onClick={() =>
+                      onOpenCitation(item.file_path, item.line_start, item.line_end)
+                    }
+                    className={`card-link space-y-1.5 tone-${meta.tone}`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <FileCode className="w-3.5 h-3.5 text-[var(--tfg)] shrink-0" />
+                        <span className="font-mono text-[13px] font-medium text-ink truncate">
+                          {item.name}
+                        </span>
+                      </div>
+                      <span className="text-[11px] font-medium text-[var(--tfg)] shrink-0">
+                        {meta.label}
+                      </span>
+                    </div>
+                    <div className="font-mono text-[11.5px] text-ink-mute truncate">
+                      {item.file_path}:L{item.line_start}–{item.line_end}
+                    </div>
+                    {item.docstring && (
+                      <p className="text-[12.5px] text-ink-secondary line-clamp-2">
+                        {item.docstring}
+                      </p>
+                    )}
+                    <div className="flex items-center gap-2 pt-0.5 tone-sky">
+                      <div className="meter flex-1">
+                        <span style={{ width: `${pct}%` }} />
+                      </div>
+                      <span className="font-mono text-[11px] text-ink-mute tabular-nums">
+                        {item.score.toFixed(3)}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </section>
+      </aside>
     </div>
   );
 }
-

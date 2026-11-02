@@ -1,24 +1,25 @@
 # Handoff
 
-**Updated:** 2026-10-31  |  **By:** Antigravity  |  **Branch:** main  |  **Last commit:** 422fa4f
+**Updated:** 2026-11-02  |  **By:** Antigravity  |  **Branch:** supabase-frontend-redesign  |  **Last commit:** see `git log -1`
 
 ## Current task
-- ID: ALL_DONE - Phases 0 through 6 completed
+- ID: UI-06 - Fix Knowledge Graph MiniMap rendering and node dimension tracking
 - State: DONE
 
-## Done in this task so far
-- Completed all 33 tasks (`P0-01` through `P6-03`) across Phases 0–6.
-- Verified backend unit/integration tests (`17 passed`), Ruff lint, CLI analyzer (`python scripts/tasks.py analyze-sample`), benchmarks (`results/benchmarks.json`), and Next.js TypeScript compilation (`npm run typecheck --prefix frontend`).
+## Completed in this task
+- Fixed the root cause of empty `<MiniMap>` in `@xyflow/react` v12: `MiniMap` checks `nodeHasDimensions(userNode)` (`node.measured?.width ?? node.width ?? node.initialWidth`). Because `layoutReactFlowGraph` did not set `width`, `height`, `initialWidth`, `initialHeight`, or `measured` on the returned `Node` objects and `<ReactFlow>` was rendered without `onNodesChange`, `nodeHasDimensions(userNode)` returned `false` and `MiniMap` skipped rendering every node.
+- Updated `frontend/src/lib/layout-graph.ts` to populate `width`, `height`, `initialWidth`, `initialHeight`, and `measured: { width, height }` on every laid-out node.
+- Wired `useNodesState` and `useEdgesState` (`onNodesChange`, `onEdgesChange`) in `KnowledgeGraphTab.tsx` and `ImpactAnalysisTab.tsx`, and configured `<MiniMap>` with explicit `nodeColor`, `nodeStrokeColor`, `nodeStrokeWidth={2}`, `nodeBorderRadius={4}`, and emerald viewport mask outline (`maskStrokeColor="#24b47e"`, `maskStrokeWidth={2}`).
 
 ## Exact next step
-- Run `python scripts/tasks.py demo` to launch the FastAPI backend (`:8000`) and Next.js dashboard (`:3000`).
+- Run `python scripts/status.py` before beginning any new task.
 
 ## Files touched
-- `README.md`, `docs/architecture.md`, `PROGRESS.md`, `HANDOFF.md`
+- `frontend/src/lib/layout-graph.ts`, `frontend/src/components/KnowledgeGraphTab.tsx`, `frontend/src/components/ImpactAnalysisTab.tsx`, `frontend/src/app/globals.css`, `PROGRESS.md`, `HANDOFF.md`
 
 ## Commands to run first
     python scripts/status.py
     python scripts/tasks.py demo
 
 ## Known problems / gotchas
-- None. All 33 tasks are marked DONE.
+- None. All tasks through `UI-06` are marked `DONE`.
